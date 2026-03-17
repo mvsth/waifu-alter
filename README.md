@@ -1,1 +1,1 @@
-https://mvsth.github.io/waifu-alter/
+Stronka: https://mvsth.github.io/waifu-alter/
