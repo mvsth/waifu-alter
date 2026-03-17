@@ -29,17 +29,13 @@ export default function Layout({ children }) {
     <Box sx={{ minHeight: '100vh', bgcolor: BG_DARK }}>
       <AppBar position="sticky" elevation={0} sx={{ bgcolor: 'rgba(8,8,8,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', borderBottom: `1px solid rgba(255,255,255,0.07)` }}>
         <Toolbar sx={{ gap: 2 }}>
-          <Typography
-            variant="h6"
+          <Box
             component={RouterLink}
             to="/"
-            sx={{
-              textDecoration: 'none', color: ACCENT, fontWeight: 700,
-              letterSpacing: 0.5, whiteSpace: 'nowrap',
-            }}
+            sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
           >
-            Waifu Alter
-          </Typography>
+            <Box component="img" src="/a_icon.png" alt="logo" sx={{ height: 36, width: 36, objectFit: 'contain' }} />
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Tooltip title="Szukaj karty po WID">
             <IconButton onClick={openCardDialog} size="small"
