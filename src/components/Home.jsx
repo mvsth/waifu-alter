@@ -147,7 +147,7 @@ export default function Home() {
           </Typography>
           {lastVisited.length === 0 ? (
             <Typography color="text.secondary">
-              Nikogo jeszcze nie odwiedzałeś — wyszukaj użytkownika powyżej.
+              Nie widziano Cię jeszcze nigdzie...
             </Typography>
           ) : (
             <List dense disablePadding>

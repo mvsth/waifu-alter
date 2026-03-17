@@ -40,13 +40,6 @@ export default function Layout({ children }) {
           >
             Waifu Alter
           </Typography>
-          <Chip
-            icon={<BarChartIcon sx={{ color: `${ACCENT} !important`, fontSize: 16 }} />}
-            label={`API: ${reqCount}`}
-            size="small"
-            variant="outlined"
-            sx={{ borderColor: BORDER, color: '#aaa', fontSize: '0.75rem' }}
-          />
           <Box sx={{ flexGrow: 1 }} />
           <Tooltip title="Szukaj karty po WID">
             <IconButton onClick={openCardDialog} size="small"
