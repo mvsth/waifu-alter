@@ -125,17 +125,17 @@ export default function CardPage() {
                 </Box>
               </Box>
 
-              <Row label="?? HP" value={card.baseHealth != null ? `${card.finalHealth} / ${card.baseHealth}` : null} />
-              <Row label="?? Atak" value={card.attack} />
-              <Row label="??? Obrona" value={card.defence} />
-              <Row label="?? Moc" value={card.cardPower != null ? (Math.round(card.cardPower * 100) / 100) : null} />
-              <Row label="? EXP" value={card.expCnt != null ? `${Math.round(card.expCnt * 100) / 100} / ${card.expCntForNextLevel ?? '?'}` : null} />
-              <Row label="?? Tytu�" value={card.animeTitle} />
-              <Row label="?? Restarty" value={card.restartCnt} />
-              <Row label="?? Ulepszenia" value={card.upgradesCnt} />
-              <Row label="?? �r�d�o" value={card.source} />
-              <Row label="?? Utworzono" value={card.createdAt ? new Date(card.createdAt).toLocaleDateString('pl-PL') : null} />
-              {card.whoWantsCount > 0 && <Row label="?? Chce" value={card.whoWantsCount} />}
+              <Row label="📺 Tytuł" value={card.animeTitle} />
+              <Row label="❤️ HP" value={card.baseHealth != null ? `${card.finalHealth} / ${card.baseHealth}` : null} />
+              <Row label="⚔️ Atak" value={card.attack} />
+              <Row label="🛡️ Obrona" value={card.defence} />
+              <Row label="💪 Moc" value={card.cardPower != null ? (Math.round(card.cardPower * 100) / 100) : null} />
+              <Row label="✨ EXP" value={card.expCnt != null ? `${Math.round(card.expCnt * 100) / 100} / ${card.expCntForNextLevel ?? '?'}` : null} />
+              <Row label="🔄 Restarty" value={card.restartCnt} />
+              <Row label="⬆️ Ulepszenia" value={card.upgradesCnt} />
+              <Row label="📦 Źródło" value={card.source} />
+              <Row label="📅 Utworzono" value={card.createdAt ? new Date(card.createdAt).toLocaleDateString('pl-PL') : null} />
+              {card.whoWantsCount > 0 && <Row label="💕 Chce" value={card.whoWantsCount} />}
 
               {card.tags?.length > 0 && (
                 <Box sx={{ mt: 1.5, display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
@@ -153,7 +153,7 @@ export default function CardPage() {
 
               {card.username && (
                 <Typography variant="body2" sx={{ color: '#888', mt: 1.5 }}>
-                  W�a�ciciel:{' '}
+                  Właściciel:{' '}
                   {card.shindenId ? (
                     <span
                       onClick={() => navigate(`/user/${card.shindenId}/profile`)}
@@ -171,7 +171,7 @@ export default function CardPage() {
                 <Typography variant="body2" sx={{ mt: 0.5 }}>
                   <a href={card.characterUrl} target="_blank" rel="noopener noreferrer"
                     style={{ color: ACCENT, textDecoration: 'none' }}>
-                    � Shinden
+                    → Shinden
                   </a>
                 </Typography>
               )}
@@ -179,7 +179,7 @@ export default function CardPage() {
           </Grid>
         ) : (
           <Typography color="error" sx={{ py: 4, textAlign: 'center' }}>
-            Nie uda�o si� za�adowa� karty #{cardId}.
+            Nie udało się załadować karty #{cardId}.
           </Typography>
         )}
       </Box>
