@@ -117,12 +117,16 @@ export default function CardPage() {
               {card.username && (
                 <Typography variant="body2" sx={{ color: '#888', mt: 1.5 }}>
                   Właściciel:{' '}
-                  <a
-                    href={`/user/${card.userId || ''}`}
-                    style={{ color: '#ccc', textDecoration: 'none' }}
-                  >
-                    {card.username}
-                  </a>
+                  {card.shindenId ? (
+                    <span
+                      onClick={() => navigate(`/user/${card.shindenId}/profile`)}
+                      style={{ color: ACCENT, cursor: 'pointer', textDecoration: 'underline' }}
+                    >
+                      {card.username}
+                    </span>
+                  ) : (
+                    <span style={{ color: '#ccc' }}>{card.username}</span>
+                  )}
                 </Typography>
               )}
 
