@@ -146,6 +146,7 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
                   </Box>
                 </Box>
 
+                <Row label="📺 Tytuł" value={card.animeTitle} />
                 <Row label="❤️ HP" value={card.baseHealth != null ? `${card.finalHealth} / ${card.baseHealth}` : null} />
                 <Row label="⚔️ Atak" value={card.attack} />
                 <Row label="🛡️ Obrona" value={card.defence} />
