@@ -3,7 +3,7 @@ import {
   Box, Typography, Pagination, CircularProgress, Alert, Link, Tooltip,
 } from '@mui/material';
 import { getUniqueCards, getUltimateCards } from '../api';
-import { BG_CARD, BG_DARK } from '../theme';
+import { ACCENT, BG_DARK } from '../theme';
 import FilterBar from './FilterBar';
 import CardDetail from './CardDetail';
 import CardIcons from './CardIcons';
@@ -13,12 +13,12 @@ const PAGE_SIZE = 100;
 const CONFIG = {
   unique: {
     label: 'Karty Unikatowe',
-    color: '#0080d8',
+    color: '#80ccff',
     fetch: getUniqueCards,
   },
   ultimate: {
     label: 'Karty Ultimate',
-    color: '#d84400',
+    color: '#dc2cff',
     fetch: getUltimateCards,
   },
 };
@@ -82,13 +82,6 @@ export default function GlobalCardsPage({ type }) {
         onApply={handleFilter}
       />
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, px: 0.5 }}>
-        <Typography variant="body2" sx={{ color: '#888' }}>
-          {loading ? 'Ładowanie...' : `${totalCards} kart`}
-          {totalPages > 1 && ` • Strona ${page}/${totalPages}`}
-        </Typography>
-      </Box>
-
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {loading && (
@@ -108,17 +101,22 @@ export default function GlobalCardsPage({ type }) {
             {cards.map((card, idx) => (
               <Box key={card.id} sx={{
                 position: 'relative',
-                width: { xs: 'calc(50% - 6px)', sm: '155px', md: '160px', lg: '170px', xl: '180px' },
+                width: { xs: 'calc(50% - 6px)', sm: '170px', md: '176px', lg: '187px', xl: '198px' },
                 flexShrink: 0,
                 px: '4px',
+                overflow: 'visible',
               }}>
                 {card.whoWantsCount > 0 && (
                   <Tooltip title="Liczba KC" arrow>
                     <Box sx={{
-                      position: 'absolute', top: 8, left: 8, zIndex: 5,
-                      borderRadius: '50%', width: 26, height: 26, lineHeight: '26px',
-                      bgcolor: cfg.color, color: BG_DARK, fontWeight: 800, fontSize: 12,
-                      textAlign: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+                      position: 'absolute', top: -8, left: -8, zIndex: 5,
+                      borderRadius: '50%', width: 30, height: 30,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      bgcolor: 'rgba(0,0,0,0.75)',
+                      backdropFilter: 'blur(4px)',
+                      WebkitBackdropFilter: 'blur(4px)',
+                      border: `2px solid ${cfg.color}`,
+                      color: '#fff', fontWeight: 800, fontSize: 13,
                     }}>
                       {card.whoWantsCount}
                     </Box>
@@ -160,8 +158,8 @@ export default function GlobalCardsPage({ type }) {
                     >
                       {card.name || '???'}
                     </Link>
-                    <Typography sx={{ color: '#888', fontSize: '0.74rem', fontWeight: 600 }}>
-                      WID: {card.id}
+                    <Typography sx={{ color: '#aaa', fontSize: '0.74rem', fontWeight: 800 }}>
+                      {card.id}
                     </Typography>
                     <Box sx={{ my: 0.3, minHeight: 18 }}>
                       <CardIcons card={card} />
@@ -185,33 +183,34 @@ export default function GlobalCardsPage({ type }) {
           <Typography sx={{ color: '#888', fontSize: '1.1rem' }}>
             Brak kart do wyświetlenia.
           </Typography>
+          <Typography variant="body2" sx={{ color: '#555', mt: 1 }}>
+            Spróbuj zmienić filtry.
+          </Typography>
         </Box>
       )}
 
       {totalPages > 1 && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, pb: 4 }}>
           <Pagination
-            count={totalPages}
-            page={page}
-            onChange={(_, v) => { setPage(v); window.scrollTo(0, 0); }}
-            size="large"
-            sx={{
-              '& .MuiPaginationItem-root': { color: '#aaa' },
-              '& .Mui-selected': { bgcolor: `${cfg.color}33 !important`, color: cfg.color },
-            }}
+            count={totalPages} page={page}
+            onChange={(_, v) => { setPage(v); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            color="primary"
+            sx={{ '& .MuiPaginationItem-root': { color: '#ccc' } }}
           />
         </Box>
       )}
 
       {selectedIdx !== null && cards[selectedIdx] && (
         <CardDetail
-          card={cards[selectedIdx]}
-          userColor={cfg.color}
+          cardId={cards[selectedIdx].id}
+          cards={cards}
+          currentIdx={selectedIdx}
+          onNavigate={setSelectedIdx}
           onClose={() => setSelectedIdx(null)}
-          onPrev={selectedIdx > 0 ? () => setSelectedIdx(selectedIdx - 1) : null}
-          onNext={selectedIdx < cards.length - 1 ? () => setSelectedIdx(selectedIdx + 1) : null}
         />
       )}
     </Box>
   );
 }
+
+

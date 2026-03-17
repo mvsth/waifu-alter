@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
-  Box, Typography, Chip, Grid, CircularProgress, IconButton, Button,
+  Box, Typography, Grid, CircularProgress, IconButton, Button,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { getCardDetail } from '../api';
-import { RARITY_COLORS, ACCENT, BG_SURFACE, BORDER } from '../theme';
+import { ACCENT, BG_SURFACE, BORDER } from '../theme';
 import CardIcons from './CardIcons';
+
+const SSS_GRADIENT = 'linear-gradient(135deg, #ffb3cc 0%, #d4aaff 25%, #a8d8ff 50%, #aaffd8 75%, #fff0a8 100%)';
+const CARD_RARITY_SOLID = {
+  sss: SSS_GRADIENT, ss: '#ff658e', s: '#ffe149', a: '#f49244',
+  b: '#a556d8',       c: '#0069ab', d: '#3e7315', e: '#848484',
+};
+const CARD_RARITY_TEXT_DARK = new Set(['sss', 'ss', 's', 'a']);
 
 export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onClose }) {
   const [card, setCard] = useState(null);
@@ -39,7 +46,10 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
     return () => window.removeEventListener('keydown', handler);
   }, [goPrev, goNext, onClose]);
 
-  const rarityColor = RARITY_COLORS[card?.rarity?.toLowerCase()] || '#555';
+  const rarityKey = card?.rarity?.toLowerCase();
+  const rarityBg = CARD_RARITY_SOLID[rarityKey] || '#555';
+  const isGradient = rarityKey === 'sss';
+  const rarityTextColor = CARD_RARITY_TEXT_DARK.has(rarityKey) ? '#1a1a1a' : '#fff';
 
   return (
     <Dialog
@@ -101,16 +111,38 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
 
             <Grid item xs={12} sm={7}>
               <Box sx={sx.details}>
-                <Box sx={{ display: 'flex', gap: 0.8, mb: 1.5, mt: { xs: 0, sm: 0.5 }, flexWrap: 'wrap', alignItems: 'center' }}>
-                  <Chip
-                    label={(card.rarity || '?').toUpperCase()} size="small"
-                    sx={{ bgcolor: rarityColor, color: '#fff', fontWeight: 700, height: 24 }}
-                  />
-                  {card.dere && <Chip label={card.dere} size="small" variant="outlined" sx={{ borderColor: '#444', color: '#bbb', height: 24 }} />}
-                  {card.affection && <Chip label={card.affection} size="small" variant="outlined" sx={{ borderColor: '#444', color: '#bbb', height: 24 }} />}
+                <Box sx={{ display: 'flex', gap: 1, mb: 1.5, mt: { xs: 0, sm: 0.5 }, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                  <Box sx={{
+                    display: 'flex', flexDirection: 'column', alignItems: 'center',
+                    background: rarityBg, borderRadius: 1.5, px: 1.6, py: 0.5, minWidth: 52,
+                  }}>
+                    <Typography sx={{ fontSize: '0.6rem', color: rarityTextColor, opacity: 0.7, lineHeight: 1, mb: 0.2, fontWeight: 700, letterSpacing: '0.08em' }}>RANGA</Typography>
+                    <Typography sx={{ fontSize: '1.05rem', color: rarityTextColor, fontWeight: 800, lineHeight: 1 }}>{(card.rarity || '?').toUpperCase()}</Typography>
+                  </Box>
+                  {card.dere && (
+                    <Box sx={{
+                      display: 'flex', flexDirection: 'column', alignItems: 'center',
+                      bgcolor: '#231a35', border: '1px solid #7b4fc455',
+                      borderRadius: 1.5, px: 1.4, py: 0.5, minWidth: 60,
+                    }}>
+                      <Typography sx={{ fontSize: '0.6rem', color: '#9b70cc', lineHeight: 1, mb: 0.2, fontWeight: 700, letterSpacing: '0.08em' }}>DERE</Typography>
+                      <Typography sx={{ fontSize: '0.88rem', color: '#c9a0ff', fontWeight: 700, lineHeight: 1 }}>{card.dere}</Typography>
+                    </Box>
+                  )}
+                  {card.affection && (
+                    <Box sx={{
+                      display: 'flex', flexDirection: 'column', alignItems: 'center',
+                      bgcolor: '#2a1a20', border: '1px solid #ff6b6b44',
+                      borderRadius: 1.5, px: 1.4, py: 0.5, minWidth: 60,
+                    }}>
+                      <Typography sx={{ fontSize: '0.6rem', color: '#e08090', lineHeight: 1, mb: 0.2, fontWeight: 700, letterSpacing: '0.08em' }}>RELACJA</Typography>
+                      <Typography sx={{ fontSize: '0.88rem', color: '#ffaaa5', fontWeight: 700, lineHeight: 1 }}>{card.affection}</Typography>
+                    </Box>
+                  )}
+                  <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.5 }}>
+                    <CardIcons card={card} />
+                  </Box>
                 </Box>
-
-                <CardIcons card={card} />
 
                 <Row label="❤️ HP" value={card.baseHealth != null ? `${card.finalHealth} / ${card.baseHealth}` : null} />
                 <Row label="⚔️ Atak" value={card.attack} />
@@ -127,8 +159,13 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
                 {card.tags?.length > 0 && (
                   <Box sx={{ mt: 1.5, display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                     {card.tags.map((tag) => (
-                      <Chip key={tag} label={tag} size="small" variant="outlined"
-                        sx={{ borderColor: '#555', fontSize: '0.75rem', color: '#aaa' }} />
+                      <Box key={tag} sx={{
+                        px: 1, py: 0.35,
+                        bgcolor: '#1e2632', border: '1px solid #4a6a9a55',
+                        borderRadius: 1, fontSize: '0.78rem', color: '#8ab4e8', fontWeight: 600,
+                      }}>
+                        {tag}
+                      </Box>
                     ))}
                   </Box>
                 )}
@@ -172,7 +209,7 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
 function Row({ label, value }) {
   if (value == null) return null;
   return (
-    <Typography sx={{ my: 0.4, fontSize: '0.88rem' }}>
+    <Typography sx={{ my: 0.4, fontSize: '0.95rem' }}>
       <span style={{ color: '#888' }}>{label}</span>{' '}
       <span style={{ color: '#e0e0e0', fontWeight: 500 }}>{value}</span>
     </Typography>

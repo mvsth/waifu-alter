@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, List, ListItemButton, ListItemText,
   ListItemAvatar, Avatar, IconButton, Tooltip, CircularProgress,
-  Divider, Button, Chip,
+  Divider, Button,
 } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
@@ -12,6 +12,7 @@ import { getActivity } from '../api';
 import { ACCENT, ACCENT_LIGHT, BG_SURFACE, BG_DARK, BORDER } from '../theme';
 
 const EXTERNAL_LINKS = [
+  { label: 'waifu.sanakan.pl', url: 'https://waifu.sanakan.pl' },
   { label: 'wiki.sanakan.pl', url: 'https://wiki.sanakan.pl' },
   { label: 'profil.sanakan.pl', url: 'https://profil.sanakan.pl' },
   { label: 'skalpel.sanakan.pl', url: 'https://skalpel.sanakan.pl' },
@@ -116,10 +117,10 @@ export default function Home() {
           size="small"
           onClick={() => navigate('/cards/unique')}
           sx={{
-            bgcolor: '#0080d822', border: '1px solid #0080d8',
-            color: '#0080d8', borderRadius: 2, px: 2, py: 0.6,
+            bgcolor: '#80ccff22', border: '1px solid #80ccff',
+            color: '#80ccff', borderRadius: 2, px: 2, py: 0.6,
             fontSize: '0.82rem', fontWeight: 700, textTransform: 'none',
-            '&:hover': { bgcolor: '#0080d844' },
+            '&:hover': { bgcolor: '#80ccff44' },
           }}
         >
           Karty Unikatowe
@@ -128,10 +129,10 @@ export default function Home() {
           size="small"
           onClick={() => navigate('/cards/ultimate')}
           sx={{
-            bgcolor: '#d8440022', border: '1px solid #d84400',
-            color: '#d84400', borderRadius: 2, px: 2, py: 0.6,
+            bgcolor: '#dc2cff22', border: '1px solid #dc2cff',
+            color: '#dc2cff', borderRadius: 2, px: 2, py: 0.6,
             fontSize: '0.82rem', fontWeight: 700, textTransform: 'none',
-            '&:hover': { bgcolor: '#d8440044' },
+            '&:hover': { bgcolor: '#dc2cff44' },
           }}
         >
           Karty Ultimate
@@ -219,17 +220,7 @@ export default function Home() {
                         </Typography>
                       }
                     />
-                    {item.type !== 'addedToWishlistCharacter' && item.targetId ? (
-                      <Chip
-                        label="Karta"
-                        size="small"
-                        sx={{
-                          ml: 1, flexShrink: 0, bgcolor: BG_DARK,
-                          color: '#888', fontSize: '0.65rem', height: 20,
-                          border: `1px solid ${BORDER}`,
-                        }}
-                      />
-                    ) : null}
+
                   </ListItemButton>
                   {idx < activity.length - 1 && <Divider sx={{ borderColor: '#2a2a2a' }} />}
                 </React.Fragment>
