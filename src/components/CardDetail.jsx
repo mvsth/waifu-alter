@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Box, Typography, Grid, CircularProgress, IconButton, Button,
@@ -20,6 +21,7 @@ const CARD_RARITY_TEXT_DARK = new Set(['sss', 'ss', 's', 'a']);
 export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onClose }) {
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!cardId) return;
@@ -172,7 +174,17 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
 
                 {card.username && (
                   <Typography variant="body2" sx={{ color: '#888', mt: 1.5 }}>
-                    Właściciel: <span style={{ color: '#ccc' }}>{card.username}</span>
+                    Właściciel:{' '}
+                    {card.shindenId ? (
+                      <span
+                        onClick={() => { onClose(); navigate(`/user/${card.shindenId}/profile`); }}
+                        style={{ color: ACCENT, cursor: 'pointer', textDecoration: 'underline' }}
+                      >
+                        {card.username}
+                      </span>
+                    ) : (
+                      <span style={{ color: '#ccc' }}>{card.username}</span>
+                    )}
                   </Typography>
                 )}
 

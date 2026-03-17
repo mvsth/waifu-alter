@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Box, Chip, IconButton, Dialog, DialogTitle, DialogContent, TextField, InputAdornment, Tooltip } from '@mui/material';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import StyleIcon from '@mui/icons-material/Style';
@@ -31,8 +31,8 @@ export default function Layout({ children }) {
         <Toolbar sx={{ gap: 2 }}>
           <Typography
             variant="h6"
-            component="a"
-            href="/"
+            component={RouterLink}
+            to="/"
             sx={{
               textDecoration: 'none', color: ACCENT, fontWeight: 700,
               letterSpacing: 0.5, whiteSpace: 'nowrap',
