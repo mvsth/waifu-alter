@@ -2,13 +2,13 @@ const mem = new Map();
 export const pending = new Map();
 
 export const TTL = {
-  SEARCH:      2 * 60 * 1000,   // 2 min  — wyniki wyszukiwania
-  PROFILE:    10 * 60 * 1000,   // 10 min — profil użytkownika
-  USERNAME:   60 * 60 * 1000,   // 1 h    — nick (prawie się nie zmienia)
-  CARDS:       3 * 60 * 1000,   // 3 min  — lista kart (paginacja)
-  CARD_DETAIL: 5 * 60 * 1000,   // 5 min  — szczegóły karty
-  ACTIVITY:   10 * 60 * 1000,   // 10 min — aktywność
-  WISHLIST:   10 * 60 * 1000,   // 10 min — lista życzeń
+  SEARCH:      2 * 60 * 1000,        // 2 min  — wyniki wyszukiwania
+  PROFILE:    10 * 60 * 1000,        // 10 min — profil użytkownika
+  USERNAME:   10 * 60 * 60 * 1000,   // 10 h   — nick
+  CARDS:       1 * 60 * 1000,        // 1 min  — lista kart (paginacja)
+  CARD_DETAIL: 1 * 60 * 1000,        // 1 min  — szczegóły karty
+  ACTIVITY:   10 * 60 * 1000,        // 10 min — aktywność
+  WISHLIST:    3 * 60 * 1000,        // 3 min  — lista życzeń
 };
 
 function lsKey(k) { return 'wa_' + k; }
