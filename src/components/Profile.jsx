@@ -281,6 +281,7 @@ export default function Profile() {
           cardId={profile.gallery[galleryIdx].id}
           initialCard={profile.gallery[galleryIdx]}
           onClose={() => setGalleryIdx(null)}
+          showOwner
         />
       )}
 

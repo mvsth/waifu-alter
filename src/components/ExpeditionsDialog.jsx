@@ -136,6 +136,7 @@ export default function ExpeditionsDialog({ open, onClose, expeditions, userColo
           cardId={cards[cardIdx].id}
           initialCard={cards[cardIdx]}
           onClose={() => setCardIdx(null)}
+          showOwner
         />
       )}
     </>

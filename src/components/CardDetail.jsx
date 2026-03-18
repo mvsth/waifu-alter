@@ -9,7 +9,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LinkIcon from '@mui/icons-material/Link';
-import { getUsername } from '../api';
 import { ACCENT, BG_SURFACE, BORDER } from '../theme';
 import CardInfoContent from './CardInfoContent';
 import CardBadges from './CardBadges';
@@ -26,11 +25,7 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
       // Already have card data — only fetch username if needed
       setCard(initialCard);
       setLoading(false);
-      if (showOwner && initialCard.shindenId) {
-        getUsername(initialCard.shindenId)
-          .then((username) => setCard((prev) => ({ ...prev, username })))
-          .catch(() => {});
-      }
+      // username will come directly from card data once backend adds it
       return;
     }
     // Fallback: full fetch (e.g. CardPage standalone)

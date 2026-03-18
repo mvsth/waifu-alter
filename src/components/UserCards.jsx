@@ -254,6 +254,7 @@ export default function UserCards() {
           cardId={cards[selectedIdx]?.id}
           initialCard={cards[selectedIdx]}
           onClose={() => setSelectedIdx(null)}
+          showOwner
         />
       )}
 

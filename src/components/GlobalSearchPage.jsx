@@ -363,6 +363,7 @@ export default function GlobalSearchPage() {
           cardId={cards[selectedIdx].id}
           initialCard={cards[selectedIdx]}
           onClose={() => setSelectedIdx(null)}
+          showOwner
         />
       )}
     </Box>
