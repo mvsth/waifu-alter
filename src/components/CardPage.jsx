@@ -5,6 +5,8 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { getCardDetail } from '../api';
 import { ACCENT, BG_CARD, BORDER } from '../theme';
 import CardInfoContent from './CardInfoContent';
@@ -16,6 +18,7 @@ export default function CardPage() {
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [showStats, setShowStats] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +42,20 @@ export default function CardPage() {
           <ArrowBackIcon />
         </IconButton>
         <Box sx={{ flexGrow: 1 }} />
+        <Button
+          onClick={() => setShowStats((p) => !p)}
+          startIcon={showStats ? <VisibilityOffIcon sx={{ fontSize: 16 }} /> : <VisibilityIcon sx={{ fontSize: 16 }} />}
+          size="small"
+          variant="outlined"
+          sx={{
+            borderColor: BORDER,
+            color: '#aaa',
+            textTransform: 'none', fontSize: '0.8rem',
+            '&:hover': { borderColor: ACCENT, color: ACCENT },
+          }}
+        >
+          {showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'}
+        </Button>
         <Button
           onClick={copyLink}
           startIcon={<ContentCopyIcon sx={{ fontSize: 16 }} />}
@@ -65,7 +82,7 @@ export default function CardPage() {
             <Grid item xs={12} sm={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Box
                 component="img"
-                src={card.imageUrl || ''}
+                src={(showStats ? card.imageUrl : (card.profileImageUrl || card.imageUrl)) || ''}
                 alt={card.name || ''}
                 sx={{
                   width: '100%',

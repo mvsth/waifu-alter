@@ -83,3 +83,11 @@ export function getUltimateCards(offset, limit, filter = {}) {
     cache.TTL.CARDS
   );
 }
+
+export function getTotalCards(offset, limit, filter = {}) {
+  return cachedPost(
+    `${API}/waifu/total/cards/${offset}/${limit}`,
+    filter,
+    cache.TTL.CARDS
+  );
+}

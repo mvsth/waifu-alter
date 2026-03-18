@@ -252,9 +252,7 @@ export default function UserCards() {
       {selectedIdx != null && (
         <CardDetail
           cardId={cards[selectedIdx]?.id}
-          cards={cards}
-          currentIdx={selectedIdx}
-          onNavigate={setSelectedIdx}
+          initialCard={cards[selectedIdx]}
           onClose={() => setSelectedIdx(null)}
         />
       )}

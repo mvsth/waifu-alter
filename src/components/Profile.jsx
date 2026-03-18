@@ -279,9 +279,7 @@ export default function Profile() {
       {galleryIdx != null && profile.gallery?.[galleryIdx] && (
         <CardDetail
           cardId={profile.gallery[galleryIdx].id}
-          cards={profile.gallery}
-          currentIdx={galleryIdx}
-          onNavigate={setGalleryIdx}
+          initialCard={profile.gallery[galleryIdx]}
           onClose={() => setGalleryIdx(null)}
         />
       )}

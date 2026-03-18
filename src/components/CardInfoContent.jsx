@@ -155,7 +155,7 @@ export default function CardInfoContent({ card, showOwner }) {
       {/* ── status indicators ─── */}
       {activeStatus.length > 0 && (
         <>
-          <Section label="Oznaczenia" />
+          <Section label="Inne" />
           <Box sx={{ display: 'flex', gap: 0.6, flexWrap: 'wrap' }}>
             {activeStatus.map((ind, i) => (
               <Box key={i} sx={{

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Box, Chip, IconButton, Dialog, DialogTitle, DialogContent, TextField, InputAdornment, Tooltip, Popover, Slider } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, Button, Chip, IconButton, Dialog, DialogTitle, DialogContent, TextField, InputAdornment, Tooltip, Popover, Slider } from '@mui/material';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import StyleIcon from '@mui/icons-material/Style';
 import SearchIcon from '@mui/icons-material/Search';
@@ -56,7 +56,7 @@ export default function Layout({ children }) {
             <Box component="img" src="/a_icon.png" alt="logo" sx={{ height: 36, width: 36, objectFit: 'contain' }} />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Tooltip title="Szukaj karty po WID">
+          <Tooltip title="Szukaj kart">
             <IconButton onClick={openCardDialog} size="small"
               sx={{ color: '#aaa', '&:hover': { color: ACCENT }, border: `1px solid ${BORDER}`, borderRadius: 1.5, p: 0.8 }}>
               <StyleIcon sx={{ fontSize: 20 }} />
@@ -110,7 +110,7 @@ export default function Layout({ children }) {
         PaperProps={{ sx: { bgcolor: BG_SURFACE, backgroundImage: 'none', border: `1px solid ${BORDER}`, borderRadius: 2 } }}>
         <DialogTitle sx={{ display: 'flex', alignItems: 'center', py: 1.2, px: 2, borderBottom: `1px solid ${BORDER}` }}>
           <StyleIcon sx={{ fontSize: 18, color: ACCENT, mr: 1 }} />
-          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#fff', flexGrow: 1 }}>Szukaj karty</Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#fff', flexGrow: 1 }}>Szukaj kart</Typography>
           <IconButton onClick={closeCardDialog} size="small" sx={{ color: '#666' }}><CloseIcon fontSize="small" /></IconButton>
         </DialogTitle>
         <DialogContent sx={{ p: '24px !important', overflow: 'visible' }}>
@@ -143,6 +143,21 @@ export default function Layout({ children }) {
               '& .MuiInputBase-input::placeholder': { color: '#666', opacity: 1 },
             }}
           />
+          <Box sx={{ mt: 2, textAlign: 'center' }}>
+            <Typography sx={{ color: '#666', fontSize: '0.78rem', mb: 1 }}>lub</Typography>
+            <Button
+              onClick={() => { closeCardDialog(); navigate('/cards/search'); }}
+              variant="outlined"
+              startIcon={<SearchIcon />}
+              sx={{
+                textTransform: 'none', fontWeight: 600, fontSize: '0.85rem',
+                borderColor: ACCENT, color: ACCENT,
+                '&:hover': { borderColor: ACCENT, bgcolor: `${ACCENT}15` },
+              }}
+            >
+              Szukaj po nazwie / tytule
+            </Button>
+          </Box>
         </DialogContent>
       </Dialog>
     </Box>

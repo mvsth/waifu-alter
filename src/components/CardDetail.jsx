@@ -1,45 +1,70 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog, DialogContent, DialogActions,
-  Box, Typography, Grid, CircularProgress, Button, IconButton,
+  Box, Typography, Grid, CircularProgress, Button, IconButton, Tooltip, Snackbar, Alert,
 } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { getCardDetail } from '../api';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import LinkIcon from '@mui/icons-material/Link';
+import { getUsername } from '../api';
 import { ACCENT, BG_SURFACE, BORDER } from '../theme';
 import CardInfoContent from './CardInfoContent';
 import CardBadges from './CardBadges';
 
-export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onClose }) {
-  const [card, setCard] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default function CardDetail({ cardId, initialCard, onClose, showOwner = false }) {
+  const [card, setCard] = useState(initialCard || null);
+  const [loading, setLoading] = useState(!initialCard);
+  const [snackMsg, setSnackMsg] = useState('');
+  const [showStats, setShowStats] = useState(true);
 
   useEffect(() => {
     if (!cardId) return;
-    setLoading(true);
-    getCardDetail(cardId)
-      .then(setCard)
-      .catch(() => setCard(null))
-      .finally(() => setLoading(false));
+    if (initialCard) {
+      // Already have card data — only fetch username if needed
+      setCard(initialCard);
+      setLoading(false);
+      if (showOwner && initialCard.shindenId) {
+        getUsername(initialCard.shindenId)
+          .then((username) => setCard((prev) => ({ ...prev, username })))
+          .catch(() => {});
+      }
+      return;
+    }
+    // Fallback: full fetch (e.g. CardPage standalone)
+    import('../api').then(({ getCardDetail }) => {
+      setLoading(true);
+      getCardDetail(cardId)
+        .then(setCard)
+        .catch(() => setCard(null))
+        .finally(() => setLoading(false));
+    });
   }, [cardId]);
 
-  const canPrev = currentIdx > 0;
-  const canNext = cards && currentIdx < cards.length - 1;
+  const copyWid = () => {
+    if (card?.id) {
+      navigator.clipboard.writeText(String(card.id));
+      setSnackMsg('Skopiowano WID!');
+    }
+  };
 
-  const goPrev = useCallback(() => { if (canPrev) onNavigate(currentIdx - 1); }, [canPrev, currentIdx, onNavigate]);
-  const goNext = useCallback(() => { if (canNext) onNavigate(currentIdx + 1); }, [canNext, currentIdx, onNavigate]);
+  const copyLink = () => {
+    if (card?.id) {
+      const url = `${window.location.origin}/card/${card.id}`;
+      navigator.clipboard.writeText(url);
+      setSnackMsg('Skopiowano link!');
+    }
+  };
 
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === 'ArrowLeft') goPrev();
-      else if (e.key === 'ArrowRight') goNext();
-      else if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [goPrev, goNext, onClose]);
+  }, [onClose]);
 
   return (
     <Dialog
@@ -84,7 +109,7 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
             <Grid item xs={12} sm={5.5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: { xs: 0, sm: 1.5 } }}>
               <Box
                 component="img"
-                src={card.imageUrl || ''}
+                src={(showStats ? card.imageUrl : (card.profileImageUrl || card.imageUrl)) || ''}
                 alt={card.name || ''}
                 sx={{
                   width: '100%',
@@ -103,7 +128,7 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
 
             <Grid item xs={12} sm={6.5}>
               <Box sx={sx.details}>
-                <CardInfoContent card={card} />
+                <CardInfoContent card={card} showOwner={showOwner} />
               </Box>
             </Grid>
           </Grid>
@@ -115,17 +140,37 @@ export default function CardDetail({ cardId, cards, currentIdx, onNavigate, onCl
       </DialogContent>
 
       <DialogActions sx={sx.actions}>
-        <Button onClick={goPrev} disabled={!canPrev} sx={sx.navBtn}>
-          <ArrowBackIcon />
-        </Button>
-        <Button onClick={goNext} disabled={!canNext} sx={sx.navBtn}>
-          <ArrowForwardIcon />
+        <Button
+          onClick={() => setShowStats((p) => !p)}
+          startIcon={showStats ? <VisibilityOffIcon sx={{ fontSize: 16 }} /> : <VisibilityIcon sx={{ fontSize: 16 }} />}
+          size="small"
+          sx={{
+            color: '#aaa', textTransform: 'none', fontSize: '0.8rem', fontWeight: 600,
+            '&:hover': { bgcolor: 'rgba(255,255,255,0.05)', color: ACCENT },
+          }}
+        >
+          {showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'}
         </Button>
         <Box sx={{ flex: 1 }} />
+        <Tooltip title="Kopiuj WID" arrow>
+          <IconButton onClick={copyWid} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+            <ContentCopyIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Kopiuj link do karty" arrow>
+          <IconButton onClick={copyLink} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+            <LinkIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
         <IconButton onClick={onClose} size="small" sx={{ color: '#aaa', '&:hover': { color: '#fff' } }}>
           <CloseIcon fontSize="small" />
         </IconButton>
       </DialogActions>
+
+      <Snackbar open={!!snackMsg} autoHideDuration={2000} onClose={() => setSnackMsg('')}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert severity="success" onClose={() => setSnackMsg('')}>{snackMsg}</Alert>
+      </Snackbar>
     </Dialog>
   );
 }

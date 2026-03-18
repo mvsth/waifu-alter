@@ -7,6 +7,7 @@ import Profile from './components/Profile';
 import Wishlist from './components/Wishlist';
 import CardPage from './components/CardPage';
 import GlobalCardsPage from './components/GlobalCardsPage';
+import GlobalSearchPage from './components/GlobalSearchPage';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cards/unique" element={<GlobalCardsPage type="unique" />} />
         <Route path="/cards/ultimate" element={<GlobalCardsPage type="ultimate" />} />
+        <Route path="/cards/search" element={<GlobalSearchPage />} />
         <Route path="/user/:userId/profile" element={<Profile />} />
         <Route path="/user/:userId/cards" element={<UserCards />} />
         <Route path="/user/:userId/wishlist" element={<Wishlist />} />

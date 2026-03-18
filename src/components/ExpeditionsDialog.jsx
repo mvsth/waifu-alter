@@ -134,9 +134,7 @@ export default function ExpeditionsDialog({ open, onClose, expeditions, userColo
       {cardIdx != null && cards[cardIdx] && (
         <CardDetail
           cardId={cards[cardIdx].id}
-          cards={cards}
-          currentIdx={cardIdx}
-          onNavigate={setCardIdx}
+          initialCard={cards[cardIdx]}
           onClose={() => setCardIdx(null)}
         />
       )}
