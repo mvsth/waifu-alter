@@ -35,6 +35,13 @@ const EMPTY_FILTER = {
   cardIds: [],
 };
 
+const getSavedFilter = (key) => {
+  try {
+    const raw = localStorage.getItem(`builtFilter_${key}`);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+};
+
 export default function GlobalCardsPage({ type }) {
   const cfg = CONFIG[type];
 
@@ -45,7 +52,7 @@ export default function GlobalCardsPage({ type }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedIdx, setSelectedIdx] = useState(null);
-  const [filter, setFilter] = useState(EMPTY_FILTER);
+  const [filter, setFilter] = useState(() => getSavedFilter(`global_${type}`) || EMPTY_FILTER);
 
   const fetchCards = useCallback(async () => {
     setLoading(true);
