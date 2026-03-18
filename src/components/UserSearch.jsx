@@ -28,7 +28,7 @@ function saveVisit(user) {
   localStorage.setItem('lastVisited', JSON.stringify(merged));
 }
 
-export default function UserSearch() {
+export default function UserSearch({ width = 300 }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [open, setOpen] = useState(false);
@@ -69,7 +69,7 @@ export default function UserSearch() {
 
   return (
     <ClickAwayListener onClickAway={() => setOpen(false)}>
-      <div style={{ position: 'relative', width: 300 }}>
+      <div style={{ position: 'relative', width }}>
         <TextField
           size="small"
           placeholder="Szukaj użytkownika..."

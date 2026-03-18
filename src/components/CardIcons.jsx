@@ -1,16 +1,17 @@
 import React from 'react';
 
 const ICONS = [
-  { key: 'tags', match: (c) => c.tags?.includes('wympienianie'),  icon: '🔃', title: 'Wymiana' },
+  { key: 'tags', match: (c) => c.tags?.includes('wymiana'),       icon: '🔃', title: 'Wymiana' },
   { key: 'tags', match: (c) => c.tags?.includes('ulubione'),      icon: '💗', title: 'Ulubione' },
   { key: 'tags', match: (c) => c.tags?.includes('rezerwacja'),    icon: '📝', title: 'Rezerwacja' },
   { key: 'tags', match: (c) => c.tags?.includes('galeria'),       icon: '📌', title: 'Galeria' },
+  { key: 'tags', match: (c) => c.tags?.includes('kosz'),          icon: '🗑️', title: 'Kosz' },
   { key: 'isUnique',         match: (c) => c.isUnique,            icon: '💠', title: 'Unikalna' },
   { key: 'isUltimate',       match: (c) => c.isUltimate,          icon: '🎖️', title: 'Ultimate' },
-  { key: 'hasCustomImage',   match: (c) => c.hasCustomImage,      icon: '🖼️', title: 'Własny obrazek' },
+  { key: 'hasCustomImage',   match: (c) => c.hasCustomImage,      icon: '🖼️', title: 'Skalpel' },
   { key: 'hasCustomBorder',  match: (c) => c.hasCustomBorder,     icon: '✂️', title: 'Własna ramka' },
   { key: 'affection',        match: (c) => c.affection?.startsWith('Pogarda'), icon: '💔', title: 'Pogarda' },
-  { key: 'isTradable',       match: (c) => c.isTradable === false, icon: '⛔', title: 'Niewymieniana' },
+  { key: 'isTradable',       match: (c) => c.isTradable === false, icon: '⛔', title: 'Zablokowana' },
   { key: 'isCursed',         match: (c) => c.isCursed,            icon: '💀', title: 'Przeklęta' },
   { key: 'isInCage',         match: (c) => c.isInCage,            icon: '🔒', title: 'W klatce' },
   { key: 'isActive',         match: (c) => c.isActive,            icon: '☑️', title: 'W talii' },

@@ -11,8 +11,23 @@ import ExpeditionsDialog from './ExpeditionsDialog';
 import FilterBar from './FilterBar';
 import CardDetail from './CardDetail';
 import CardIcons from './CardIcons';
+import LazyCard from './LazyCard';
 
-const PAGE_SIZE = 100;
+const getPageSize = () => {
+  try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 100 && v <= 1000) ? v : 100; } catch { return 100; }
+};
+
+const DEFAULT_FILTER = {
+  orderBy: 'id', includeTags: [], excludeTags: [],
+  searchText: null, filterTagsMethod: 0, cardIds: [],
+};
+
+const getSavedFilter = (userId) => {
+  try {
+    const raw = localStorage.getItem(`builtFilter_${userId}`);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+};
 
 export default function UserCards() {
   const { userId } = useParams();
@@ -29,13 +44,11 @@ export default function UserCards() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set());
-  const [filter, setFilter] = useState({
-    orderBy: 'id', includeTags: [], excludeTags: [],
-    searchText: null, filterTagsMethod: 0, cardIds: [],
-  });
+  const [filter, setFilter] = useState(() => getSavedFilter(userId) || DEFAULT_FILTER);
 
   useEffect(() => {
     setPage(1); setCards([]); setProfile(null); setError(null); setUsername(null);
+    setFilter(getSavedFilter(userId) || DEFAULT_FILTER);
   }, [userId]);
 
   useEffect(() => { getUserProfile(userId).then(setProfile).catch(() => {}); }, [userId]);
@@ -44,13 +57,14 @@ export default function UserCards() {
   const fetchCards = useCallback(async () => {
     setLoading(true); setError(null);
     try {
-      const offset = (page - 1) * PAGE_SIZE;
-      const data = await getUserCards(userId, offset, PAGE_SIZE, filter);
+      const size = getPageSize();
+      const offset = (page - 1) * size;
+      const data = await getUserCards(userId, offset, size, filter);
       const cardList = data.cards || (Array.isArray(data) ? data : []);
       setCards(cardList);
       const total = data.totalCards ?? cardList.length;
       setTotalCards(total);
-      setTotalPages(Math.max(1, Math.ceil(total / PAGE_SIZE)));
+      setTotalPages(Math.max(1, Math.ceil(total / size)));
     } catch {
       setCards([]);
       setError('Nie udało się załadować kart.');
@@ -125,6 +139,7 @@ export default function UserCards() {
                 px: '4px',
                 overflow: 'visible',
               }}>
+              <LazyCard height={280}>
                 {card.whoWantsCount > 0 && (
                   <Tooltip title="Liczba KC" arrow>
                     <Box sx={{
@@ -205,6 +220,7 @@ export default function UserCards() {
                     </Typography>
                   </Box>
                 </Box>
+              </LazyCard>
               </Box>
             ))}
           </Box>

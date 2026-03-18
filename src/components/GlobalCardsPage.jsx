@@ -7,8 +7,11 @@ import { ACCENT, BG_DARK } from '../theme';
 import FilterBar from './FilterBar';
 import CardDetail from './CardDetail';
 import CardIcons from './CardIcons';
+import LazyCard from './LazyCard';
 
-const PAGE_SIZE = 100;
+const getPageSize = () => {
+  try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 100 && v <= 1000) ? v : 100; } catch { return 100; }
+};
 
 const CONFIG = {
   unique: {
@@ -48,13 +51,14 @@ export default function GlobalCardsPage({ type }) {
     setLoading(true);
     setError(null);
     try {
-      const offset = (page - 1) * PAGE_SIZE;
-      const data = await cfg.fetch(offset, PAGE_SIZE, filter);
+      const size = getPageSize();
+      const offset = (page - 1) * size;
+      const data = await cfg.fetch(offset, size, filter);
       const cardList = data.cards || (Array.isArray(data) ? data : []);
       setCards(cardList);
       const total = data.totalCards ?? cardList.length;
       setTotalCards(total);
-      setTotalPages(Math.max(1, Math.ceil(total / PAGE_SIZE)));
+      setTotalPages(Math.max(1, Math.ceil(total / size)));
     } catch {
       setCards([]);
       setError('Nie udało się załadować kart.');
@@ -106,6 +110,7 @@ export default function GlobalCardsPage({ type }) {
                 px: '4px',
                 overflow: 'visible',
               }}>
+              <LazyCard height={280}>
                 {card.whoWantsCount > 0 && (
                   <Tooltip title="Liczba KC" arrow>
                     <Box sx={{
@@ -172,6 +177,7 @@ export default function GlobalCardsPage({ type }) {
                     </Typography>
                   </Box>
                 </Box>
+              </LazyCard>
               </Box>
             ))}
           </Box>

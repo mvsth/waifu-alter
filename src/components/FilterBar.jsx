@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Box, Button, TextField, InputAdornment, Menu, MenuItem, Typography,
+  Box, Button, TextField, InputAdornment, MenuItem, MenuList, Typography,
   Chip, Switch, IconButton, Tooltip, Snackbar, Alert,
+  Popper, Grow, Paper, ClickAwayListener,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
@@ -50,11 +51,13 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
 
   const [sortIdx, setSortIdx] = useState(-1);
   const [sortDir, setSortDir] = useState('desc');
-  const [sortAnchor, setSortAnchor] = useState(null);
+  const [openSort, setOpenSort] = useState(false);
+  const sortRef = useRef(null);
 
   const [tags, setTags] = useState([]);
   const [tagMethod, setTagMethod] = useState(0);
-  const [tagAnchor, setTagAnchor] = useState(null);
+  const [openTag, setOpenTag] = useState(false);
+  const tagRef = useRef(null);
 
   const [searchText, setSearchText] = useState('');
   const [snack, setSnack] = useState(false);
@@ -91,6 +94,16 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
       setSortIdx(idx);
       setSortDir('desc');
     }
+  };
+
+  const handleCloseSort = (e) => {
+    if (sortRef.current?.contains(e.target)) return;
+    setOpenSort(false);
+  };
+
+  const handleCloseTag = (e) => {
+    if (tagRef.current?.contains(e.target)) return;
+    setOpenTag(false);
   };
 
   const handleTagClick = (idx) => {
@@ -137,6 +150,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
           sortIdx, sortDir, tagMethod, searchText,
           tagStates: Object.fromEntries(tags.map((t) => [t.id, t.state])),
         }));
+        localStorage.setItem(`builtFilter_${persistKey}`, JSON.stringify(f));
       } catch {}
     }
     onApply(f);
@@ -145,6 +159,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
   const handleClear = () => {
     if (persistKey) {
       localStorage.removeItem(`filterState_${persistKey}`);
+      localStorage.removeItem(`builtFilter_${persistKey}`);
       savedRef.current = null;
     }
     setSortIdx(-1);
@@ -177,8 +192,9 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
         bgcolor: BG_SURFACE, borderRadius: 2, px: 2, py: 1.4,
       }}>
         <Button
+          ref={sortRef}
           startIcon={<SortIcon sx={{ fontSize: 18 }} />}
-          onClick={(e) => setSortAnchor(e.currentTarget)}
+          onClick={() => setOpenSort((p) => !p)}
           size="small"
           sx={{
             textTransform: 'none', fontWeight: 600, borderRadius: '16px',
@@ -190,26 +206,36 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
         >
           Sortuj
         </Button>
-        <Menu anchorEl={sortAnchor} open={Boolean(sortAnchor)} onClose={() => setSortAnchor(null)}
-          PaperProps={{ sx: { bgcolor: BG_CARD, border: `1px solid ${BORDER}`, maxHeight: 400 } }}>
-          {SORT_OPTIONS.map((opt, idx) => (
-            <MenuItem key={opt.label} onClick={() => handleSortClick(idx)}
-              sx={{ fontSize: '0.9rem', color: sortIdx === idx ? color : '#c1c1c1', '&:hover': { bgcolor: `${color}15` } }}>
-              <Box sx={{ flexGrow: 1 }}>{opt.label}</Box>
-              {sortIdx === idx && (
-                sortDir === 'asc'
-                  ? <ArrowUpwardIcon sx={{ fontSize: 16, ml: 1, color }} />
-                  : <ArrowDownwardIcon sx={{ fontSize: 16, ml: 1, color }} />
-              )}
-            </MenuItem>
-          ))}
-        </Menu>
+        <Popper open={openSort} anchorEl={sortRef.current} transition disablePortal style={{ zIndex: 999 }} placement="bottom-start">
+          {({ TransitionProps }) => (
+            <Grow {...TransitionProps}>
+              <Paper sx={{ bgcolor: BG_CARD, border: `1px solid ${BORDER}`, maxHeight: 400, overflow: 'auto' }}>
+                <ClickAwayListener onClickAway={handleCloseSort}>
+                  <MenuList autoFocusItem={openSort}>
+                    {SORT_OPTIONS.map((opt, idx) => (
+                      <MenuItem key={opt.label} onClick={() => handleSortClick(idx)}
+                        sx={{ fontSize: '0.9rem', color: sortIdx === idx ? color : '#c1c1c1', '&:hover': { bgcolor: `${color}15` } }}>
+                        <Box sx={{ flexGrow: 1 }}>{opt.label}</Box>
+                        {sortIdx === idx && (
+                          sortDir === 'asc'
+                            ? <ArrowUpwardIcon sx={{ fontSize: 16, ml: 1, color }} />
+                            : <ArrowDownwardIcon sx={{ fontSize: 16, ml: 1, color }} />
+                        )}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
 
         {tags.length > 0 && (
           <>
             <Button
+              ref={tagRef}
               startIcon={<LocalOfferIcon sx={{ fontSize: 18 }} />}
-              onClick={(e) => setTagAnchor(e.currentTarget)}
+              onClick={() => setOpenTag((p) => !p)}
               size="small"
               sx={{
                 textTransform: 'none', fontWeight: 600, borderRadius: '16px',
@@ -221,38 +247,47 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
             >
               Tagi
             </Button>
-            <Menu anchorEl={tagAnchor} open={Boolean(tagAnchor)} onClose={() => setTagAnchor(null)}
-              PaperProps={{ sx: { bgcolor: BG_CARD, border: `1px solid ${BORDER}`, maxHeight: 450, minWidth: 220 } }}>
-              <MenuItem sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}>
-                <Typography variant="caption" sx={{ color: tagMethod === 0 ? color : '#888' }}>AND</Typography>
-                <Switch size="small" checked={tagMethod === 1}
-                  onChange={(e) => setTagMethod(e.target.checked ? 1 : 0)}
-                  sx={{ mx: 1, '& .MuiSwitch-thumb': { bgcolor: color } }} />
-                <Typography variant="caption" sx={{ color: tagMethod === 1 ? color : '#888' }}>OR</Typography>
-              </MenuItem>
-              <MenuItem onClick={() => {
-                const states = tags.map((t) => t.state);
-                const allSame = states.every((s) => s === states[0]);
-                const next = allSame
-                  ? (states[0] === null ? 'include' : states[0] === 'include' ? 'exclude' : null)
-                  : 'include';
-                setTags((prev) => prev.map((t) => ({ ...t, state: next })));
-              }} sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}>
-                <Typography variant="caption" sx={{ color: '#aaa' }}>Zaznacz wszystko</Typography>
-              </MenuItem>
-              {tags.map((tag, idx) => {
-                const emoji = getTagEmoji(tag.name);
-                return (
-                  <MenuItem key={tag.id} onClick={() => handleTagClick(idx)}
-                    sx={{ fontSize: '0.9rem', color: '#c1c1c1', '&:hover': { bgcolor: `${color}15` } }}>
-                    {emoji && <Typography component="span" sx={{ mr: 0.5 }}>{emoji}</Typography>}
-                    <Box sx={{ flexGrow: 1 }}>{tag.name}</Box>
-                    {tag.state === 'include' && <CheckIcon sx={{ fontSize: 16, color: '#4caf50' }} />}
-                    {tag.state === 'exclude' && <CloseIcon sx={{ fontSize: 16, color: '#f44336' }} />}
-                  </MenuItem>
-                );
-              })}
-            </Menu>
+            <Popper open={openTag} anchorEl={tagRef.current} transition disablePortal style={{ zIndex: 999 }} placement="bottom-start">
+              {({ TransitionProps }) => (
+                <Grow {...TransitionProps}>
+                  <Paper sx={{ bgcolor: BG_CARD, border: `1px solid ${BORDER}`, maxHeight: 450, minWidth: 220, overflow: 'auto' }}>
+                    <ClickAwayListener onClickAway={handleCloseTag}>
+                      <MenuList>
+                        <MenuItem sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}>
+                          <Typography variant="caption" sx={{ color: tagMethod === 0 ? color : '#888' }}>AND</Typography>
+                          <Switch size="small" checked={tagMethod === 1}
+                            onChange={(e) => setTagMethod(e.target.checked ? 1 : 0)}
+                            sx={{ mx: 1, '& .MuiSwitch-thumb': { bgcolor: color } }} />
+                          <Typography variant="caption" sx={{ color: tagMethod === 1 ? color : '#888' }}>OR</Typography>
+                        </MenuItem>
+                        <MenuItem onClick={() => {
+                          const states = tags.map((t) => t.state);
+                          const allSame = states.every((s) => s === states[0]);
+                          const next = allSame
+                            ? (states[0] === null ? 'include' : states[0] === 'include' ? 'exclude' : null)
+                            : 'include';
+                          setTags((prev) => prev.map((t) => ({ ...t, state: next })));
+                        }} sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}>
+                          <Typography variant="caption" sx={{ color: '#aaa' }}>Zaznacz wszystko</Typography>
+                        </MenuItem>
+                        {tags.map((tag, idx) => {
+                          const emoji = getTagEmoji(tag.name);
+                          return (
+                            <MenuItem key={tag.id} onClick={() => handleTagClick(idx)}
+                              sx={{ fontSize: '0.9rem', color: '#c1c1c1', '&:hover': { bgcolor: `${color}15` } }}>
+                              {emoji && <Typography component="span" sx={{ mr: 0.5 }}>{emoji}</Typography>}
+                              <Box sx={{ flexGrow: 1 }}>{tag.name}</Box>
+                              {tag.state === 'include' && <CheckIcon sx={{ fontSize: 16, color: '#4caf50' }} />}
+                              {tag.state === 'exclude' && <CloseIcon sx={{ fontSize: 16, color: '#f44336' }} />}
+                            </MenuItem>
+                          );
+                        })}
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
           </>
         )}
 

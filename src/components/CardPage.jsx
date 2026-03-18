@@ -7,14 +7,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { getCardDetail } from '../api';
 import { ACCENT, BG_CARD, BORDER } from '../theme';
-import CardIcons from './CardIcons';
-
-const SSS_GRADIENT = 'linear-gradient(135deg, #ffb3cc 0%, #d4aaff 25%, #a8d8ff 50%, #aaffd8 75%, #fff0a8 100%)';
-const CARD_RARITY_SOLID = {
-  sss: SSS_GRADIENT, ss: '#ff658e', s: '#ffe149', a: '#f49244',
-  b: '#a556d8',       c: '#0069ab', d: '#3e7315', e: '#848484',
-};
-const CARD_RARITY_TEXT_DARK = new Set(['sss', 'ss', 's', 'a']);
+import CardInfoContent from './CardInfoContent';
+import CardBadges from './CardBadges';
 
 export default function CardPage() {
   const { cardId } = useParams();
@@ -38,19 +32,13 @@ export default function CardPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const rarityKey = card?.rarity?.toLowerCase();
-  const rarityBg = CARD_RARITY_SOLID[rarityKey] || '#555';
-  const rarityTextColor = CARD_RARITY_TEXT_DARK.has(rarityKey) ? '#1a1a1a' : '#fff';
-
   return (
     <Box sx={{ maxWidth: 860, mx: 'auto' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <IconButton onClick={() => navigate(-1)} size="small" sx={{ color: '#aaa', '&:hover': { color: '#fff' } }}>
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="h6" sx={{ color: '#ddd', fontWeight: 700, flexGrow: 1 }}>
-          {card ? `${card.name || '???'} #${card.id}` : `Karta #${cardId}`}
-        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
         <Button
           onClick={copyLink}
           startIcon={<ContentCopyIcon sx={{ fontSize: 16 }} />}
@@ -74,7 +62,7 @@ export default function CardPage() {
           </Box>
         ) : card ? (
           <Grid container spacing={{ xs: 2, sm: 3 }}>
-            <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid item xs={12} sm={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Box
                 component="img"
                 src={card.imageUrl || ''}
@@ -89,92 +77,11 @@ export default function CardPage() {
                 }}
                 onError={(e) => { e.target.style.opacity = '0'; }}
               />
+              <CardBadges card={card} />
             </Grid>
 
             <Grid item xs={12} sm={8}>
-              <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap', alignItems: 'flex-end' }}>
-                <Box sx={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  background: rarityBg, borderRadius: 1.5, px: 1.6, py: 0.5, minWidth: 52,
-                }}>
-                  <Typography sx={{ fontSize: '0.6rem', color: rarityTextColor, opacity: 0.7, lineHeight: 1, mb: 0.2, fontWeight: 700, letterSpacing: '0.08em' }}>RANGA</Typography>
-                  <Typography sx={{ fontSize: '1.05rem', color: rarityTextColor, fontWeight: 800, lineHeight: 1 }}>{(card.rarity || '?').toUpperCase()}</Typography>
-                </Box>
-                {card.dere && (
-                  <Box sx={{
-                    display: 'flex', flexDirection: 'column', alignItems: 'center',
-                    bgcolor: '#231a35', border: '1px solid #7b4fc455',
-                    borderRadius: 1.5, px: 1.4, py: 0.5, minWidth: 60,
-                  }}>
-                    <Typography sx={{ fontSize: '0.6rem', color: '#9b70cc', lineHeight: 1, mb: 0.2, fontWeight: 700, letterSpacing: '0.08em' }}>DERE</Typography>
-                    <Typography sx={{ fontSize: '0.88rem', color: '#c9a0ff', fontWeight: 700, lineHeight: 1 }}>{card.dere}</Typography>
-                  </Box>
-                )}
-                {card.affection && (
-                  <Box sx={{
-                    display: 'flex', flexDirection: 'column', alignItems: 'center',
-                    bgcolor: '#2a1a20', border: '1px solid #ff6b6b44',
-                    borderRadius: 1.5, px: 1.4, py: 0.5, minWidth: 60,
-                  }}>
-                    <Typography sx={{ fontSize: '0.6rem', color: '#e08090', lineHeight: 1, mb: 0.2, fontWeight: 700, letterSpacing: '0.08em' }}>RELACJA</Typography>
-                    <Typography sx={{ fontSize: '0.88rem', color: '#ffaaa5', fontWeight: 700, lineHeight: 1 }}>{card.affection}</Typography>
-                  </Box>
-                )}
-                <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.5 }}>
-                  <CardIcons card={card} />
-                </Box>
-              </Box>
-
-              <Row label="📺 Tytuł" value={card.animeTitle} />
-              <Row label="❤️ HP" value={card.baseHealth != null ? `${card.finalHealth} / ${card.baseHealth}` : null} />
-              <Row label="⚔️ Atak" value={card.attack} />
-              <Row label="🛡️ Obrona" value={card.defence} />
-              <Row label="💪 Moc" value={card.cardPower != null ? (Math.round(card.cardPower * 100) / 100) : null} />
-              <Row label="✨ EXP" value={card.expCnt != null ? `${Math.round(card.expCnt * 100) / 100} / ${card.expCntForNextLevel ?? '?'}` : null} />
-              <Row label="🔄 Restarty" value={card.restartCnt} />
-              <Row label="⬆️ Ulepszenia" value={card.upgradesCnt} />
-              <Row label="📦 Źródło" value={card.source} />
-              <Row label="📅 Utworzono" value={card.createdAt ? new Date(card.createdAt).toLocaleDateString('pl-PL') : null} />
-              {card.whoWantsCount > 0 && <Row label="💕 Chce" value={card.whoWantsCount} />}
-
-              {card.tags?.length > 0 && (
-                <Box sx={{ mt: 1.5, display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
-                  {card.tags.map((tag) => (
-                    <Box key={tag} sx={{
-                      px: 1, py: 0.35,
-                      bgcolor: '#1e2632', border: '1px solid #4a6a9a55',
-                      borderRadius: 1, fontSize: '0.78rem', color: '#8ab4e8', fontWeight: 600,
-                    }}>
-                      {tag}
-                    </Box>
-                  ))}
-                </Box>
-              )}
-
-              {card.username && (
-                <Typography variant="body2" sx={{ color: '#888', mt: 1.5 }}>
-                  Właściciel:{' '}
-                  {card.shindenId ? (
-                    <span
-                      onClick={() => navigate(`/user/${card.shindenId}/profile`)}
-                      style={{ color: ACCENT, cursor: 'pointer', textDecoration: 'underline' }}
-                    >
-                      {card.username}
-                    </span>
-                  ) : (
-                    <span style={{ color: '#ccc' }}>{card.username}</span>
-                  )}
-                </Typography>
-              )}
-
-              {card.characterUrl && (
-                <Typography variant="body2" sx={{ mt: 0.5 }}>
-                  <a href={card.characterUrl} target="_blank" rel="noopener noreferrer"
-                    style={{ color: ACCENT, textDecoration: 'none' }}>
-                    → Shinden
-                  </a>
-                </Typography>
-              )}
+              <CardInfoContent card={card} />
             </Grid>
           </Grid>
         ) : (
@@ -184,15 +91,5 @@ export default function CardPage() {
         )}
       </Box>
     </Box>
-  );
-}
-
-function Row({ label, value }) {
-  if (value == null) return null;
-  return (
-    <Typography sx={{ my: 0.4, fontSize: '0.95rem' }}>
-      <span style={{ color: '#888' }}>{label}</span>{' '}
-      <span style={{ color: '#e0e0e0', fontWeight: 500 }}>{value}</span>
-    </Typography>
   );
 }
