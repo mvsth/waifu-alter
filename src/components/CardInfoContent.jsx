@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { ACCENT } from '../theme';
 
 
@@ -61,8 +62,9 @@ function Stat({ label, value, hint, valueColor, isLast }) {
 }
 
 /* ── main content ────────────────────────────────────────────── */
-export default function CardInfoContent({ card }) {
+export default function CardInfoContent({ card, showOwner }) {
   if (!card) return null;
+  const navigate = useNavigate();
 
   const activeTags = TAG_INDICATORS.filter((i) => i.match(card));
   const activeStatus = STATUS_INDICATORS.filter((i) => i.match(card));
@@ -130,7 +132,25 @@ export default function CardInfoContent({ card }) {
         label="Utworzono"
         value={card.createdAt ? new Date(card.createdAt).toLocaleDateString('pl-PL') : null}
       />
-      {card.whoWantsCount > 0 && <Stat label="KC" value={card.whoWantsCount} isLast />}
+      {card.whoWantsCount > 0 && <Stat label="KC" value={card.whoWantsCount} isLast={!showOwner || !card.username} />}
+      {showOwner && card.username && card.shindenId && (
+        <Box sx={{ borderBottom: 'none', py: 0.15 }}>
+          <Typography sx={{ fontSize: '0.88rem', lineHeight: 1.5 }}>
+            <span style={{ color: '#888' }}>Należy do</span>{' '}
+            <span
+              onClick={() => navigate(`/user/${card.shindenId}`)}
+              style={{
+                color: ACCENT, fontWeight: 600, cursor: 'pointer',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => { e.target.style.textDecoration = 'underline'; }}
+              onMouseLeave={(e) => { e.target.style.textDecoration = 'none'; }}
+            >
+              {card.username}
+            </span>
+          </Typography>
+        </Box>
+      )}
 
       {/* ── status indicators ─── */}
       {activeStatus.length > 0 && (

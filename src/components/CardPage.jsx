@@ -81,7 +81,7 @@ export default function CardPage() {
             </Grid>
 
             <Grid item xs={12} sm={8}>
-              <CardInfoContent card={card} />
+              <CardInfoContent card={card} showOwner />
             </Grid>
           </Grid>
         ) : (
