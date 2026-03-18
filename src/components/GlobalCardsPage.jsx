@@ -84,6 +84,7 @@ export default function GlobalCardsPage({ type }) {
         tagList={[]}
         cards={cards}
         onApply={handleFilter}
+        persistKey={`global_${type}`}
       />
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
