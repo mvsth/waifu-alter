@@ -60,15 +60,17 @@ export default function GlobalSearchPage() {
   const sortRef = React.useRef(null);
 
   const buildFilter = useCallback(() => {
+    const isCharId = /^\d+$/.test(appliedSearch);
     return {
       orderBy: sortIdx >= 0
         ? (sortDir === 'asc' ? SORT_OPTIONS[sortIdx].asc : SORT_OPTIONS[sortIdx].desc)
         : 'id',
       includeTags: [],
       excludeTags: [],
-      searchText: appliedSearch || null,
+      searchText: isCharId ? null : (appliedSearch || null),
       filterTagsMethod: 0,
       cardIds: [],
+      charIds: isCharId ? [parseInt(appliedSearch, 10)] : [],
     };
   }, [appliedSearch, sortIdx, sortDir]);
 
@@ -184,7 +186,7 @@ export default function GlobalSearchPage() {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Wpisz nazwę postaci lub tytuł anime..."
+          placeholder="Nazwa, tytuł anime lub ID postaci..."
           size="small"
           variant="outlined"
           InputProps={{
@@ -246,7 +248,7 @@ export default function GlobalSearchPage() {
       {!loading && !appliedSearch && (
         <Box sx={{ textAlign: 'center', py: 8 }}>
           <Typography sx={{ color: '#888', fontSize: '1.1rem' }}>
-            Wpisz nazwę postaci lub tytuł anime, aby wyszukać karty.
+            Wpisz nazwę postaci, tytuł anime lub ID postaci, aby wyszukać karty.
           </Typography>
         </Box>
       )}

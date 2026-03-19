@@ -136,7 +136,23 @@ export default function CardInfoContent({ card, showOwner }) {
       <Box sx={{ borderBottom: 'none', py: 0.15 }}>
         <Typography sx={{ fontSize: '0.88rem', lineHeight: 1.5 }}>
           <span style={{ color: '#888' }}>Należy do</span>{' '}
-          <span style={{ color: '#555' }}>—</span>
+          {card.username && card.username !== '????' ? (
+            card.shindenId ? (
+              <a
+                href={`/#/user/${card.shindenId}`}
+                style={{ color: ACCENT, textDecoration: 'none', fontWeight: 600 }}
+                onMouseEnter={(e) => { e.target.style.textDecoration = 'underline'; }}
+                onMouseLeave={(e) => { e.target.style.textDecoration = 'none'; }}
+                onClick={(e) => { e.preventDefault(); navigate(`/user/${card.shindenId}`); }}
+              >
+                {card.username}
+              </a>
+            ) : (
+              <span style={{ color: '#e0e0e0', fontWeight: 600 }}>{card.username}</span>
+            )
+          ) : (
+            <span style={{ color: '#555' }}>—</span>
+          )}
         </Typography>
       </Box>
 
