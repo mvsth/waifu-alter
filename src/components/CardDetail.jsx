@@ -139,39 +139,43 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
       </DialogContent>
 
       <DialogActions sx={sx.actions}>
-        <Tooltip title={showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'} arrow>
-          <IconButton onClick={() => setShowStats((p) => !p)} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
-            {showStats ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Poprzednia karta" arrow>
-          <span>
-            <IconButton onClick={onPrev} disabled={!onPrev} size="small" sx={sx.navBtn}>
-              <NavigateBeforeIcon />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Tooltip title={showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'} arrow>
+            <IconButton onClick={() => setShowStats((p) => !p)} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+              {showStats ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
             </IconButton>
-          </span>
-        </Tooltip>
-        <Tooltip title="Następna karta" arrow>
-          <span>
-            <IconButton onClick={onNext} disabled={!onNext} size="small" sx={sx.navBtn}>
-              <NavigateNextIcon />
-            </IconButton>
-          </span>
-        </Tooltip>
+          </Tooltip>
+          <Tooltip title="Poprzednia karta" arrow>
+            <span>
+              <IconButton onClick={onPrev} disabled={!onPrev} size="small" sx={sx.navBtn}>
+                <NavigateBeforeIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title="Następna karta" arrow>
+            <span>
+              <IconButton onClick={onNext} disabled={!onNext} size="small" sx={sx.navBtn}>
+                <NavigateNextIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+        </Box>
         <Box sx={{ flex: 1 }} />
-        <Tooltip title="Kopiuj WID" arrow>
-          <IconButton onClick={copyWid} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
-            <ContentCopyIcon fontSize="small" />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Tooltip title="Kopiuj WID" arrow>
+            <IconButton onClick={copyWid} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Kopiuj link do karty" arrow>
+            <IconButton onClick={copyLink} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+              <LinkIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <IconButton onClick={onClose} size="small" sx={{ color: '#aaa', '&:hover': { color: '#fff' } }}>
+            <CloseIcon fontSize="small" />
           </IconButton>
-        </Tooltip>
-        <Tooltip title="Kopiuj link do karty" arrow>
-          <IconButton onClick={copyLink} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
-            <LinkIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-        <IconButton onClick={onClose} size="small" sx={{ color: '#aaa', '&:hover': { color: '#fff' } }}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
+        </Box>
       </DialogActions>
 
       <Snackbar open={!!snackMsg} autoHideDuration={2000} onClose={() => setSnackMsg('')}
@@ -196,7 +200,7 @@ const sx = {
   actions: {
     bgcolor: BG_SURFACE,
     borderTop: `1px solid ${BORDER}`,
-    justifyContent: 'center', gap: 2, py: 1,
+    justifyContent: 'space-between', gap: 1, py: 1, px: 2.5,
   },
   navBtn: {
     color: '#fff', minWidth: 48,
