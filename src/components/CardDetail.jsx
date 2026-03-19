@@ -161,7 +161,7 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
           </Tooltip>
         </Box>
         <Box sx={{ flex: 1 }} />
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Tooltip title="Kopiuj WID" arrow>
             <IconButton onClick={copyWid} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
               <ContentCopyIcon fontSize="small" />
