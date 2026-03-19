@@ -139,6 +139,17 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
       </DialogContent>
 
       <DialogActions sx={sx.actions}>
+        <Button
+          onClick={() => setShowStats((p) => !p)}
+          startIcon={showStats ? <VisibilityOffIcon sx={{ fontSize: 16 }} /> : <VisibilityIcon sx={{ fontSize: 16 }} />}
+          size="small"
+          sx={{
+            color: '#aaa', textTransform: 'none', fontSize: '0.8rem', fontWeight: 600,
+            '&:hover': { bgcolor: 'rgba(255,255,255,0.05)', color: ACCENT },
+          }}
+        >
+          {showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'}
+        </Button>
         <Tooltip title="Poprzednia karta" arrow>
           <span>
             <IconButton onClick={onPrev} disabled={!onPrev} size="small" sx={sx.navBtn}>
@@ -153,17 +164,6 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
             </IconButton>
           </span>
         </Tooltip>
-        <Button
-          onClick={() => setShowStats((p) => !p)}
-          startIcon={showStats ? <VisibilityOffIcon sx={{ fontSize: 16 }} /> : <VisibilityIcon sx={{ fontSize: 16 }} />}
-          size="small"
-          sx={{
-            color: '#aaa', textTransform: 'none', fontSize: '0.8rem', fontWeight: 600,
-            '&:hover': { bgcolor: 'rgba(255,255,255,0.05)', color: ACCENT },
-          }}
-        >
-          {showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'}
-        </Button>
         <Box sx={{ flex: 1 }} />
         <Tooltip title="Kopiuj WID" arrow>
           <IconButton onClick={copyWid} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>

@@ -16,7 +16,7 @@ export default function Layout({ children }) {
   const [widInput, setWidInput] = useState('');
   const [settingsAnchor, setSettingsAnchor] = useState(null);
   const [pageSize, setPageSize] = useState(() => {
-    try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 100 && v <= 4000) ? v : 100; } catch { return 100; }
+    try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 200 && v <= 5000) ? v : 200; } catch { return 200; }
   });
   const navigate = useNavigate();
   useEffect(() => subscribe(setReqCount), []);
@@ -31,12 +31,12 @@ export default function Layout({ children }) {
   };
 
   const handlePageSizeChange = (_, val) => {
-    setPageSize(Math.max(100, Math.min(4000, val)));
+    setPageSize(Math.max(200, Math.min(5000, val)));
   };
 
   const handleSettingsClose = () => {
     setSettingsAnchor(null);
-    const v = Math.max(100, Math.min(4000, pageSize));
+    const v = Math.max(200, Math.min(5000, pageSize));
     const prev = localStorage.getItem('cardsPageSize');
     localStorage.setItem('cardsPageSize', String(v));
     if (prev !== String(v)) {
@@ -86,7 +86,7 @@ export default function Layout({ children }) {
             <Slider
               value={pageSize}
               onChange={handlePageSizeChange}
-              min={100} max={4000} step={100}
+              min={200} max={5000} step={200}
               sx={{
                 color: ACCENT,
                 '& .MuiSlider-thumb': { width: 14, height: 14 },
@@ -95,8 +95,8 @@ export default function Layout({ children }) {
               }}
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>100</Typography>
-              <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>4000</Typography>
+              <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>200</Typography>
+              <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>5000</Typography>
             </Box>
           </Popover>
         </Toolbar>
