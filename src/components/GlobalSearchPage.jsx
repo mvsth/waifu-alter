@@ -54,25 +54,26 @@ export default function GlobalSearchPage() {
   const [selectedIdx, setSelectedIdx] = useState(null);
   const [searchText, setSearchText] = useState('');
   const [appliedSearch, setAppliedSearch] = useState('');
+  const [searchMode, setSearchMode] = useState('text'); // 'text' | 'charId'
+  const [appliedMode, setAppliedMode] = useState('text');
   const [sortIdx, setSortIdx] = useState(-1);
   const [sortDir, setSortDir] = useState('desc');
   const [openSort, setOpenSort] = useState(false);
   const sortRef = React.useRef(null);
 
   const buildFilter = useCallback(() => {
-    const isCharId = /^\d+$/.test(appliedSearch);
     return {
       orderBy: sortIdx >= 0
         ? (sortDir === 'asc' ? SORT_OPTIONS[sortIdx].asc : SORT_OPTIONS[sortIdx].desc)
         : 'id',
       includeTags: [],
       excludeTags: [],
-      searchText: isCharId ? null : (appliedSearch || null),
+      searchText: appliedMode === 'text' ? (appliedSearch || null) : null,
       filterTagsMethod: 0,
       cardIds: [],
-      charIds: isCharId ? [parseInt(appliedSearch, 10)] : [],
+      charIds: appliedMode === 'charId' ? [parseInt(appliedSearch, 10)] : [],
     };
-  }, [appliedSearch, sortIdx, sortDir]);
+  }, [appliedSearch, appliedMode, sortIdx, sortDir]);
 
   const fetchCards = useCallback(async () => {
     if (!appliedSearch) return;
@@ -99,7 +100,9 @@ export default function GlobalSearchPage() {
 
   const handleSearch = () => {
     if (!searchText.trim()) return;
+    if (searchMode === 'charId' && !/^\d+$/.test(searchText.trim())) return;
     setAppliedSearch(searchText.trim());
+    setAppliedMode(searchMode);
     setPage(1);
   };
 
@@ -124,6 +127,8 @@ export default function GlobalSearchPage() {
   const handleClear = () => {
     setSearchText('');
     setAppliedSearch('');
+    setSearchMode('text');
+    setAppliedMode('text');
     setCards([]);
     setTotalCards(0);
     setTotalPages(1);
@@ -186,7 +191,7 @@ export default function GlobalSearchPage() {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Nazwa, tytuł anime lub ID postaci..."
+          placeholder={searchMode === 'charId' ? 'Wpisz ID postaci ze Shindena...' : 'Wpisz nazwę postaci lub tytuł anime...'}
           size="small"
           variant="outlined"
           InputProps={{
@@ -206,8 +211,27 @@ export default function GlobalSearchPage() {
           sx={{ flex: '1 1 250px', minWidth: 200, maxWidth: 450 }}
         />
 
+        <Box sx={{ display: 'flex', borderRadius: '16px', overflow: 'hidden', border: `1px solid ${BORDER}`, flexShrink: 0 }}>
+          {[{ value: 'text', label: 'Nazwa' }, { value: 'charId', label: 'ID postaci' }].map((mode) => (
+            <Button
+              key={mode.value}
+              size="small"
+              onClick={() => { setSearchMode(mode.value); setSearchText(''); }}
+              sx={{
+                textTransform: 'none', fontWeight: 600, fontSize: '0.78rem',
+                borderRadius: 0, px: 1.5, py: 0.5, minWidth: 'auto',
+                bgcolor: searchMode === mode.value ? `${COLOR}33` : 'transparent',
+                color: searchMode === mode.value ? COLOR : '#666',
+                '&:hover': { bgcolor: `${COLOR}22`, color: COLOR },
+              }}
+            >
+              {mode.label}
+            </Button>
+          ))}
+        </Box>
+
         <Button onClick={handleSearch} size="small" variant="contained"
-          disabled={!searchText.trim()}
+          disabled={!searchText.trim() || (searchMode === 'charId' && !/^\d+$/.test(searchText.trim()))}
           sx={{
             bgcolor: COLOR, color: '#000', textTransform: 'none', fontWeight: 600,
             borderRadius: '16px', fontSize: '0.82rem', minWidth: 'auto', px: 2,
@@ -248,7 +272,7 @@ export default function GlobalSearchPage() {
       {!loading && !appliedSearch && (
         <Box sx={{ textAlign: 'center', py: 8 }}>
           <Typography sx={{ color: '#888', fontSize: '1.1rem' }}>
-            Wpisz nazwę postaci, tytuł anime lub ID postaci, aby wyszukać karty.
+            Wpisz nazwę postaci lub tytuł anime, aby wyszukać karty, albo przełącz tryb na <strong>ID postaci</strong>.
           </Typography>
         </Box>
       )}
