@@ -14,7 +14,12 @@ import CardIcons from './CardIcons';
 import LazyCard from './LazyCard';
 
 const getPageSize = () => {
-  try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 200 && v <= 5000) ? v : 200; } catch { return 200; }
+  try {
+    const raw = localStorage.getItem('cardsPageSize');
+    if (raw === 'all') return 99999;
+    const v = parseInt(raw);
+    return (v >= 200 && v <= 5000) ? v : 200;
+  } catch { return 200; }
 };
 
 const DEFAULT_FILTER = {

@@ -18,6 +18,7 @@ export default function Layout({ children }) {
   const [pageSize, setPageSize] = useState(() => {
     try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 200 && v <= 5000) ? v : 200; } catch { return 200; }
   });
+  const [allCards, setAllCards] = useState(() => localStorage.getItem('cardsPageSize') === 'all');
   const navigate = useNavigate();
   useEffect(() => subscribe(setReqCount), []);
 
@@ -31,15 +32,18 @@ export default function Layout({ children }) {
   };
 
   const handlePageSizeChange = (_, val) => {
+    setAllCards(false);
     setPageSize(Math.max(200, Math.min(5000, val)));
   };
 
+  const handleAllCards = () => setAllCards((p) => !p);
+
   const handleSettingsClose = () => {
     setSettingsAnchor(null);
-    const v = Math.max(200, Math.min(5000, pageSize));
+    const newVal = allCards ? 'all' : String(Math.max(200, Math.min(5000, pageSize)));
     const prev = localStorage.getItem('cardsPageSize');
-    localStorage.setItem('cardsPageSize', String(v));
-    if (prev !== String(v)) {
+    localStorage.setItem('cardsPageSize', newVal);
+    if (prev !== newVal) {
       window.location.reload();
     }
   };
@@ -81,22 +85,38 @@ export default function Layout({ children }) {
               USTAWIENIA
             </Typography>
             <Typography sx={{ fontSize: '0.82rem', color: '#a7a7a7', mb: 0.5 }}>
-              Kart na stronie: <strong style={{ color: '#fff' }}>{pageSize}</strong>
+              Kart na stronie: <strong style={{ color: '#fff' }}>{allCards ? 'WSZYSTKIE' : pageSize}</strong>
             </Typography>
             <Slider
-              value={pageSize}
+              value={allCards ? 5000 : pageSize}
               onChange={handlePageSizeChange}
               min={200} max={5000} step={200}
+              disabled={allCards}
               sx={{
-                color: ACCENT,
+                color: allCards ? '#444' : ACCENT,
                 '& .MuiSlider-thumb': { width: 14, height: 14 },
                 '& .MuiSlider-track': { height: 3 },
                 '& .MuiSlider-rail': { height: 3, bgcolor: '#131313' },
               }}
             />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
               <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>200</Typography>
               <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>5000</Typography>
+            </Box>
+            <Box
+              onClick={handleAllCards}
+              sx={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', borderRadius: 1, py: 0.6,
+                bgcolor: allCards ? `${ACCENT}22` : 'transparent',
+                border: `1px solid ${allCards ? ACCENT : '#333'}`,
+                color: allCards ? ACCENT : '#666',
+                fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.08em',
+                transition: 'all 0.15s',
+                '&:hover': { borderColor: ACCENT, color: ACCENT },
+              }}
+            >
+              ALL — bez limitu
             </Box>
           </Popover>
         </Toolbar>
