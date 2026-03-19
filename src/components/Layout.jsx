@@ -16,7 +16,7 @@ export default function Layout({ children }) {
   const [widInput, setWidInput] = useState('');
   const [settingsAnchor, setSettingsAnchor] = useState(null);
   const [pageSize, setPageSize] = useState(() => {
-    try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 100 && v <= 1000) ? v : 100; } catch { return 100; }
+    try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 100 && v <= 4000) ? v : 100; } catch { return 100; }
   });
   const navigate = useNavigate();
   useEffect(() => subscribe(setReqCount), []);
@@ -31,12 +31,12 @@ export default function Layout({ children }) {
   };
 
   const handlePageSizeChange = (_, val) => {
-    setPageSize(Math.max(100, Math.min(1000, val)));
+    setPageSize(Math.max(100, Math.min(4000, val)));
   };
 
   const handleSettingsClose = () => {
     setSettingsAnchor(null);
-    const v = Math.max(100, Math.min(1000, pageSize));
+    const v = Math.max(100, Math.min(4000, pageSize));
     const prev = localStorage.getItem('cardsPageSize');
     localStorage.setItem('cardsPageSize', String(v));
     if (prev !== String(v)) {
@@ -86,7 +86,7 @@ export default function Layout({ children }) {
             <Slider
               value={pageSize}
               onChange={handlePageSizeChange}
-              min={100} max={1000} step={50}
+              min={100} max={4000} step={100}
               sx={{
                 color: ACCENT,
                 '& .MuiSlider-thumb': { width: 14, height: 14 },
@@ -96,7 +96,7 @@ export default function Layout({ children }) {
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>100</Typography>
-              <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>1000</Typography>
+              <Typography sx={{ fontSize: '0.7rem', color: '#c4c4c4' }}>4000</Typography>
             </Box>
           </Popover>
         </Toolbar>
