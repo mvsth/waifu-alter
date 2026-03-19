@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Dialog, DialogContent, DialogActions,
-  Box, Typography, Grid, CircularProgress, Button, IconButton, Tooltip, Snackbar, Alert,
+  Box, Typography, Grid, CircularProgress, IconButton, Tooltip, Snackbar, Alert,
 } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
@@ -139,17 +139,11 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
       </DialogContent>
 
       <DialogActions sx={sx.actions}>
-        <Button
-          onClick={() => setShowStats((p) => !p)}
-          startIcon={showStats ? <VisibilityOffIcon sx={{ fontSize: 16 }} /> : <VisibilityIcon sx={{ fontSize: 16 }} />}
-          size="small"
-          sx={{
-            color: '#aaa', textTransform: 'none', fontSize: '0.8rem', fontWeight: 600,
-            '&:hover': { bgcolor: 'rgba(255,255,255,0.05)', color: ACCENT },
-          }}
-        >
-          {showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'}
-        </Button>
+        <Tooltip title={showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'} arrow>
+          <IconButton onClick={() => setShowStats((p) => !p)} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+            {showStats ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
+          </IconButton>
+        </Tooltip>
         <Tooltip title="Poprzednia karta" arrow>
           <span>
             <IconButton onClick={onPrev} disabled={!onPrev} size="small" sx={sx.navBtn}>
