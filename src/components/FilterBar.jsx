@@ -56,10 +56,12 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
 
   const [tags, setTags] = useState([]);
   const [tagMethod, setTagMethod] = useState(0);
+  const [tagAlphaSort, setTagAlphaSort] = useState(false);
   const [openTag, setOpenTag] = useState(false);
   const tagRef = useRef(null);
 
   const [searchText, setSearchText] = useState('');
+  const [searchMode, setSearchMode] = useState('text'); // 'text' | 'wid'
   const [snack, setSnack] = useState(false);
 
   useEffect(() => {
@@ -73,6 +75,8 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
     setSortDir(saved?.sortDir ?? 'desc');
     setTagMethod(saved?.tagMethod ?? 0);
     setSearchText(saved?.searchText ?? '');
+    setSearchMode(saved?.searchMode ?? 'text');
+    try { setTagAlphaSort(localStorage.getItem(`tagAlphaSort_${persistKey}`) === 'true'); } catch {}
   }, [persistKey]);
 
   useEffect(() => {
@@ -106,28 +110,33 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
     setOpenTag(false);
   };
 
-  const handleTagClick = (idx) => {
-    setTags((prev) => {
-      const next = [...prev];
-      const s = next[idx].state;
-      next[idx] = { ...next[idx], state: s === null ? 'include' : s === 'include' ? 'exclude' : null };
-      return next;
-    });
+  const handleTagClick = (id) => {
+    setTags((prev) => prev.map((t) => {
+      if (t.id !== id) return t;
+      const s = t.state;
+      return { ...t, state: s === null ? 'include' : s === 'include' ? 'exclude' : null };
+    }));
   };
 
   const buildFilter = () => {
-    const widRegex = /wid:\s*([0-9\s]+)/gi;
-    const widMatch = searchText.match(widRegex);
     let cardIds = [];
-    let searchStr = searchText;
+    let searchStr = '';
 
-    if (widMatch) {
-      widMatch.forEach((m) => {
-        const nums = m.match(/\d+/g);
-        if (nums) cardIds.push(...nums);
-      });
-      cardIds = [...new Set(cardIds)];
-      searchStr = '';
+    if (searchMode === 'wid') {
+      const num = parseInt(searchText.trim(), 10);
+      if (!isNaN(num)) cardIds = [String(num)];
+    } else {
+      const widRegex = /wid:\s*([0-9\s]+)/gi;
+      const widMatch = searchText.match(widRegex);
+      searchStr = searchText;
+      if (widMatch) {
+        widMatch.forEach((m) => {
+          const nums = m.match(/\d+/g);
+          if (nums) cardIds.push(...nums);
+        });
+        cardIds = [...new Set(cardIds)];
+        searchStr = '';
+      }
     }
 
     return {
@@ -147,7 +156,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
     if (persistKey) {
       try {
         localStorage.setItem(`filterState_${persistKey}`, JSON.stringify({
-          sortIdx, sortDir, tagMethod, searchText,
+          sortIdx, sortDir, tagMethod, searchText, searchMode,
           tagStates: Object.fromEntries(tags.map((t) => [t.id, t.state])),
         }));
         localStorage.setItem(`builtFilter_${persistKey}`, JSON.stringify(f));
@@ -160,13 +169,16 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
     if (persistKey) {
       localStorage.removeItem(`filterState_${persistKey}`);
       localStorage.removeItem(`builtFilter_${persistKey}`);
+      localStorage.removeItem(`tagAlphaSort_${persistKey}`);
       savedRef.current = null;
     }
     setSortIdx(-1);
     setSortDir('desc');
     setTags((prev) => prev.map((t) => ({ ...t, state: null })));
     setTagMethod(0);
+    setTagAlphaSort(false);
     setSearchText('');
+    setSearchMode('text');
     onApply({ orderBy: 'id', includeTags: [], excludeTags: [], searchText: null, filterTagsMethod: 0, cardIds: [] });
   };
 
@@ -184,6 +196,12 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
 
   const activeTags = tags.filter((t) => t.state !== null);
   const activeSort = sortIdx >= 0 ? SORT_OPTIONS[sortIdx] : null;
+  const displayedTags = tagAlphaSort
+    ? [
+        ...tags.filter((t) => !getTagEmoji(t.name)).sort((a, b) => a.name.localeCompare(b.name, 'pl')),
+        ...tags.filter((t) => getTagEmoji(t.name)),
+      ]
+    : tags;
 
   return (
     <Box sx={{ mb: 2 }}>
@@ -260,6 +278,17 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
                             sx={{ mx: 1, '& .MuiSwitch-thumb': { bgcolor: color } }} />
                           <Typography variant="caption" sx={{ color: tagMethod === 1 ? color : '#888' }}>OR</Typography>
                         </MenuItem>
+                        <MenuItem sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}
+                          onClick={() => {
+                            const next = !tagAlphaSort;
+                            setTagAlphaSort(next);
+                            if (persistKey) { try { localStorage.setItem(`tagAlphaSort_${persistKey}`, String(next)); } catch {} }
+                          }}
+                        >
+                          <Typography variant="caption" sx={{ color: tagAlphaSort ? color : '#888', fontWeight: tagAlphaSort ? 700 : 400 }}>
+                            A-Z {tagAlphaSort ? '✓' : ''}
+                          </Typography>
+                        </MenuItem>
                         <MenuItem onClick={() => {
                           const states = tags.map((t) => t.state);
                           const allSame = states.every((s) => s === states[0]);
@@ -270,10 +299,10 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
                         }} sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}>
                           <Typography variant="caption" sx={{ color: '#aaa' }}>Zaznacz wszystko</Typography>
                         </MenuItem>
-                        {tags.map((tag, idx) => {
+                        {displayedTags.map((tag) => {
                           const emoji = getTagEmoji(tag.name);
                           return (
-                            <MenuItem key={tag.id} onClick={() => handleTagClick(idx)}
+                            <MenuItem key={tag.id} onClick={() => handleTagClick(tag.id)}
                               sx={{ fontSize: '0.9rem', color: '#c1c1c1', '&:hover': { bgcolor: `${color}15` } }}>
                               {emoji && <Typography component="span" sx={{ mr: 0.5 }}>{emoji}</Typography>}
                               <Box sx={{ flexGrow: 1 }}>{tag.name}</Box>
@@ -295,7 +324,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Szukaj (nazwa, wid: 123, tytuł)..."
+          placeholder={searchMode === 'wid' ? 'Wpisz WID karty...' : 'Szukaj (nazwa, tytuł)...'}
           size="small"
           variant="outlined"
           InputProps={{
@@ -314,6 +343,25 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
           }}
           sx={{ flex: '1 1 180px', minWidth: 150, maxWidth: 320 }}
         />
+
+        <Box sx={{ display: 'flex', borderRadius: '16px', overflow: 'hidden', border: `1px solid ${BORDER}`, flexShrink: 0 }}>
+          {[{ value: 'text', label: 'Nazwa' }, { value: 'wid', label: 'WID' }].map((mode) => (
+            <Button
+              key={mode.value}
+              size="small"
+              onClick={() => { setSearchMode(mode.value); setSearchText(''); }}
+              sx={{
+                textTransform: 'none', fontWeight: 600, fontSize: '0.78rem',
+                borderRadius: 0, px: 1.5, py: 0.5, minWidth: 'auto',
+                bgcolor: searchMode === mode.value ? `${color}33` : 'transparent',
+                color: searchMode === mode.value ? color : '#666',
+                '&:hover': { bgcolor: `${color}22`, color },
+              }}
+            >
+              {mode.label}
+            </Button>
+          ))}
+        </Box>
 
         <Button onClick={handleApply} size="small" variant="contained"
           sx={{
