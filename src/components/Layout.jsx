@@ -110,13 +110,13 @@ export default function Layout({ children }) {
                 cursor: 'pointer', borderRadius: 1, py: 0.6,
                 bgcolor: allCards ? `${ACCENT}22` : 'transparent',
                 border: `1px solid ${allCards ? ACCENT : '#333'}`,
-                color: allCards ? ACCENT : '#666',
+                color: allCards ? ACCENT : '#bbb',
                 fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.08em',
                 transition: 'all 0.15s',
                 '&:hover': { borderColor: ACCENT, color: ACCENT },
               }}
             >
-              ALL — bez limitu
+              POKAŻ WSZYSTKIE!
             </Box>
           </Popover>
         </Toolbar>
