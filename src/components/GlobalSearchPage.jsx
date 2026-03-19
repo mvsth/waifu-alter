@@ -61,6 +61,20 @@ export default function GlobalSearchPage() {
   const [openSort, setOpenSort] = useState(false);
   const sortRef = React.useRef(null);
 
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('globalSearchState') || 'null');
+      if (saved) {
+        if (saved.searchText) setSearchText(saved.searchText);
+        if (saved.appliedSearch) setAppliedSearch(saved.appliedSearch);
+        if (saved.searchMode) setSearchMode(saved.searchMode);
+        if (saved.appliedMode) setAppliedMode(saved.appliedMode);
+        if (typeof saved.sortIdx === 'number') setSortIdx(saved.sortIdx);
+        if (saved.sortDir) setSortDir(saved.sortDir);
+      }
+    } catch {}
+  }, []);
+
   const buildFilter = useCallback(() => {
     return {
       orderBy: sortIdx >= 0
@@ -124,6 +138,14 @@ export default function GlobalSearchPage() {
     }
   }, [sortIdx, sortDir]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem('globalSearchState', JSON.stringify({
+        searchText, appliedSearch, searchMode, appliedMode, sortIdx, sortDir,
+      }));
+    } catch {}
+  }, [searchText, appliedSearch, searchMode, appliedMode, sortIdx, sortDir]);
+
   const handleClear = () => {
     setSearchText('');
     setAppliedSearch('');
@@ -134,6 +156,7 @@ export default function GlobalSearchPage() {
     setTotalPages(1);
     setSortIdx(-1);
     setSortDir('desc');
+    try { localStorage.removeItem('globalSearchState'); } catch {}
   };
 
   const activeSort = sortIdx >= 0 ? SORT_OPTIONS[sortIdx] : null;
