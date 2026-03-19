@@ -9,11 +9,13 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LinkIcon from '@mui/icons-material/Link';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { ACCENT, BG_SURFACE, BORDER } from '../theme';
 import CardInfoContent from './CardInfoContent';
 import CardBadges from './CardBadges';
 
-export default function CardDetail({ cardId, initialCard, onClose, showOwner = false }) {
+export default function CardDetail({ cardId, initialCard, onClose, showOwner = false, onPrev = null, onNext = null }) {
   const [card, setCard] = useState(initialCard || null);
   const [loading, setLoading] = useState(!initialCard);
   const [snackMsg, setSnackMsg] = useState('');
@@ -56,10 +58,12 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
   useEffect(() => {
     const handler = (e) => {
       if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft' && onPrev) onPrev();
+      if (e.key === 'ArrowRight' && onNext) onNext();
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [onClose]);
+  }, [onClose, onPrev, onNext]);
 
   return (
     <Dialog
@@ -135,6 +139,20 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
       </DialogContent>
 
       <DialogActions sx={sx.actions}>
+        <Tooltip title="Poprzednia karta" arrow>
+          <span>
+            <IconButton onClick={onPrev} disabled={!onPrev} size="small" sx={sx.navBtn}>
+              <NavigateBeforeIcon />
+            </IconButton>
+          </span>
+        </Tooltip>
+        <Tooltip title="Następna karta" arrow>
+          <span>
+            <IconButton onClick={onNext} disabled={!onNext} size="small" sx={sx.navBtn}>
+              <NavigateNextIcon />
+            </IconButton>
+          </span>
+        </Tooltip>
         <Button
           onClick={() => setShowStats((p) => !p)}
           startIcon={showStats ? <VisibilityOffIcon sx={{ fontSize: 16 }} /> : <VisibilityIcon sx={{ fontSize: 16 }} />}

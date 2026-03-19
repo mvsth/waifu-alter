@@ -363,6 +363,8 @@ export default function GlobalSearchPage() {
           cardId={cards[selectedIdx].id}
           initialCard={cards[selectedIdx]}
           onClose={() => setSelectedIdx(null)}
+          onPrev={selectedIdx > 0 ? () => setSelectedIdx((i) => i - 1) : null}
+          onNext={selectedIdx < cards.length - 1 ? () => setSelectedIdx((i) => i + 1) : null}
           showOwner
         />
       )}
