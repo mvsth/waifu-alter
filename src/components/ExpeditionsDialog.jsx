@@ -18,6 +18,15 @@ function timeDiff(startTime, maxTime, color) {
   return min > maxTime ? <span style={{ color }}>{str}</span> : str;
 }
 
+function expeditionEnd(startTime, maxTime) {
+  const end = new Date(new Date(startTime).getTime() + maxTime * 60 * 1000);
+  const d = String(end.getDate()).padStart(2, '0');
+  const mo = String(end.getMonth() + 1).padStart(2, '0');
+  const h = String(end.getHours()).padStart(2, '0');
+  const m = String(end.getMinutes()).padStart(2, '0');
+  return `${d}.${mo} ${h}:${m}`;
+}
+
 export default function ExpeditionsDialog({ open, onClose, expeditions, userColor }) {
   const color = userColor || ACCENT;
   const [orderBy, setOrderBy] = useState('');
@@ -78,6 +87,7 @@ export default function ExpeditionsDialog({ open, onClose, expeditions, userColo
                       { id: 'name', label: 'Nazwa' },
                       { id: 'expedition', label: 'Typ' },
                       { id: 'startTime', label: 'Czas' },
+                      { id: 'endTime', label: 'Koniec' },
                     ].map((col) => (
                       <TableCell key={col.id} align="center"
                         sx={{ color: '#aaa', borderBottom: `1px solid ${BORDER}`, fontWeight: 600, py: 0.8, fontSize: '0.8rem' }}>
@@ -114,6 +124,9 @@ export default function ExpeditionsDialog({ open, onClose, expeditions, userColo
                       </TableCell>
                       <TableCell align="center" sx={{ color: '#999', borderBottom: `1px solid #2a2a2a`, py: 0.8, fontSize: '0.82rem' }}>
                         {timeDiff(exp.startTime, exp.maxTime, color)}
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: '#999', borderBottom: `1px solid #2a2a2a`, py: 0.8, fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
+                        {expeditionEnd(exp.startTime, exp.maxTime)}
                       </TableCell>
                     </TableRow>
                   ))}
