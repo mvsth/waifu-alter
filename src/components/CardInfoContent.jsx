@@ -125,7 +125,7 @@ export default function CardInfoContent({ card, showOwner }) {
       <Stat
         label="HP"
         value={card.finalHealth}
-        hint={card.baseHealth != null ? `Bazowe: ${card.baseHealth}` : null}
+        hint={card.baseHealth != null ? `${card.baseHealth}` : null}
       />
       <Stat label="Atak" value={card.attack} />
       <Stat label="Obrona" value={card.defence} />
