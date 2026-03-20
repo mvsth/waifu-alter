@@ -79,10 +79,6 @@ export default function CardPage() {
           </Box>
         ) : card ? (
           <>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 0.6, borderBottom: '3px solid #1e1e1e', pb: 1.5, mb: 2 }}>
-              <CardBadges card={card} sx={{ mt: 0, justifyContent: 'center' }} />
-              <CardStatusPills card={card} />
-            </Box>
             <Grid container columnSpacing={{ xs: 2.25, sm: 3.75 }} alignItems="flex-start">
               <Grid item xs={12} sm={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: { xs: 2, sm: 0 } }}>
                 <Box
@@ -98,15 +94,19 @@ export default function CardPage() {
                   }}
                   onError={(e) => { e.target.style.opacity = '0'; }}
                 />
+                <CardBadges card={card} sx={{ mt: 2.5, justifyContent: 'center' }} />
               </Grid>
 
               <Grid item xs={12} sm={7}>
                 <CardInfoContent card={card} />
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mt: 1.5 }}>
+                  <CardStatusPills card={card} />
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mt: 0.8 }}>
+                  <CardTagPills card={card} />
+                </Box>
               </Grid>
             </Grid>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 0.6, borderTop: '3px solid #1e1e1e', pt: 1.5, mt: 2 }}>
-              <CardTagPills card={card} />
-            </Box>
           </>
         ) : (
           <Typography color="error" sx={{ py: 4, textAlign: 'center' }}>

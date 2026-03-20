@@ -49,10 +49,12 @@ function Section({ label }) {
 function Stat({ label, value, hint, valueColor, isLast }) {
   if (value == null) return null;
   return (
-    <Box sx={{ borderBottom: isLast ? 'none' : '1px solid #1f1f1f', py: 0.25 }}>
-      <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6 }}>
-        <span style={{ color: '#888' }}>{label}</span>{' '}
-        <span style={{ color: valueColor || '#e0e0e0', fontWeight: 700 }}>{value}</span>
+    <Box sx={{ borderBottom: isLast ? 'none' : '1px solid #1f1f1f', py: 0.25, display: 'flex', alignItems: 'baseline', gap: 0.1 }}>
+      <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6, color: '#888', flexShrink: 0, minWidth: '13ch' }}>
+        {label}
+      </Typography>
+      <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6, color: valueColor || '#e0e0e0', fontWeight: 700 }}>
+        {value}
         {hint && (
           <span style={{ fontSize: '0.78em', color: '#555', fontWeight: 500, marginLeft: 6 }}>{hint}</span>
         )}
@@ -95,6 +97,28 @@ export default function CardInfoContent({ card, showOwner }) {
           </>
         )}
       </Typography>
+      {(card.username && card.username !== '????') && (
+        <Typography sx={{ fontSize: 'clamp(0.85rem, 0.82rem + 0.1vw, 0.95rem)', color: '#666', mt: 0.15 }}>
+          <span style={{ color: '#555' }}>Należy do</span>{' '}
+          {card.shindenId ? (
+            <a
+              href={`/user/${card.shindenId}`}
+              style={{ color: ACCENT, textDecoration: 'none', fontWeight: 600 }}
+              onMouseEnter={(e) => { e.target.style.textDecoration = 'underline'; }}
+              onMouseLeave={(e) => { e.target.style.textDecoration = 'none'; }}
+              onClick={(e) => {
+                if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+                e.preventDefault();
+                navigate(`/user/${card.shindenId}`);
+              }}
+            >
+              {card.username}
+            </a>
+          ) : (
+            <span style={{ color: '#e0e0e0', fontWeight: 600 }}>{card.username}</span>
+          )}
+        </Typography>
+      )}
 
       {/* ── stats ─── */}
       <Section label="Statystyki" />
@@ -121,40 +145,14 @@ export default function CardInfoContent({ card, showOwner }) {
         }
       />
       <Stat label="Restarty" value={card.restartCnt} />
-      <Stat label="Dost. ulepszenia" value={card.upgradesCnt} />
+      <Stat label="Ulepszenia" value={card.upgradesCnt} />
       <Stat label="Zmęczenie" value={card.fatigue || 'Brak'} />
       <Stat label="Źródło" value={card.source} />
       <Stat
         label="Utworzono"
         value={card.createdAt ? new Date(card.createdAt).toLocaleDateString('pl-PL') : null}
       />
-      <Stat label="KC" value={card.whoWantsCount ?? 0} isLast={false} />
-      <Box sx={{ borderBottom: 'none', py: 0.25 }}>
-        <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6 }}>
-          <span style={{ color: '#888' }}>Należy do</span>{' '}
-          {card.username && card.username !== '????' ? (
-            card.shindenId ? (
-              <a
-                href={`/#/user/${card.shindenId}`}
-                style={{ color: ACCENT, textDecoration: 'none', fontWeight: 600 }}
-                onMouseEnter={(e) => { e.target.style.textDecoration = 'underline'; }}
-                onMouseLeave={(e) => { e.target.style.textDecoration = 'none'; }}
-                onClick={(e) => {
-                  if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
-                  e.preventDefault();
-                  navigate(`/user/${card.shindenId}`);
-                }}
-              >
-                {card.username}
-              </a>
-            ) : (
-              <span style={{ color: '#e0e0e0', fontWeight: 600 }}>{card.username}</span>
-            )
-          ) : (
-            <span style={{ color: '#555' }}>—</span>
-          )}
-        </Typography>
-      </Box>
+      <Stat label="KC" value={card.whoWantsCount ?? 0} isLast />
 
     </>
   );
@@ -172,10 +170,10 @@ export function CardStatusPills({ card }) {
           bgcolor: '#1a1a20', border: '1px solid #2a2a30',
           borderRadius: 1.5, px: 1.55, py: 0.5, minWidth: 53,
         }}>
-          <Typography sx={{ fontSize: '0.55rem', color: '#55555599', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
+          <Typography sx={{ fontSize: '0.47rem', color: '#55555599', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             STATUS
           </Typography>
-          <Typography sx={{ fontSize: '1.01rem', color: '#aaa', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
+          <Typography sx={{ fontSize: '0.86rem', color: '#aaa', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
             {ind.icon} {ind.label}
           </Typography>
         </Box>
@@ -197,10 +195,10 @@ export function CardTagPills({ card }) {
           bgcolor: '#1a1a2a', border: '1px solid #2a2a3a',
           borderRadius: 1.5, px: 1.55, py: 0.5, minWidth: 53,
         }}>
-          <Typography sx={{ fontSize: '0.55rem', color: '#55559988', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
+          <Typography sx={{ fontSize: '0.47rem', color: '#55559988', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             TAG
           </Typography>
-          <Typography sx={{ fontSize: '1.01rem', color: '#999', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
+          <Typography sx={{ fontSize: '0.86rem', color: '#999', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
             {ind.icon} {ind.label}
           </Typography>
         </Box>
@@ -211,10 +209,10 @@ export function CardTagPills({ card }) {
           bgcolor: '#1a1a2a', border: '1px solid #2a2a3a',
           borderRadius: 1.5, px: 1.55, py: 0.5, minWidth: 53,
         }}>
-          <Typography sx={{ fontSize: '0.55rem', color: '#55559988', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
+          <Typography sx={{ fontSize: '0.47rem', color: '#55559988', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             TAG
           </Typography>
-          <Typography sx={{ fontSize: '1.01rem', color: '#999', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
+          <Typography sx={{ fontSize: '0.86rem', color: '#999', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
             {tag}
           </Typography>
         </Box>
