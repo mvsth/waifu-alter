@@ -27,22 +27,22 @@ function Badge({ label, value, bg, color, border }) {
     <Box sx={{
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       background: bg || '#1f1f2e', border: `1px solid ${border || '#333'}`,
-      borderRadius: 1.5, px: 1.4, py: 0.45, minWidth: 48,
+      borderRadius: 1.5, px: 1.55, py: 0.5, minWidth: 53,
     }}>
       <Typography sx={{
-        fontSize: '0.5rem', color: `${color || '#888'}88`,
+        fontSize: '0.55rem', color: `${color || '#888'}88`,
         lineHeight: 1, mb: 0.25, fontWeight: 700, letterSpacing: '0.1em',
       }}>
         {label}
       </Typography>
-      <Typography sx={{ fontSize: '0.92rem', color: color || '#ccc', fontWeight: 700, lineHeight: 1 }}>
+      <Typography sx={{ fontSize: '1.01rem', color: color || '#ccc', fontWeight: 700, lineHeight: 1 }}>
         {value}
       </Typography>
     </Box>
   );
 }
 
-export default function CardBadges({ card }) {
+export default function CardBadges({ card, sx: sxOverride }) {
   if (!card) return null;
 
   const rarityKey = card.rarity?.toLowerCase();
@@ -50,7 +50,7 @@ export default function CardBadges({ card }) {
   const quality = qualityLabel(card.ultimateQuality);
 
   return (
-    <Box sx={{ display: 'flex', gap: 0.8, mt: 1.2, flexWrap: 'wrap', justifyContent: 'center' }}>
+    <Box sx={{ display: 'flex', gap: 0.8, mt: 1.2, flexWrap: 'wrap', justifyContent: 'center', ...sxOverride }}>
       {isUlt ? (
         <Box sx={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',

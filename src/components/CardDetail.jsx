@@ -12,7 +12,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { ACCENT, BG_SURFACE, BORDER } from '../theme';
-import CardInfoContent from './CardInfoContent';
+import CardInfoContent, { CardStatusPills, CardTagPills } from './CardInfoContent';
 import CardBadges from './CardBadges';
 
 export default function CardDetail({ cardId, initialCard, onClose, showOwner = false, onPrev = null, onNext = null }) {
@@ -88,8 +88,9 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
           borderRadius: { xs: 1.5, sm: 2 },
           width: {
             xs: 'calc(100vw - 32px)',
-            sm: 'min(910px, calc(100vw - 30px))',
-            md: 'min(1000px, calc(100vw - 40px))',
+            sm: 'min(800px, calc(100vw - 30px))',
+            md: 'min(960px, calc(100vw - 40px))',
+            lg: 'min(1040px, calc(100vw - 60px))',
           },
           maxWidth: 'none',
           maxHeight: { xs: 'calc(100dvh - 32px)', sm: 'calc(100dvh - 40px)' },
@@ -104,33 +105,38 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
             <CircularProgress sx={{ color: ACCENT }} />
           </Box>
         ) : card ? (
-          <Grid container spacing={{ xs: 1.5, sm: 2 }} sx={{ height: '100%' }}>
-            <Grid item xs={12} sm={5.5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: { xs: 0, sm: 1.5 } }}>
-              <Box
-                component="img"
-                src={(showStats ? card.imageUrl : (card.profileImageUrl || card.imageUrl)) || ''}
-                alt={card.name || ''}
-                sx={{
-                  width: '100%',
-                  maxWidth: { xs: 340, sm: 320 },
-                  display: 'block',
-                  aspectRatio: '225 / 350',
-                  maxHeight: { xs: '50vh', sm: '70vh' },
-                  objectFit: 'contain',
-                  objectPosition: 'center',
-                  borderRadius: 1,
-                }}
-                onError={(e) => { e.target.style.opacity = '0'; }}
-              />
-              <CardBadges card={card} />
-            </Grid>
+          <>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 0.6, borderBottom: '3px solid #1e1e1e', pb: 1.5, mb: 2 }}>
+              <CardBadges card={card} sx={{ mt: 0, justifyContent: 'center' }} />
+              <CardStatusPills card={card} />
+            </Box>
+            <Grid container columnSpacing={{ xs: 2.25, sm: 3.75 }} alignItems="flex-start">
+              <Grid item xs={12} sm={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: { xs: 2, sm: 0 } }}>
+                <Box
+                  component="img"
+                  src={(showStats ? card.imageUrl : (card.profileImageUrl || card.imageUrl)) || ''}
+                  alt={card.name || ''}
+                  sx={{
+                    width: '100%',
+                    maxWidth: 380,
+                    display: 'block',
+                    height: 'auto',
+                    borderRadius: 1,
+                  }}
+                  onError={(e) => { e.target.style.opacity = '0'; }}
+                />
+              </Grid>
 
-            <Grid item xs={12} sm={6.5}>
-              <Box sx={sx.details}>
-                <CardInfoContent card={card} showOwner={showOwner} />
-              </Box>
+              <Grid item xs={12} sm={7}>
+                <Box sx={sx.details}>
+                  <CardInfoContent card={card} showOwner={showOwner} />
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 0.6, borderTop: '3px solid #1e1e1e', pt: 1.5, mt: 2 }}>
+              <CardTagPills card={card} />
+            </Box>
+          </>
         ) : (
           <Typography color="error" sx={{ py: 4, textAlign: 'center' }}>
             Nie udało się załadować karty #{cardId}.
@@ -189,11 +195,10 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
 const sx = {
   content: {
     bgcolor: BG_SURFACE, color: '#c1c1c1', overflowX: 'hidden', overflowY: 'auto',
-    p: { xs: 1.2, sm: 1.5, md: 1.8 },
+    p: { xs: 1.2, sm: 2, md: 2.5 },
   },
   details: {
-    fontSize: 16,
-    maxHeight: { xs: 'none', sm: '60vh' },
+    maxHeight: { xs: 'none', sm: '68vh' },
     overflowY: { xs: 'visible', sm: 'auto' },
     pr: { xs: 0, sm: 1 },
   },
