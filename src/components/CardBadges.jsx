@@ -66,7 +66,7 @@ export default function CardBadges({ card, sx: sxOverride }) {
             fontSize: '0.92rem', color: '#fff', fontWeight: 800, lineHeight: 1,
             textShadow: '0 1px 3px rgba(0,0,0,0.4)',
           }}>
-            {quality || '?'}
+            {quality || '?'}{card.ultimateOverflow > 0 ? `+${card.ultimateOverflow}` : ''}
           </Typography>
         </Box>
       ) : (

@@ -169,8 +169,15 @@ export default function UserCards() {
                   display: 'flex', flexDirection: 'column', height: '100%',
                 }}>
                   <Box
-                    onClick={() => selectionMode ? toggleSelect(card.id) : setSelectedIdx(idx)}
-                    sx={{ cursor: 'pointer', position: 'relative' }}
+                    component="a"
+                    href={`/card/${card.id}`}
+                    onClick={(e) => {
+                      if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+                      e.preventDefault();
+                      if (selectionMode) toggleSelect(card.id);
+                      else setSelectedIdx(idx);
+                    }}
+                    sx={{ cursor: 'pointer', position: 'relative', display: 'block' }}
                   >
                     <Box
                       component="img"

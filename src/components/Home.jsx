@@ -115,7 +115,14 @@ export default function Home() {
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3, justifyContent: 'center' }}>
         <Button
           size="small"
-          onClick={() => navigate('/cards/unique')}
+          component="a"
+          href="/cards/unique"
+          onClick={(e) => {
+            if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+              e.preventDefault();
+              navigate('/cards/unique');
+            }
+          }}
           sx={{
             bgcolor: '#80ccff22', border: '1px solid #80ccff',
             color: '#80ccff', borderRadius: 2, px: 2, py: 0.6,
@@ -127,7 +134,14 @@ export default function Home() {
         </Button>
         <Button
           size="small"
-          onClick={() => navigate('/cards/ultimate')}
+          component="a"
+          href="/cards/ultimate"
+          onClick={(e) => {
+            if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+              e.preventDefault();
+              navigate('/cards/ultimate');
+            }
+          }}
           sx={{
             bgcolor: '#dc2cff22', border: '1px solid #dc2cff',
             color: '#dc2cff', borderRadius: 2, px: 2, py: 0.6,
@@ -154,7 +168,14 @@ export default function Home() {
               {lastVisited.map((user) => (
                 <ListItemButton
                   key={user.id}
-                  onClick={() => navigate(`/user/${user.id}/profile`)}
+                  component="a"
+                  href={`/user/${user.id}/profile`}
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                      e.preventDefault();
+                      navigate(`/user/${user.id}/profile`);
+                    }
+                  }}
                   sx={{ borderRadius: 1, '&:hover': { bgcolor: '#333' } }}
                 >
                   <ListItemAvatar sx={{ minWidth: AVATAR_SIZE + 10 }}>
@@ -196,10 +217,25 @@ export default function Home() {
             <Typography color="text.secondary">Brak aktywności.</Typography>
           ) : (
             <List dense disablePadding>
-              {activity.map((item, idx) => (
+              {activity.map((item, idx) => {
+                const isExternalAct = item.type === 'addedToWishlistCharacter';
+                const actHref = isExternalAct
+                  ? `https://shinden.pl/character/${item.targetId}`
+                  : item.targetId ? `/card/${item.targetId}` : null;
+                return (
                 <React.Fragment key={idx}>
                   <ListItemButton
-                    onClick={() => handleActivityClick(item)}
+                    component={actHref ? 'a' : 'div'}
+                    href={actHref || undefined}
+                    target={isExternalAct ? '_blank' : undefined}
+                    rel={isExternalAct ? 'noopener noreferrer' : undefined}
+                    onClick={(e) => {
+                      if (isExternalAct) return;
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault();
+                        handleActivityClick(item);
+                      }
+                    }}
                     sx={{ borderRadius: 1, '&:hover': { bgcolor: '#333' }, px: 1 }}
                   >
                     <ListItemAvatar sx={{ minWidth: AVATAR_SIZE + 10 }}>
@@ -224,7 +260,8 @@ export default function Home() {
                   </ListItemButton>
                   {idx < activity.length - 1 && <Divider sx={{ borderColor: '#2a2a2a' }} />}
                 </React.Fragment>
-              ))}
+                );
+              })}
             </List>
           )}
         </Box>

@@ -250,10 +250,17 @@ export default function Profile() {
             {profile.gallery.map((card, idx) => (
               <Box
                 key={card.id}
-                onClick={() => setGalleryIdx(idx)}
+                component="a"
+                href={`/card/${card.id}`}
+                onClick={(e) => {
+                  if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+                  e.preventDefault();
+                  setGalleryIdx(idx);
+                }}
                 sx={{
                   cursor: 'pointer', borderRadius: 2,
                   overflow: 'hidden', transition: 'transform 0.15s, box-shadow 0.2s',
+                  display: 'block', textDecoration: 'none',
                   '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' },
                   width: { xs: 'calc(50% - 10px)', sm: '204px', md: '216px' },
                   flexShrink: 0,

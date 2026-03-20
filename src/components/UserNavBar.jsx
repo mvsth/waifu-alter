@@ -23,12 +23,15 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
 
   const tabs = [
     { id: 'profile', label: 'Profil', icon: <PersonIcon sx={{ fontSize: 20 }} />,
+      href: `/user/${userId}/profile`,
       action: () => navigate(`/user/${userId}/profile`) },
     { id: 'cards', label: 'Karty', icon: <StyleIcon sx={{ fontSize: 20 }} />,
+      href: `/user/${userId}/cards`,
       action: () => navigate(`/user/${userId}/cards`) },
     { id: 'expeditions', label: 'Wyprawy', icon: <ExploreIcon sx={{ fontSize: 20 }} />,
       action: onExpeditions, badge: profile?.expeditions?.length || 0 },
     { id: 'wishlist', label: 'Lista życzeń', icon: <FavoriteIcon sx={{ fontSize: 20 }} />,
+      href: `/user/${userId}/wishlist`,
       action: () => navigate(`/user/${userId}/wishlist`) },
   ];
 
@@ -102,8 +105,19 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
             return (
               <Button
                 key={tab.id}
+                component={!isPopup && tab.href ? 'a' : undefined}
+                href={!isPopup && tab.href ? tab.href : undefined}
                 startIcon={tab.icon}
-                onClick={tab.action}
+                onClick={(e) => {
+                  if (!isPopup && tab.href) {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                      e.preventDefault();
+                      tab.action();
+                    }
+                  } else {
+                    tab.action(e);
+                  }
+                }}
                 size="small"
                 variant={isActive ? 'contained' : 'outlined'}
                 sx={{

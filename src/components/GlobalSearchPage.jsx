@@ -340,7 +340,16 @@ export default function GlobalSearchPage() {
                   overflow: 'hidden',
                   display: 'flex', flexDirection: 'column', height: '100%',
                 }}>
-                  <Box onClick={() => setSelectedIdx(idx)} sx={{ cursor: 'pointer' }}>
+                  <Box
+                    component="a"
+                    href={`/card/${card.id}`}
+                    onClick={(e) => {
+                      if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+                      e.preventDefault();
+                      setSelectedIdx(idx);
+                    }}
+                    sx={{ cursor: 'pointer', display: 'block' }}
+                  >
                     <Box
                       component="img"
                       src={card.imageUrl || ''}

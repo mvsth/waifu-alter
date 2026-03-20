@@ -106,7 +106,18 @@ export default function UserSearch({ width = 300 }) {
               {results.map((user) => (
                 <ListItemButton
                   key={user.id}
-                  onClick={() => handleSelect(user)}
+                  component="a"
+                  href={`/user/${user.id}/profile`}
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSelect(user);
+                    } else {
+                      saveVisit(user);
+                      setOpen(false);
+                      setQuery('');
+                    }
+                  }}
                   sx={{ '&:hover': { bgcolor: '#353535' } }}
                 >
                   {user.avatarUrl && (
