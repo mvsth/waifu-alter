@@ -168,9 +168,9 @@ export function CardStatusPills({ card }) {
         <Box key={i} sx={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           bgcolor: '#1a1a20', border: '1px solid #2a2a30',
-          borderRadius: 1.5, px: 1.55, py: 0.5, minWidth: 53,
+          borderRadius: 1.5, px: 1.55, pt: 0.5, pb: '7px', minWidth: 53,
         }}>
-          <Typography sx={{ fontSize: '0.47rem', color: '#55555599', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
+          <Typography sx={{ fontSize: '0.47rem', color: '#80808099', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             STATUS
           </Typography>
           <Typography sx={{ fontSize: '0.86rem', color: '#aaa', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
@@ -193,9 +193,9 @@ export function CardTagPills({ card }) {
         <Box key={i} sx={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           bgcolor: '#1a1a2a', border: '1px solid #2a2a3a',
-          borderRadius: 1.5, px: 1.55, py: 0.5, minWidth: 53,
+          borderRadius: 1.5, px: 1.55, pt: 0.5, pb: '7px', minWidth: 53,
         }}>
-          <Typography sx={{ fontSize: '0.47rem', color: '#55559988', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
+          <Typography sx={{ fontSize: '0.47rem', color: '#7272e488', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             TAG
           </Typography>
           <Typography sx={{ fontSize: '0.86rem', color: '#999', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
@@ -207,9 +207,9 @@ export function CardTagPills({ card }) {
         <Box key={tag} sx={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           bgcolor: '#1a1a2a', border: '1px solid #2a2a3a',
-          borderRadius: 1.5, px: 1.55, py: 0.5, minWidth: 53,
+          borderRadius: 1.5, px: 1.55, pt: 0.5, pb: '7px', minWidth: 53,
         }}>
-          <Typography sx={{ fontSize: '0.47rem', color: '#55559988', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
+          <Typography sx={{ fontSize: '0.47rem', color: '#7272e488', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             TAG
           </Typography>
           <Typography sx={{ fontSize: '0.86rem', color: '#999', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>

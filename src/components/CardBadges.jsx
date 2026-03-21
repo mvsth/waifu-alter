@@ -50,46 +50,23 @@ export default function CardBadges({ card, sx: sxOverride }) {
   const quality = qualityLabel(card.ultimateQuality);
 
   return (
-    <Box sx={{ display: 'flex', gap: 0.8, mt: 1.2, flexWrap: 'wrap', justifyContent: 'center', ...sxOverride }}>
+    <Box sx={{ display: 'flex', gap: 0.85, mt: 1.2, flexWrap: 'wrap', justifyContent: 'center', ...sxOverride }}>
       {isUlt ? (
-        <Box sx={{
-          display: 'flex', flexDirection: 'column', alignItems: 'center',
-          background: ULTIMATE_GRADIENT, borderRadius: 1.5, px: 1.6, py: 0.5, minWidth: 56,
-        }}>
-          <Typography sx={{
-            fontSize: '0.5rem', color: '#ffffffbb', lineHeight: 1, mb: 0.25,
-            fontWeight: 700, letterSpacing: '0.1em',
-          }}>
-            ULTIMATE
-          </Typography>
-          <Typography sx={{
-            fontSize: '0.92rem', color: '#fff', fontWeight: 800, lineHeight: 1,
-            textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-          }}>
-            {quality || '?'}{card.ultimateOverflow > 0 ? `+${card.ultimateOverflow}` : ''}
-          </Typography>
-        </Box>
+        <Badge
+          label="ULTIMATE"
+          value={`${quality || '?'}${card.ultimateOverflow > 0 ? `+${card.ultimateOverflow}` : ''}`}
+          bg={ULTIMATE_GRADIENT}
+          color="#fff"
+          border="#2a2a33"
+        />
       ) : (
-        <Box sx={{
-          display: 'flex', flexDirection: 'column', alignItems: 'center',
-          background: RARITY_BG[rarityKey] || '#555', borderRadius: 1.5,
-          px: 1.6, py: 0.5, minWidth: 52,
-        }}>
-          <Typography sx={{
-            fontSize: '0.5rem',
-            color: RARITY_DARK_TEXT.has(rarityKey) ? '#1a1a1a99' : '#ffffff99',
-            lineHeight: 1, mb: 0.25, fontWeight: 700, letterSpacing: '0.1em',
-          }}>
-            RANGA
-          </Typography>
-          <Typography sx={{
-            fontSize: '0.92rem',
-            color: RARITY_DARK_TEXT.has(rarityKey) ? '#1a1a1a' : '#fff',
-            fontWeight: 800, lineHeight: 1,
-          }}>
-            {(card.rarity || '?').toUpperCase()}
-          </Typography>
-        </Box>
+        <Badge
+          label="RANGA"
+          value={(card.rarity || '?').toUpperCase()}
+          bg={RARITY_BG[rarityKey] || '#555'}
+          border={RARITY_DARK_TEXT.has(rarityKey) ? '#1a1a1a' : undefined}
+          color={RARITY_DARK_TEXT.has(rarityKey) ? '#1a1a1a' : '#fff'}
+        />
       )}
       {card.dere && (
         <Badge label="DERE" value={card.dere.charAt(0).toUpperCase() + card.dere.slice(1).toLowerCase()} bg="#1a1a2a" border="#7b4fc433" color="#b08adf" />
