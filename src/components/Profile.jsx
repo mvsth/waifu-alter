@@ -11,6 +11,7 @@ import ExpeditionsDialog from './ExpeditionsDialog';
 import CardDetail from './CardDetail';
 
 const SSS_GRADIENT = 'linear-gradient(135deg, #ffb3cc 0%, #d4aaff 25%, #a8d8ff 50%, #aaffd8 75%, #fff0a8 100%)';
+const ULTIMATE_GRADIENT = 'linear-gradient(135deg, #c850c0 0%, #8b5cf6 50%, #f59e0b 100%)';
 const RARITY_BAR = {
   SSS: SSS_GRADIENT,
   SS: '#ff658e', S: '#ffe149', A: '#f49244',
@@ -21,6 +22,8 @@ const RARITY_SOLID = {
   SSS: '#f5c8d8', SS: '#ff658e', S: '#ffe149', A: '#f49244',
   B: '#a556d8', C: '#0069ab', D: '#3e7315', E: '#848484',
 };
+
+const ULTIMATE_QUALITY_ORDER = ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta', 'Eta', 'Theta', 'Jota', 'Lambda', 'Sigma', 'Omega'];
 
 function sortGallery(gallery, order) {
   if (!order?.length) return gallery;
@@ -161,6 +164,14 @@ export default function Profile() {
             {cc.total > 0 && (
               <Box sx={{ mb: 1 }}>
                 <Box sx={{ display: 'flex', borderRadius: 1, overflow: 'hidden', height: 12 }}>
+                  {cc.ultimate > 0 && (
+                    <Tooltip title={`Ultimate: ${cc.ultimate}`} arrow>
+                      <Box sx={{
+                        width: `${(cc.ultimate / cc.total) * 100}%`,
+                        background: ULTIMATE_GRADIENT, minWidth: 3, transition: 'width 0.3s',
+                      }} />
+                    </Tooltip>
+                  )}
                   {RARITY_ORDER.map((r) => {
                     const count = cc[r] || 0;
                     if (!count) return null;
@@ -178,6 +189,68 @@ export default function Profile() {
             )}
 
             <Box sx={{ borderTop: `3px solid ${BORDER}`, mb: 1 }} />
+
+            {cc.ultimate > 0 && (
+              <>
+                <Box sx={{
+                  bgcolor: '#0e0e12',
+                  border: '1px solid #3a3a3a',
+                  borderRadius: 1.5,
+                  p: 1.2,
+                  mb: 1.2,
+                }}>
+                  <Box sx={{
+                    background: ULTIMATE_GRADIENT,
+                    borderRadius: 1,
+                    py: 0.6,
+                    textAlign: 'center',
+                    mb: 0.9,
+                  }}>
+                    <Typography sx={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.35em', color: '#fff' }}>
+                      U L T I M A T E
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, justifyContent: 'center' }}>
+                    {ULTIMATE_QUALITY_ORDER.filter((q) => cc[q] > 0).map((q) => (
+                      <Box key={q} sx={{
+                        display: 'flex', flexDirection: 'column', alignItems: 'center',
+                        background: 'rgba(255,255,255,0.07)',
+                        backdropFilter: 'blur(8px)',
+                        border: `2px solid transparent`,
+                        backgroundImage: 'rgba(255,255,255,0.07)',
+                        backgroundClip: 'padding-box',
+                        outline: '2px solid',
+                        outlineColor: 'transparent',
+                        borderRadius: 1, py: 0.7,
+                        width: 'calc(20% - 6px)',
+                        boxSizing: 'border-box',
+                        position: 'relative',
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          inset: 0,
+                          borderRadius: '4px',
+                          padding: '2px',
+                          background: ULTIMATE_GRADIENT,
+                          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                          WebkitMaskComposite: 'xor',
+                          maskComposite: 'exclude',
+                          pointerEvents: 'none',
+                        },
+                      }}>
+                        <Typography sx={{ fontSize: '0.47rem', color: '#ffffffcc', fontWeight: 700, letterSpacing: '0.06em', lineHeight: 1, mb: 0.25, textTransform: 'uppercase' }}>
+                          {q}
+                        </Typography>
+                        <Typography sx={{ fontSize: '0.88rem', color: '#ffffff', fontWeight: 800, lineHeight: 1 }}>
+                          {cc[q]}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+                <Box sx={{ borderTop: `3px solid ${BORDER}`, mb: 1 }} />
+              </>
+            )}
 
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0.7, mb: 1.2 }}>
               {RARITY_ORDER.map((r) => {
