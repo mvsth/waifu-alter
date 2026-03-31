@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import {
   Box, Typography, Grid, Tooltip, CircularProgress, Divider,
 } from '@mui/material';
@@ -59,6 +59,7 @@ const MD_COMPONENTS = (userColor) => ({
 
 export default function Profile() {
   const { userId } = useParams();
+  const location = useLocation();
   const [profile, setProfile] = useState(null);
   const [nick, setNick] = useState(null);
   const [error, setError] = useState(false);
@@ -78,7 +79,32 @@ export default function Profile() {
 
   useEffect(() => { getUsername(userId).then(setNick).catch(() => {}); }, [userId]);
 
+  // FORCETUSK I LOVE POLAND
+  // FORCETUSK I LOVE POLAND
+  const DEV_FORCE = { image: '/forcetusk.png', name: 'Donald Tusk' };
+
+  // FORCETUSK I LOVE POLAND
+  const searchParams = new URLSearchParams(location.search);
+  const paramForceImage = searchParams.get('forceImage');
+  const paramForceName = searchParams.get('forceName');
+
+  // FORCETUSK I LOVE POLAND
+  const shouldForce = String(userId) === '151796';
+  const forceImage = shouldForce ? (DEV_FORCE.image || paramForceImage || null) : null;
+  const forceName = shouldForce ? (DEV_FORCE.name || paramForceName || null) : null;
+
   const userColor = profile?.foregroundColor || ACCENT;
+
+  // FORCETUSK I LOVE POLAND
+  const displayedProfileForHeader = profile ? {
+    ...profile,
+    waifu: profile.waifu && (forceImage || forceName) ? {
+      ...profile.waifu,
+      profileImageUrl: forceImage || profile.waifu.profileImageUrl,
+      imageUrl: forceImage || profile.waifu.imageUrl,
+      name: forceName || profile.waifu.name,
+    } : profile.waifu,
+  } : profile;
 
   if (error) {
     return (
@@ -100,7 +126,7 @@ export default function Profile() {
 
   return (
     <Box>
-      <UserNavBar userId={userId} profile={profile} username={nick}
+      <UserNavBar userId={userId} profile={displayedProfileForHeader} username={nick}
         onExpeditions={() => setExpOpen(true)} />
 
       <Grid container spacing={3} sx={{ mb: 3 }}>
@@ -129,14 +155,25 @@ export default function Profile() {
 
         <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', pt: '3%', pb: '2%' }}>
           {profile.waifu ? (
-            <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
-              <Box
-                component="img"
-                src={profile.waifu.profileImageUrl || profile.waifu.imageUrl}
-                alt={profile.waifu.name}
-                sx={{ maxWidth: '100%', width: 342, borderRadius: 2, display: 'block', mx: 'auto' }}
-              />
-            </Box>
+            (() => {
+              const displayedWaifu = (forceImage || forceName) ? {
+                ...profile.waifu,
+                profileImageUrl: forceImage || profile.waifu.profileImageUrl,
+                imageUrl: forceImage || profile.waifu.imageUrl,
+                name: forceName || profile.waifu.name,
+              } : profile.waifu;
+
+              return (
+                <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
+                  <Box
+                    component="img"
+                    src={displayedWaifu.profileImageUrl || displayedWaifu.imageUrl}
+                    alt={displayedWaifu.name}
+                    sx={{ maxWidth: '100%', width: 342, borderRadius: 2, display: 'block', mx: 'auto' }}
+                  />
+                </Box>
+              );
+            })()
           ) : (
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 6 }}>
               <Typography sx={{ color: '#555' }}>Brak waifu</Typography>
