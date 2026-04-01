@@ -11,6 +11,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useNavigate } from 'react-router-dom';
 import { getActivity } from '../api';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { ACCENT, ACCENT_LIGHT, BG_SURFACE, BG_DARK, BORDER, TEXT_BRIGHT, TEXT_PRIMARY, TEXT_FAINT, TEXT_WHITE, DIVIDER, HOVER_BG } from '../theme';
 
 const EXTERNAL_LINKS = [
@@ -101,6 +102,36 @@ export default function Home() {
 
   return (
     <Box sx={{ maxWidth: 1120, mx: 'auto' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+        <Button
+          size="small"
+          component="a"
+          href="/ranking"
+          onClick={(e) => {
+            if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+              e.preventDefault();
+              navigate('/ranking');
+            }
+          }}
+          startIcon={<EmojiEventsIcon sx={{ fontSize: '1rem !important' }} />}
+          sx={{
+            background: 'linear-gradient(135deg, #f5af19, #ffd700, #f5af19)',
+            color: '#000',
+            borderRadius: 2, px: 3, py: 0.9,
+            fontSize: '0.88rem', fontWeight: 800, letterSpacing: '0.04em',
+            textTransform: 'none',
+            boxShadow: '0 2px 12px rgba(255,215,0,0.3)',
+            border: '1px solid #ffd70066',
+            '&:hover': {
+              background: 'linear-gradient(135deg, #ffd700, #fff6a0, #ffd700)',
+              boxShadow: '0 4px 20px rgba(255,215,0,0.5)',
+            },
+          }}
+        >
+          Ranking WRP
+        </Button>
+      </Box>
+
       <Box sx={{
         display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2,
         justifyContent: 'center',

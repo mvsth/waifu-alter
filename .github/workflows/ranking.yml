@@ -1,0 +1,70 @@
+name: Update Ranking
+
+on:
+  schedule:
+    - cron: '0 22 * * 3'   # every Wednesday 22:00 UTC = Thursday 00:00 CEST
+  workflow_dispatch:        # manual trigger
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ranking
+  cancel-in-progress: true
+
+jobs:
+  update-ranking:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Calculate ranking
+        run: node scripts/calculateRanking.mjs
+
+      - name: Commit ranking.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/ranking.json
+          git diff --cached --quiet || git commit -m "chore: update ranking [automated]"
+          git push
+
+  deploy:
+    needs: update-ranking
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - run: cp dist/index.html dist/404.html
+
+      - uses: actions/configure-pages@v4
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - uses: actions/deploy-pages@v4
+        id: deployment

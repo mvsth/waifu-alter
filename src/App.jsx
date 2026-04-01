@@ -8,12 +8,14 @@ import Wishlist from './components/Wishlist';
 import CardPage from './components/CardPage';
 import GlobalCardsPage from './components/GlobalCardsPage';
 import GlobalSearchPage from './components/GlobalSearchPage';
+import RankingPage from './components/RankingPage';
 
 export default function App() {
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/ranking" element={<RankingPage />} />
         <Route path="/cards/unique" element={<GlobalCardsPage type="unique" />} />
         <Route path="/cards/ultimate" element={<GlobalCardsPage type="ultimate" />} />
         <Route path="/cards/search" element={<GlobalSearchPage />} />
