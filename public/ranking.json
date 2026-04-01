@@ -1,1 +1,218 @@
-﻿{"status":"empty","lastUpdated":null,"nextUpdate":"2026-04-01T22:00:00.000Z","totalParticipants":0,"players":[]}
+{
+  "status": "ready",
+  "lastUpdated": "2026-04-01T22:12:56.243Z",
+  "nextUpdate": "2026-04-08T22:12:56.243Z",
+  "totalParticipants": 46,
+  "players": [
+    {
+      "rank": 1,
+      "userId": 85,
+      "username": "Sniku",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/85.jpg",
+      "wrp": 4376,
+      "stats": {
+        "ultimateCount": 25,
+        "bestQuality": "Lambda",
+        "karma": -27101,
+        "scalpels": 285,
+        "totalPower": 5599.55
+      }
+    },
+    {
+      "rank": 2,
+      "userId": 475347,
+      "username": "Medi124",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/475347.jpg",
+      "wrp": 3434,
+      "stats": {
+        "ultimateCount": 24,
+        "bestQuality": "Delta",
+        "karma": -25317,
+        "scalpels": 405,
+        "totalPower": 8399.1
+      }
+    },
+    {
+      "rank": 3,
+      "userId": 504916,
+      "username": "tomoro02",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/504916.jpg",
+      "wrp": 3416,
+      "stats": {
+        "ultimateCount": 22,
+        "bestQuality": "Omega",
+        "karma": -69431,
+        "scalpels": 36,
+        "totalPower": 7303.33
+      }
+    },
+    {
+      "rank": 4,
+      "userId": 224256,
+      "username": "Maysther",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/224256.jpg",
+      "wrp": 2777,
+      "stats": {
+        "ultimateCount": 12,
+        "bestQuality": "Lambda",
+        "karma": -17866,
+        "scalpels": 20,
+        "totalPower": 3600.88
+      }
+    },
+    {
+      "rank": 5,
+      "userId": 320808,
+      "username": "Kozma",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/320808.jpg",
+      "wrp": 2337,
+      "stats": {
+        "ultimateCount": 9,
+        "bestQuality": "Theta",
+        "karma": 7290,
+        "scalpels": 469,
+        "totalPower": 3272.59
+      }
+    },
+    {
+      "rank": 6,
+      "userId": 84047,
+      "username": "Jeeda",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/84047.jpg",
+      "wrp": 2159,
+      "stats": {
+        "ultimateCount": 7,
+        "bestQuality": "Theta",
+        "karma": 3737,
+        "scalpels": 51,
+        "totalPower": 1890.59
+      }
+    },
+    {
+      "rank": 7,
+      "userId": 85110,
+      "username": "warrest",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/85110.jpg",
+      "wrp": 2064,
+      "stats": {
+        "ultimateCount": 10,
+        "bestQuality": "Epsilon",
+        "karma": 21579,
+        "scalpels": 150,
+        "totalPower": 3809.86
+      }
+    },
+    {
+      "rank": 8,
+      "userId": 116613,
+      "username": "Grave_Of_Maria",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/116613.jpg",
+      "wrp": 1895,
+      "stats": {
+        "ultimateCount": 6,
+        "bestQuality": "Theta",
+        "karma": 51285,
+        "scalpels": 82,
+        "totalPower": 2143.71
+      }
+    },
+    {
+      "rank": 9,
+      "userId": 482719,
+      "username": "wiciu6331",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/482719.jpg",
+      "wrp": 1829,
+      "stats": {
+        "ultimateCount": 3,
+        "bestQuality": "Jota",
+        "karma": 4211,
+        "scalpels": 55,
+        "totalPower": 1335.69
+      }
+    },
+    {
+      "rank": 10,
+      "userId": 8836,
+      "username": "Zetsubou",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/8836.jpg",
+      "wrp": 1829,
+      "stats": {
+        "ultimateCount": 6,
+        "bestQuality": "Eta",
+        "karma": 22388,
+        "scalpels": 160,
+        "totalPower": 2773.12
+      }
+    },
+    {
+      "rank": 11,
+      "userId": 246209,
+      "username": "xKatsu",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/246209.jpg",
+      "wrp": 1807,
+      "stats": {
+        "ultimateCount": 4,
+        "bestQuality": "Theta",
+        "karma": 5916,
+        "scalpels": 83,
+        "totalPower": 1684.65
+      }
+    },
+    {
+      "rank": 12,
+      "userId": 600900,
+      "username": "Ladislaus_III",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/600900.jpg",
+      "wrp": 1788,
+      "stats": {
+        "ultimateCount": 11,
+        "bestQuality": "Delta",
+        "karma": -5761,
+        "scalpels": 56,
+        "totalPower": 3847.86
+      }
+    },
+    {
+      "rank": 13,
+      "userId": 335858,
+      "username": "Weeb_DXD",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/335858.jpg",
+      "wrp": 1654,
+      "stats": {
+        "ultimateCount": 4,
+        "bestQuality": "Delta",
+        "karma": 9422,
+        "scalpels": 67,
+        "totalPower": 1324.89
+      }
+    },
+    {
+      "rank": 14,
+      "userId": 249306,
+      "username": "DudeKK",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/249306.jpg",
+      "wrp": 1635,
+      "stats": {
+        "ultimateCount": 6,
+        "bestQuality": "Delta",
+        "karma": -5594,
+        "scalpels": 207,
+        "totalPower": 1914.19
+      }
+    },
+    {
+      "rank": 15,
+      "userId": 433521,
+      "username": "KyudoSenpai",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/433521.jpg",
+      "wrp": 1621,
+      "stats": {
+        "ultimateCount": 14,
+        "bestQuality": "Delta",
+        "karma": -8632,
+        "scalpels": 21,
+        "totalPower": 4530.3
+      }
+    }
+  ]
+}
