@@ -90,7 +90,7 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
             xs: 'calc(100vw - 32px)',
             sm: 'min(800px, calc(100vw - 30px))',
             md: 'min(960px, calc(100vw - 40px))',
-            lg: 'min(1040px, calc(100vw - 60px))',
+            lg: 'min(980px, calc(100vw - 60px))',
           },
           maxWidth: 'none',
           maxHeight: { xs: 'calc(100dvh - 32px)', sm: 'calc(100dvh - 40px)' },

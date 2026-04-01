@@ -6,7 +6,7 @@ import {
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { getUserCards, getUserProfile, getUsername } from '../api';
-import { ACCENT, BG_DARK, BG_CARD, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
+import { ACCENT, BG_DARK, BG_CARD, CARD_TILE_BG, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
 import UserNavBar from './UserNavBar';
 import ExpeditionsDialog from './ExpeditionsDialog';
 import FilterBar from './FilterBar';
@@ -188,9 +188,9 @@ export default function UserCards() {
                 )}
 
                 <Box sx={{
-                  bgcolor: 'transparent',
+                  bgcolor: CARD_TILE_BG,
                   borderRadius: 2,
-                  overflow: 'hidden',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.4)',
                   display: 'flex', flexDirection: 'column', height: '100%',
                 }}>
                   <Box
@@ -202,7 +202,7 @@ export default function UserCards() {
                       if (selectionMode) toggleSelect(card.id);
                       else setSelectedIdx(idx);
                     }}
-                    sx={{ cursor: 'pointer', position: 'relative', display: 'block' }}
+                    sx={{ cursor: 'pointer', position: 'relative', display: 'block', pt: '5px', px: '5px' }}
                   >
                     <Box
                       component="img"
@@ -211,7 +211,7 @@ export default function UserCards() {
                       loading="lazy"
                       sx={{
                         width: '100%', display: 'block',
-                        height: 'auto',
+                        height: 'auto', borderRadius: '6px 6px 0 0',
                       }}
                       onError={(e) => { e.target.style.opacity = '0'; }}
                     />
@@ -228,7 +228,7 @@ export default function UserCards() {
                   <Box sx={{
                     p: { xs: '9px 8px 10px', sm: '10px 9px 11px' }, textAlign: 'center',
                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                    gap: 0.3,
+                    gap: 0.25,
                   }}>
                     <Link
                       href={card.characterUrl || '#'}
@@ -236,8 +236,8 @@ export default function UserCards() {
                       underline="hover"
                       onClick={(e) => e.stopPropagation()}
                       sx={{
-                        color: userColor, fontWeight: 600, fontSize: '0.8rem',
-                        display: 'block', mb: 0.3,
+                        color: userColor, fontWeight: 600, fontSize: '0.88rem',
+                        display: 'block',
                         wordBreak: 'break-word', lineHeight: 1.3,
                       }}
                     >
@@ -246,11 +246,11 @@ export default function UserCards() {
                     <Typography sx={{ color: TEXT_SOFT, fontSize: '0.74rem', fontWeight: 800 }}>
                       {card.id}
                     </Typography>
-                    <Box sx={{ my: 0.3, minHeight: 18 }}>
+                    <Box sx={{ minHeight: 18 }}>
                       <CardIcons card={card} />
                     </Box>
                     <Typography variant="caption" sx={{
-                      color: TEXT_DIM, fontSize: '0.7rem',
+                      color: TEXT_DIM, fontSize: '0.735rem',
                       wordBreak: 'break-word', lineHeight: 1.3,
                     }}>
                       {card.animeTitle || ''}

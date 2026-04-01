@@ -15,7 +15,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { ACCENT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TEXT_BRIGHT, TEXT_MUTED, TEXT_DIM, TEXT_SOFT } from '../theme';
+import { ACCENT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TOOLBAR_BG, TOOLBAR_BG_CARD, TOOLBAR_BG_DARK, TOOLBAR_BORDER, TEXT_BRIGHT, TEXT_MUTED, TEXT_DIM, TEXT_SOFT } from '../theme';
 
 const SORT_OPTIONS = [
   { label: 'Id', asc: 'id', desc: 'idDes' },
@@ -207,7 +207,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
     <Box sx={{ mb: 2 }}>
       <Box sx={{
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, flexWrap: 'wrap',
-        bgcolor: BG_SURFACE, borderRadius: 2, px: 2, py: 1.4,
+        bgcolor: TOOLBAR_BG, borderRadius: 2, px: 2, py: 1.4,
       }}>
         <Button
           ref={sortRef}
@@ -227,7 +227,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
         <Popper open={openSort} anchorEl={sortRef.current} transition disablePortal style={{ zIndex: 999 }} placement="bottom-start">
           {({ TransitionProps }) => (
             <Grow {...TransitionProps}>
-              <Paper sx={{ bgcolor: BG_CARD, border: `1px solid ${BORDER}`, maxHeight: 400, overflow: 'auto' }}>
+              <Paper sx={{ bgcolor: TOOLBAR_BG_CARD, border: `1px solid ${TOOLBAR_BORDER}`, maxHeight: 400, overflow: 'auto' }}>
                 <ClickAwayListener onClickAway={handleCloseSort}>
                   <MenuList autoFocusItem={openSort}>
                     {SORT_OPTIONS.map((opt, idx) => (
@@ -268,7 +268,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
             <Popper open={openTag} anchorEl={tagRef.current} transition disablePortal style={{ zIndex: 999 }} placement="bottom-start">
               {({ TransitionProps }) => (
                 <Grow {...TransitionProps}>
-                  <Paper sx={{ bgcolor: BG_CARD, border: `1px solid ${BORDER}`, maxHeight: 450, minWidth: 220, overflow: 'auto' }}>
+                  <Paper sx={{ bgcolor: TOOLBAR_BG_CARD, border: `1px solid ${TOOLBAR_BORDER}`, maxHeight: 450, minWidth: 220, overflow: 'auto' }}>
                     <ClickAwayListener onClickAway={handleCloseTag}>
                       <MenuList>
                         <MenuItem sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}>
@@ -334,7 +334,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
               </InputAdornment>
             ),
             sx: {
-              bgcolor: BG_DARK, borderRadius: '16px', fontSize: '0.85rem', color: TEXT_BRIGHT,
+              bgcolor: TOOLBAR_BG_DARK, borderRadius: '16px', fontSize: '0.85rem', color: TEXT_BRIGHT,
               '& fieldset': { borderColor: BORDER, borderRadius: '16px' },
               '&:hover fieldset': { borderColor: `${color}66` },
               '&.Mui-focused fieldset': { borderColor: color },

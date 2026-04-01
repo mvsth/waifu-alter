@@ -108,6 +108,7 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
             return (
               <Button
                 key={tab.id}
+                disableRipple
                 component={!isPopup && tab.href ? 'a' : undefined}
                 href={!isPopup && tab.href ? tab.href : undefined}
                 startIcon={tab.icon}
@@ -122,7 +123,7 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
                   }
                 }}
                 size="small"
-                variant={isActive ? 'contained' : 'outlined'}
+                variant="outlined"
                 sx={{
                   px: { xs: 1.8, sm: 2.5 }, py: 0.9, borderRadius: '20px',
                   textTransform: 'none', fontWeight: 600, fontSize: '0.93rem',
@@ -131,9 +132,10 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
                   borderColor: isActive ? userColor : NAV_BORDER,
                   borderWidth: '2px',
                   minWidth: 'auto',
+                  transition: 'background-color 0.15s, border-color 0.15s, color 0.15s',
                   '&:hover': {
                     bgcolor: isActive ? userColor : `${userColor}18`,
-                    borderColor: isActive ? userColor : userColor,
+                    borderColor: userColor,
                     color: isActive ? '#000' : '#e0e0e0',
                     borderWidth: '2px',
                   },

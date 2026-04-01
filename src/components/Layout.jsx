@@ -17,7 +17,7 @@ export default function Layout({ children }) {
   const [widInput, setWidInput] = useState('');
   const [settingsAnchor, setSettingsAnchor] = useState(null);
   const [pageSize, setPageSize] = useState(() => {
-    try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 100 && v <= 4000) ? v : 200; } catch { return 200; }
+    try { const v = parseInt(localStorage.getItem('cardsPageSize')); return (v >= 100 && v <= 4000) ? v : 100; } catch { return 100; }
   });
   const [allCards, setAllCards] = useState(() => localStorage.getItem('cardsPageSize') === 'all');
   const [hideStats, setHideStats] = useState(() => localStorage.getItem('hideCardStats') === 'true');
@@ -55,17 +55,22 @@ export default function Layout({ children }) {
 
   const handleThemeChange = (val) => {
     setThemeMode(val);
-    localStorage.setItem('themeMode', val);
-    window.location.reload();
   };
 
   const handleSettingsClose = () => {
     setSettingsAnchor(null);
+  };
+
+  const handleApply = () => {
     const newVal = allCards ? 'all' : String(Math.max(100, Math.min(4000, pageSize)));
-    const prev = localStorage.getItem('cardsPageSize');
+    const prevSize = localStorage.getItem('cardsPageSize');
+    const prevHide = localStorage.getItem('hideCardStats');
+    const prevTheme = localStorage.getItem('themeMode') || 'dark';
     localStorage.setItem('cardsPageSize', newVal);
     localStorage.setItem('hideCardStats', String(hideStats));
-    if (prev !== newVal) {
+    localStorage.setItem('themeMode', themeMode);
+    setSettingsAnchor(null);
+    if (prevSize !== newVal || prevHide !== String(hideStats) || prevTheme !== themeMode) {
       window.location.reload();
     }
   };
@@ -108,13 +113,14 @@ export default function Layout({ children }) {
             onClose={handleSettingsClose}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            PaperProps={{ sx: { bgcolor: BG_SURFACE, border: `1px solid ${BORDER}`, p: 2.3, minWidth: 300 } }}
+            PaperProps={{ sx: { bgcolor: '#08080a', border: '1px solid #2a2a2e', boxShadow: '0 8px 32px rgba(0,0,0,0.9)', p: 2, minWidth: 290 } }}
           >
-            <Typography sx={{ fontSize: '0.75rem', color: TEXT_BRIGHT, fontWeight: 700, letterSpacing: '0.1em', mb: 1 }}>
-              USTAWIENIA
-            </Typography>
-            <Typography sx={{ fontSize: '0.82rem', color: TEXT_SECONDARY, mb: 0.5 }}>
-              Kart na stronie: <strong style={{ color: TEXT_WHITE }}>{allCards ? 'WSZYSTKIE' : pageSize}</strong>
+            {/* --- Kart na stronie --- */}
+            <Typography sx={{ fontSize: '0.78rem', color: '#aaa', mb: 0.8 }}>
+              Kart na stronie:{' '}
+              <Box component="span" sx={{ color: '#fff', fontWeight: 700 }}>
+                {allCards ? 'WSZYSTKIE' : pageSize}
+              </Box>
             </Typography>
             <Slider
               value={allCards ? 4000 : pageSize}
@@ -122,67 +128,101 @@ export default function Layout({ children }) {
               min={100} max={4000} step={100}
               disabled={allCards}
               sx={{
-                color: allCards ? TEXT_MUTED : ACCENT,
-                '& .MuiSlider-thumb': { width: 14, height: 14 },
-                '& .MuiSlider-track': { height: 3 },
-                '& .MuiSlider-rail': { height: 3, bgcolor: SLIDER_RAIL },
+                color: allCards ? '#444' : ACCENT,
+                '& .MuiSlider-thumb': {
+                  width: 16, height: 16,
+                  bgcolor: allCards ? '#444' : ACCENT,
+                  '&:hover, &.Mui-focusVisible': { boxShadow: `0 0 0 6px ${ACCENT}28` },
+                },
+                '& .MuiSlider-track': { height: 4, border: 'none' },
+                '& .MuiSlider-rail': { height: 4, bgcolor: '#2a2a2e' },
               }}
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-              <Typography sx={{ fontSize: '0.7rem', color: TEXT_BRIGHT }}>100</Typography>
-              <Typography sx={{ fontSize: '0.7rem', color: TEXT_BRIGHT }}>4000</Typography>
+              <Typography sx={{ fontSize: '0.78rem', color: '#aaa' }}>100</Typography>
+              <Typography sx={{ fontSize: '0.78rem', color: '#aaa' }}>4000</Typography>
             </Box>
             <Box
               onClick={handleAllCards}
               sx={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', borderRadius: 1, py: 0.6,
-                bgcolor: allCards ? `${ACCENT}22` : 'transparent',
-                border: `1px solid ${allCards ? ACCENT : BORDER}`,
-                color: allCards ? ACCENT : TEXT_BRIGHT,
-                fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.08em',
+                cursor: 'pointer', borderRadius: 1.5, py: 0.6,
+                bgcolor: allCards ? `${ACCENT}20` : '#1a1a1e',
+                border: `1.5px solid ${allCards ? ACCENT : '#333'}`,
+                color: allCards ? ACCENT : '#888',
+                fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.1em',
                 transition: 'all 0.15s',
-                '&:hover': { borderColor: ACCENT, color: ACCENT },
+                '&:hover': { borderColor: ACCENT, color: ACCENT, bgcolor: `${ACCENT}15` },
               }}
             >
-              POKAŻ WSZYSTKIE!
+              {allCards ? '✓ WSZYSTKIE KARTY' : 'POKAŻ WSZYSTKIE'}
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1.5, pt: 1.2, borderTop: `1px solid ${DIVIDER}` }}>
-              <Typography sx={{ fontSize: '0.82rem', color: TEXT_SECONDARY }}>
-                Ukryj statystyki
-              </Typography>
-              <Switch
-                size="small"
-                checked={hideStats}
-                onChange={(e) => setHideStats(e.target.checked)}
+
+            {/* --- Ukryj statystyki --- */}
+            <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '2px solid #333' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Typography sx={{ fontSize: '0.8rem', color: '#aaa' }}>Ukryj statystyki</Typography>
+                <Switch
+                  size="small"
+                  checked={hideStats}
+                  onChange={(e) => { setHideStats(e.target.checked); }}
+                  sx={{
+                    '& .MuiSwitch-switchBase': { color: '#555' },
+                    '& .MuiSwitch-switchBase.Mui-checked': { color: ACCENT },
+                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { bgcolor: `${ACCENT}88` },
+                    '& .MuiSwitch-track': { bgcolor: '#333' },
+                  }}
+                />
+              </Box>
+            </Box>
+
+            {/* --- Motyw --- */}
+            <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '2px solid #333' }}>
+              <Typography sx={{ fontSize: '0.8rem', color: '#aaa', mb: 1.5 }}>Motyw</Typography>
+              <Box sx={{ px: 0.5 }}>
+                {(() => {
+                  const modes = ['deep', 'dark', 'soft'];
+                  const idx = modes.indexOf(themeMode);
+                  return (
+                    <Box
+                      sx={{
+                        display: 'flex', alignItems: 'center',
+                        bgcolor: '#111114', borderRadius: 2, p: '4px', gap: '4px',
+                      }}
+                    >
+                      {modes.map((m, i) => (
+                        <Box
+                          key={m}
+                          onClick={() => handleThemeChange(m)}
+                          sx={{
+                            flex: 1, height: 28, borderRadius: 1.5,
+                            cursor: 'pointer',
+                            bgcolor: idx === i ? ACCENT : 'transparent',
+                            transition: 'background-color 0.15s',
+                            '&:hover': { bgcolor: idx === i ? ACCENT : '#2a2a30' },
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  );
+                })()}
+              </Box>
+            </Box>
+
+            {/* --- Zastosuj --- */}
+            <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '2px solid #333' }}>
+              <Box
+                onClick={handleApply}
                 sx={{
-                  '& .MuiSwitch-switchBase.Mui-checked': { color: ACCENT },
-                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { bgcolor: ACCENT },
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', borderRadius: 1.5, py: 0.8,
+                  bgcolor: ACCENT, color: '#fff',
+                  fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.12em',
+                  transition: 'opacity 0.15s',
+                  '&:hover': { opacity: 0.85 },
                 }}
-              />
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1, pt: 1, borderTop: `1px solid ${DIVIDER}` }}>
-              <Typography sx={{ fontSize: '0.82rem', color: TEXT_SECONDARY }}>
-                Motyw
-              </Typography>
-              <Box sx={{ display: 'flex', borderRadius: '16px', overflow: 'hidden', border: '2px solid #1a1a1a', flexShrink: 0, bgcolor: '#242424' }}>
-                {[{ value: 'dark', label: 'Ciemny' }, { value: 'light', label: 'Jasny' }].map((m) => (
-                  <Button
-                    key={m.value}
-                    size="small"
-                    onClick={() => handleThemeChange(m.value)}
-                    sx={{
-                      textTransform: 'none', fontWeight: 700, fontSize: '0.75rem',
-                      borderRadius: '14px', px: 1.5, py: 0.4, minWidth: 'auto',
-                      bgcolor: themeMode === m.value ? '#000000' : 'transparent',
-                      color: ACCENT,
-                      boxShadow: themeMode === m.value ? 'inset 0 0 0 1.5px #000000' : 'none',
-                      '&:hover': { bgcolor: '#000000', color: ACCENT },
-                    }}
-                  >
-                    {m.label}
-                  </Button>
-                ))}
+              >
+                ZASTOSUJ
               </Box>
             </Box>
           </Popover>

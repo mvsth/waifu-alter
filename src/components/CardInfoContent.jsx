@@ -34,14 +34,13 @@ const INDICATOR_TAGS = new Set(['ulubione', 'galeria', 'wymiana', 'rezerwacja', 
 
 function Section({ label }) {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 2.2, mb: 0.6 }}>
+    <Box sx={{ mt: 2.2, mb: 0.6 }}>
       <Typography sx={{
-        fontSize: 'clamp(0.7rem, 0.65rem + 0.1vw, 0.78rem)', color: TEXT_FAINT, fontWeight: 700,
-        letterSpacing: '0.15em', textTransform: 'uppercase', whiteSpace: 'nowrap',
+        fontSize: 'clamp(0.72rem, 0.67rem + 0.1vw, 0.8rem)', color: TEXT_SOFT, fontWeight: 800,
+        letterSpacing: '0.18em', textTransform: 'uppercase', whiteSpace: 'nowrap',
       }}>
         {label}
       </Typography>
-      <Box sx={{ flex: 1, height: '1px', bgcolor: DIVIDER }} />
     </Box>
   );
 }

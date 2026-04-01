@@ -14,7 +14,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { getTotalCards } from '../api';
-import { ACCENT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
+import { ACCENT, BG_DARK, BG_SURFACE, BG_CARD, CARD_TILE_BG, BORDER, TOOLBAR_BG, TOOLBAR_BG_CARD, TOOLBAR_BG_DARK, TOOLBAR_BORDER, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
 import CardDetail from './CardDetail';
 import CardIcons from './CardIcons';
 import LazyCard from './LazyCard';
@@ -203,7 +203,7 @@ export default function GlobalSearchPage() {
 
       <Box sx={{
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, flexWrap: 'wrap',
-        bgcolor: BG_SURFACE, borderRadius: 2, px: 2, py: 1.4, mb: 2,
+        bgcolor: TOOLBAR_BG, borderRadius: 2, px: 2, py: 1.4, mb: 2,
       }}>
         <Button
           ref={sortRef}
@@ -223,7 +223,7 @@ export default function GlobalSearchPage() {
         <Popper open={openSort} anchorEl={sortRef.current} transition disablePortal style={{ zIndex: 999 }} placement="bottom-start">
           {({ TransitionProps }) => (
             <Grow {...TransitionProps}>
-              <Paper sx={{ bgcolor: BG_CARD, border: `1px solid ${BORDER}`, maxHeight: 400, overflow: 'auto' }}>
+              <Paper sx={{ bgcolor: TOOLBAR_BG_CARD, border: `1px solid ${TOOLBAR_BORDER}`, maxHeight: 400, overflow: 'auto' }}>
                 <ClickAwayListener onClickAway={(e) => { if (!sortRef.current?.contains(e.target)) setOpenSort(false); }}>
                   <MenuList autoFocusItem={openSort}>
                     {SORT_OPTIONS.map((opt, idx) => (
@@ -258,7 +258,7 @@ export default function GlobalSearchPage() {
               </InputAdornment>
             ),
             sx: {
-              bgcolor: BG_DARK, borderRadius: '16px', fontSize: '0.85rem', color: TEXT_BRIGHT,
+              bgcolor: TOOLBAR_BG_DARK, borderRadius: '16px', fontSize: '0.85rem', color: TEXT_BRIGHT,
               '& fieldset': { borderColor: BORDER, borderRadius: '16px' },
               '&:hover fieldset': { borderColor: `${COLOR}66` },
               '&.Mui-focused fieldset': { borderColor: COLOR },
@@ -400,9 +400,9 @@ export default function GlobalSearchPage() {
                 )}
 
                 <Box sx={{
-                  bgcolor: 'transparent',
+                  bgcolor: CARD_TILE_BG,
                   borderRadius: 2,
-                  overflow: 'hidden',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.4)',
                   display: 'flex', flexDirection: 'column', height: '100%',
                 }}>
                   <Box
@@ -414,14 +414,14 @@ export default function GlobalSearchPage() {
                       if (selectionMode) toggleSelect(card.id);
                       else setSelectedIdx(idx);
                     }}
-                    sx={{ cursor: 'pointer', position: 'relative', display: 'block' }}
+                    sx={{ cursor: 'pointer', position: 'relative', display: 'block', pt: '5px', px: '5px' }}
                   >
                     <Box
                       component="img"
                       src={(hideStats ? (card.profileImageUrl || card.imageUrl) : card.imageUrl) || ''}
                       alt={card.name || ''}
                       loading="lazy"
-                      sx={{ width: '100%', display: 'block', height: 'auto' }}
+                      sx={{ width: '100%', display: 'block', height: 'auto', borderRadius: '6px 6px 0 0' }}
                       onError={(e) => { e.target.style.opacity = '0'; }}
                     />
                     {selectionMode && (
@@ -437,7 +437,7 @@ export default function GlobalSearchPage() {
                   <Box sx={{
                     p: { xs: '9px 8px 10px', sm: '10px 9px 11px' }, textAlign: 'center',
                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                    gap: 0.3,
+                    gap: 0.25,
                   }}>
                     <Link
                       href={card.characterUrl || '#'}
@@ -445,8 +445,8 @@ export default function GlobalSearchPage() {
                       underline="hover"
                       onClick={(e) => e.stopPropagation()}
                       sx={{
-                        color: COLOR, fontWeight: 600, fontSize: '0.8rem',
-                        display: 'block', mb: 0.3,
+                        color: COLOR, fontWeight: 600, fontSize: '0.88rem',
+                        display: 'block',
                         wordBreak: 'break-word', lineHeight: 1.3,
                       }}
                     >
@@ -455,11 +455,11 @@ export default function GlobalSearchPage() {
                     <Typography sx={{ color: TEXT_SOFT, fontSize: '0.74rem', fontWeight: 800 }}>
                       {card.id}
                     </Typography>
-                    <Box sx={{ my: 0.3, minHeight: 18 }}>
+                    <Box sx={{ minHeight: 18 }}>
                       <CardIcons card={card} />
                     </Box>
                     <Typography variant="caption" sx={{
-                      color: TEXT_DIM, fontSize: '0.7rem',
+                      color: TEXT_DIM, fontSize: '0.735rem',
                       wordBreak: 'break-word', lineHeight: 1.3,
                     }}>
                       {card.animeTitle || ''}

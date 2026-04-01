@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import { getUserProfile, getUsername } from '../api';
-import { ACCENT, ACCENT_LIGHT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TEXT_BRIGHT, TEXT_PRIMARY, TEXT_FAINT, TEXT_WHITE, TEXT_MUTED, TEXT_DIM, STAT_BOX_1, STAT_BOX_2, STAT_BOX_3, PANEL_DARK, PANEL_BORDER } from '../theme';
+import { ACCENT, ACCENT_LIGHT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TEXT_BRIGHT, TEXT_PRIMARY, TEXT_FAINT, TEXT_WHITE, TEXT_MUTED, TEXT_DIM, STAT_BOX_1, STAT_BOX_2, STAT_BOX_3, PANEL_DARK, PANEL_BORDER, NAV_OVERLAY } from '../theme';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 import UserNavBar from './UserNavBar';
 import ExpeditionsDialog from './ExpeditionsDialog';
@@ -138,7 +138,7 @@ export default function Profile() {
                 <Box sx={{
                   display: 'inline-flex', alignItems: 'center', gap: 0.8,
                   py: 0.7, px: 1.5, borderRadius: '20px',
-                  bgcolor: '#141416', border: `1.5px solid ${userColor}44`,
+                  bgcolor: NAV_OVERLAY, border: `3px solid ${userColor}44`,
                 }}>
                   <FavoriteIcon sx={{ fontSize: 16, color: userColor }} />
                   <Typography noWrap sx={{ color: '#e0d8f0', fontSize: '0.88rem', fontWeight: 600 }}>

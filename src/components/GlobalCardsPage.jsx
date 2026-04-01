@@ -5,7 +5,7 @@ import {
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { getUniqueCards, getUltimateCards } from '../api';
-import { ACCENT, BG_DARK, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
+import { ACCENT, BG_DARK, BG_CARD, CARD_TILE_BG, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
 import FilterBar from './FilterBar';
 import CardDetail from './CardDetail';
 import CardIcons from './CardIcons';
@@ -192,9 +192,9 @@ export default function GlobalCardsPage({ type }) {
                 )}
 
                 <Box sx={{
-                  bgcolor: 'transparent',
+                  bgcolor: CARD_TILE_BG,
                   borderRadius: 2,
-                  overflow: 'hidden',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.4)',
                   display: 'flex', flexDirection: 'column', height: '100%',
                 }}>
                   <Box
@@ -206,14 +206,14 @@ export default function GlobalCardsPage({ type }) {
                       if (selectionMode) toggleSelect(card.id);
                       else setSelectedIdx(idx);
                     }}
-                    sx={{ cursor: 'pointer', position: 'relative', display: 'block' }}
+                    sx={{ cursor: 'pointer', position: 'relative', display: 'block', pt: '5px', px: '5px' }}
                   >
                     <Box
                       component="img"
                       src={(hideStats ? (card.profileImageUrl || card.imageUrl) : card.imageUrl) || ''}
                       alt={card.name || ''}
                       loading="lazy"
-                      sx={{ width: '100%', display: 'block', height: 'auto' }}
+                      sx={{ width: '100%', display: 'block', height: 'auto', borderRadius: '6px 6px 0 0' }}
                       onError={(e) => { e.target.style.opacity = '0'; }}
                     />
                     {selectionMode && (
@@ -229,7 +229,7 @@ export default function GlobalCardsPage({ type }) {
                   <Box sx={{
                     p: { xs: '9px 8px 10px', sm: '10px 9px 11px' }, textAlign: 'center',
                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                    gap: 0.3,
+                    gap: 0.25,
                   }}>
                     <Link
                       href={card.characterUrl || '#'}
@@ -237,8 +237,8 @@ export default function GlobalCardsPage({ type }) {
                       underline="hover"
                       onClick={(e) => e.stopPropagation()}
                       sx={{
-                        color: cfg.color, fontWeight: 600, fontSize: '0.8rem',
-                        display: 'block', mb: 0.3,
+                        color: cfg.color, fontWeight: 600, fontSize: '0.88rem',
+                        display: 'block',
                         wordBreak: 'break-word', lineHeight: 1.3,
                       }}
                     >
@@ -247,11 +247,11 @@ export default function GlobalCardsPage({ type }) {
                     <Typography sx={{ color: TEXT_SOFT, fontSize: '0.74rem', fontWeight: 800 }}>
                       {card.id}
                     </Typography>
-                    <Box sx={{ my: 0.3, minHeight: 18 }}>
+                    <Box sx={{ minHeight: 18 }}>
                       <CardIcons card={card} />
                     </Box>
                     <Typography variant="caption" sx={{
-                      color: TEXT_DIM, fontSize: '0.7rem',
+                      color: TEXT_DIM, fontSize: '0.735rem',
                       wordBreak: 'break-word', lineHeight: 1.3,
                     }}>
                       {card.animeTitle || ''}
