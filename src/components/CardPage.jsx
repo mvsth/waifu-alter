@@ -18,6 +18,7 @@ export default function CardPage() {
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [copiedWid, setCopiedWid] = useState(false);
   const [showStats, setShowStats] = useState(() => localStorage.getItem('hideCardStats') !== 'true');
 
   useEffect(() => {
@@ -33,6 +34,12 @@ export default function CardPage() {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const copyWid = () => {
+    navigator.clipboard.writeText(String(cardId));
+    setCopiedWid(true);
+    setTimeout(() => setCopiedWid(false), 2000);
   };
 
   return (
@@ -69,6 +76,20 @@ export default function CardPage() {
           }}
         >
           {copied ? 'Skopiowano!' : 'Kopiuj link'}
+        </Button>
+        <Button
+          onClick={copyWid}
+          startIcon={<ContentCopyIcon sx={{ fontSize: 16 }} />}
+          size="small"
+          variant="outlined"
+          sx={{
+            borderColor: copiedWid ? '#4caf50' : BORDER,
+            color: copiedWid ? '#81c784' : TEXT_SOFT,
+            textTransform: 'none', fontSize: '0.8rem',
+            '&:hover': { borderColor: ACCENT, color: ACCENT },
+          }}
+        >
+          {copiedWid ? 'Skopiowano!' : 'Kopiuj WID'}
         </Button>
       </Box>
 
