@@ -33,6 +33,9 @@ const SORT_OPTIONS = [
   { label: 'Moc', asc: 'cardPower', desc: 'cardPowerDes' },
   { label: 'Liczba KC', asc: 'WhoWantsCount', desc: 'WhoWantsCountDes' },
   { label: 'Zablokowane', asc: 'Blocked', desc: 'BlockedDes' },
+  { label: 'Klątwa', asc: 'Curse', desc: 'CurseDes' },
+  { label: 'Zmęczenie', asc: 'Fatigue', desc: 'FatigueDes' },
+  { label: 'Overflow', asc: 'Overflow', desc: 'OverflowDes' },
 ];
 
 function getTagEmoji(name) {
