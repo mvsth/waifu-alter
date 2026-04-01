@@ -94,9 +94,9 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
           }}>
             {username || `Użytkownik ${userId}`}
           </Typography>
-          {profile?.userTitle && (
+          {(userId === '1' || profile?.userTitle) && (
             <Typography variant="body2" noWrap sx={{ color: userColor, opacity: 0.85, display: 'block', fontSize: '0.98rem' }}>
-              {profile.userTitle}
+              {userId === '1' ? 'Safeguard' : profile.userTitle}
             </Typography>
           )}
         </Box>
