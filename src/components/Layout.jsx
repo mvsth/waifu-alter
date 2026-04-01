@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import SettingsIcon from '@mui/icons-material/Settings';
 import UserSearch from './UserSearch';
+import Prank from './Prank';
 import { ACCENT, BG_DARK, BG_HEADER, BG_SURFACE, BORDER } from '../theme';
 import { subscribe, getCount } from '../apiCounter';
 
@@ -50,6 +51,7 @@ export default function Layout({ children }) {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: BG_DARK }}>
+      <Prank />
       <AppBar position="sticky" elevation={0} sx={{ bgcolor: 'rgba(8,8,8,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', borderBottom: `1px solid rgba(255,255,255,0.07)` }}>
         <Toolbar sx={{ gap: 2 }}>
           <Box
