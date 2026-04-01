@@ -32,7 +32,7 @@ export default function Home() {
   useEffect(() => {
     try {
       const stored = JSON.parse(localStorage.getItem('lastVisited')) || [];
-      setLastVisited(stored.filter(Boolean));
+      setLastVisited(stored.filter(Boolean).filter((u) => u.name !== '__SYSTEM__'));
     } catch { setLastVisited([]); }
   }, []);
 

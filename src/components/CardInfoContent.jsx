@@ -48,7 +48,7 @@ function Section({ label }) {
 function Stat({ label, value, hint, valueColor, isLast }) {
   if (value == null) return null;
   return (
-    <Box sx={{ borderBottom: isLast ? 'none' : `1px solid ${DIVIDER}`, py: 0.25, display: 'flex', alignItems: 'baseline', gap: 0.1 }}>
+    <Box sx={{ borderBottom: isLast ? 'none' : `1px solid ${DIVIDER}`, py: 0.35, display: 'flex', alignItems: 'baseline', gap: 0.1 }}>
       <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6, color: TEXT_MUTED, flexShrink: 0, minWidth: '13ch' }}>
         {label}
       </Typography>
@@ -119,7 +119,7 @@ export default function CardInfoContent({ card, showOwner }) {
         </Typography>
       )}
 
-      {/* ── stats ─── */}
+      {/* ── stats + details ─── */}
       <Section label="Statystyki" />
       <Stat
         label="HP"
@@ -132,9 +132,6 @@ export default function CardInfoContent({ card, showOwner }) {
         label="Moc"
         value={card.cardPower != null ? Math.round(card.cardPower * 100) / 100 : null}
       />
-
-      {/* ── details ─── */}
-      <Section label="Szczegóły" />
       <Stat
         label="EXP"
         value={
@@ -149,7 +146,13 @@ export default function CardInfoContent({ card, showOwner }) {
       <Stat label="Źródło" value={card.source} />
       <Stat
         label="Utworzono"
-        value={card.createdAt ? new Date(card.createdAt).toLocaleDateString('pl-PL') : null}
+        value={card.createdAt ? new Date(card.createdAt).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' }) : null}
+      />
+      <Stat
+        label="Skalpel"
+        value={card.scalpelAt && new Date(card.scalpelAt).getFullYear() > 2000
+          ? new Date(card.scalpelAt).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })
+          : null}
       />
       <Stat label="KC" value={card.whoWantsCount ?? 0} isLast />
 

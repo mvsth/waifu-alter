@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
-  Box, Typography, Grid, CircularProgress, IconButton, Button,
+  Box, Typography, Grid, CircularProgress, Button,
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -14,7 +13,6 @@ import CardBadges from './CardBadges';
 
 export default function CardPage() {
   const { cardId } = useParams();
-  const navigate = useNavigate();
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -45,9 +43,6 @@ export default function CardPage() {
   return (
     <Box sx={{ maxWidth: 960, mx: 'auto' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <IconButton onClick={() => navigate('/')} size="small" sx={{ color: TEXT_SOFT, '&:hover': { color: TEXT_WHITE } }}>
-          <ArrowBackIcon />
-        </IconButton>
         <Box sx={{ flexGrow: 1 }} />
         <Button
           onClick={() => setShowStats((p) => !p)}

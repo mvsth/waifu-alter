@@ -9,6 +9,9 @@ import { searchUsers } from '../api';
 import { ACCENT, BG_DARK, BG_SURFACE, BORDER, TEXT_MUTED, LIST_HOVER } from '../theme';
 
 function saveVisit(user) {
+  if (!user?.name && !user?.username) return;
+  const displayName = user.name || user.username;
+  if (displayName === '__SYSTEM__') return;
   const MAX = 12;
   let list = [];
   try { list = JSON.parse(localStorage.getItem('lastVisited')) || []; } catch {}
