@@ -106,23 +106,9 @@ export default function Profile() {
       <UserNavBar userId={userId} profile={displayedProfileForHeader} username={nick}
         onExpeditions={() => setExpOpen(true)} />
 
-      <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={3.5}>
-          <Box sx={{ p: 2.5, height: '100%' }}>
-            {profile.waifu && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-                <Box sx={{
-                  display: 'inline-flex', alignItems: 'center', gap: 0.8,
-                  py: 0.7, px: 1.5, borderRadius: '20px',
-                  bgcolor: NAV_OVERLAY, border: `3px solid ${userColor}44`,
-                }}>
-                  <FavoriteIcon sx={{ fontSize: 16, color: userColor }} />
-                  <Typography noWrap sx={{ color: '#e0d8f0', fontSize: '0.88rem', fontWeight: 600 }}>
-                    {profile.waifu.name}
-                  </Typography>
-                </Box>
-              </Box>
-            )}
+      <Grid container columnSpacing={3} rowSpacing={0} sx={{ mb: 3 }} alignItems="flex-start">
+        <Grid item xs={12} md={3.5} sx={{ pt: '12px' }}>
+          <Box sx={{ px: 2.5, pb: 2.5, height: '100%' }}>
             <Typography variant="subtitle2" sx={{ color: userColor, mb: 1.5, fontWeight: 700, textAlign: 'center', fontSize: '0.9rem', letterSpacing: '0.08em' }}>
               ZASADY WYMIANY
             </Typography>
@@ -144,14 +130,31 @@ export default function Profile() {
           </Box>
         </Grid>
 
-        <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', pt: '3%', pb: '2%' }}>
+        <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', pt: '12px' }}>
           {profile.waifu ? (
-            <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
+            <Box sx={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.8, mb: 1.2 }}>
+                <FavoriteIcon sx={{ fontSize: 18, color: userColor }} />
+                <Typography
+                  noWrap
+                  component={profile.waifu.characterUrl ? 'a' : 'span'}
+                  href={profile.waifu.characterUrl || undefined}
+                  target={profile.waifu.characterUrl ? '_blank' : undefined}
+                  rel={profile.waifu.characterUrl ? 'noopener noreferrer' : undefined}
+                  sx={{
+                    color: userColor, fontSize: '1.01rem', fontWeight: 600,
+                    textDecoration: 'none', cursor: profile.waifu.characterUrl ? 'pointer' : 'default',
+                    '&:hover': { color: profile.waifu.characterUrl ? '#fff' : userColor },
+                  }}
+                >
+                  {profile.waifu.name}
+                </Typography>
+              </Box>
               <Box
                 component="img"
                 src={profile.waifu.profileImageUrl || profile.waifu.imageUrl}
                 alt={profile.waifu.name}
-                sx={{ maxWidth: '100%', width: 342, borderRadius: 2, display: 'block', mx: 'auto' }}
+                sx={{ maxWidth: '100%', width: 330, borderRadius: '8px', display: 'block' }}
               />
             </Box>
           ) : (
@@ -161,8 +164,8 @@ export default function Profile() {
           )}
         </Grid>
 
-        <Grid item xs={12} md={3.5}>
-          <Box sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Grid item xs={12} md={3.5} sx={{ pt: '16px' }}>
+          <Box sx={{ px: 2.5, pb: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ display: 'flex', gap: 0.7, mb: 1.2 }}>
               <Box sx={{ flex: 1, bgcolor: STAT_BOX_1, borderRadius: 1, py: 0.9, textAlign: 'center' }}>
                 <Typography sx={{ color: TEXT_DIM, fontSize: '0.72rem', display: 'block', lineHeight: 1.2 }}>Posiadane</Typography>
@@ -322,7 +325,7 @@ export default function Profile() {
       </Grid>
 
       {profile.gallery?.length > 0 && (
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 12 }}>
           <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3, mt: 1 }}>
             <Box sx={{ flex: 1, height: 2, background: `linear-gradient(90deg, transparent, ${userColor}44)` }} />
             <Typography sx={{
