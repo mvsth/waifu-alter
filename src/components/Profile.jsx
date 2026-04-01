@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Box, Typography, Grid, Tooltip, CircularProgress, Divider,
 } from '@mui/material';
@@ -60,7 +60,6 @@ const MD_COMPONENTS = (userColor) => ({
 
 export default function Profile() {
   const { userId } = useParams();
-  const location = useLocation();
   const [profile, setProfile] = useState(null);
   const [nick, setNick] = useState(null);
   const [error, setError] = useState(false);
@@ -80,32 +79,9 @@ export default function Profile() {
 
   useEffect(() => { getUsername(userId).then(setNick).catch(() => {}); }, [userId]);
 
-  // FORCETUSK I LOVE POLAND
-  // FORCETUSK I LOVE POLAND
-  const DEV_FORCE = { image: '/forcetusk.png', name: 'Donald Tusk' };
-
-  // FORCETUSK I LOVE POLAND
-  const searchParams = new URLSearchParams(location.search);
-  const paramForceImage = searchParams.get('forceImage');
-  const paramForceName = searchParams.get('forceName');
-
-  // FORCETUSK I LOVE POLAND
-  const shouldForce = String(userId) === '151796';
-  const forceImage = shouldForce ? (DEV_FORCE.image || paramForceImage || null) : null;
-  const forceName = shouldForce ? (DEV_FORCE.name || paramForceName || null) : null;
-
   const userColor = profile?.foregroundColor || ACCENT;
 
-  // FORCETUSK I LOVE POLAND
-  const displayedProfileForHeader = profile ? {
-    ...profile,
-    waifu: profile.waifu && (forceImage || forceName) ? {
-      ...profile.waifu,
-      profileImageUrl: forceImage || profile.waifu.profileImageUrl,
-      imageUrl: forceImage || profile.waifu.imageUrl,
-      name: forceName || profile.waifu.name,
-    } : profile.waifu,
-  } : profile;
+  const displayedProfileForHeader = profile;
 
   if (error) {
     return (
