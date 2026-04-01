@@ -146,25 +146,14 @@ export default function Profile() {
 
         <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', pt: '3%', pb: '2%' }}>
           {profile.waifu ? (
-            (() => {
-              const displayedWaifu = (forceImage || forceName) ? {
-                ...profile.waifu,
-                profileImageUrl: forceImage || profile.waifu.profileImageUrl,
-                imageUrl: forceImage || profile.waifu.imageUrl,
-                name: forceName || profile.waifu.name,
-              } : profile.waifu;
-
-              return (
-                <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
-                  <Box
-                    component="img"
-                    src={displayedWaifu.profileImageUrl || displayedWaifu.imageUrl}
-                    alt={displayedWaifu.name}
-                    sx={{ maxWidth: '100%', width: 342, borderRadius: 2, display: 'block', mx: 'auto' }}
-                  />
-                </Box>
-              );
-            })()
+            <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
+              <Box
+                component="img"
+                src={profile.waifu.profileImageUrl || profile.waifu.imageUrl}
+                alt={profile.waifu.name}
+                sx={{ maxWidth: '100%', width: 342, borderRadius: 2, display: 'block', mx: 'auto' }}
+              />
+            </Box>
           ) : (
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 6 }}>
               <Typography sx={{ color: TEXT_FAINT }}>Brak waifu</Typography>
