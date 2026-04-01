@@ -6,10 +6,12 @@ import {
 } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useNavigate } from 'react-router-dom';
 import { getActivity } from '../api';
-import { ACCENT, ACCENT_LIGHT, BG_SURFACE, BG_DARK, BORDER } from '../theme';
+import { ACCENT, ACCENT_LIGHT, BG_SURFACE, BG_DARK, BORDER, TEXT_BRIGHT, TEXT_PRIMARY, TEXT_FAINT, TEXT_WHITE, DIVIDER, HOVER_BG } from '../theme';
 
 const EXTERNAL_LINKS = [
   { label: 'waifu.sanakan.pl', url: 'https://waifu.sanakan.pl' },
@@ -76,6 +78,19 @@ export default function Home() {
     localStorage.setItem('lastVisited', JSON.stringify(merged));
   };
 
+  const movePinned = (user, dir) => {
+    const pinned = lastVisited.filter((u) => u.pinned);
+    const unpinned = lastVisited.filter((u) => !u.pinned);
+    const idx = pinned.findIndex((u) => u.id === user.id);
+    if (idx < 0) return;
+    const newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= pinned.length) return;
+    [pinned[idx], pinned[newIdx]] = [pinned[newIdx], pinned[idx]];
+    const merged = [...pinned, ...unpinned];
+    setLastVisited(merged);
+    localStorage.setItem('lastVisited', JSON.stringify(merged));
+  };
+
   const handleActivityClick = (item) => {
     if (item.type === 'addedToWishlistCharacter') {
       window.open(`https://shinden.pl/character/${item.targetId}`, '_blank', 'noopener');
@@ -101,10 +116,10 @@ export default function Home() {
             endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
             sx={{
               bgcolor: BG_SURFACE, border: `1px solid ${BORDER}`,
-              color: '#bbb', borderRadius: 2, px: 1.5, py: 0.6,
+              color: TEXT_BRIGHT, borderRadius: 2, px: 1.5, py: 0.6,
               fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.02em',
               textTransform: 'none',
-              '&:hover': { bgcolor: '#2a2a2a', color: ACCENT_LIGHT, borderColor: ACCENT_LIGHT },
+              '&:hover': { bgcolor: HOVER_BG, color: ACCENT_LIGHT, borderColor: ACCENT_LIGHT },
             }}
           >
             {label}
@@ -151,12 +166,31 @@ export default function Home() {
         >
           Karty Ultimate
         </Button>
+        <Button
+          size="small"
+          component="a"
+          href="/user/1/profile"
+          onClick={(e) => {
+            if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+              e.preventDefault();
+              navigate('/user/1/profile');
+            }
+          }}
+          sx={{
+            bgcolor: `${ACCENT}22`, border: `1px solid ${ACCENT}`,
+            color: ACCENT, borderRadius: 2, px: 2, py: 0.6,
+            fontSize: '0.82rem', fontWeight: 700, textTransform: 'none',
+            '&:hover': { bgcolor: `${ACCENT}44` },
+          }}
+        >
+          Sanakan
+        </Button>
       </Box>
 
       <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', justifyContent: 'center' }}>
 
         <Box sx={panelSx}>
-          <Typography variant="h5" sx={{ color: '#fff', fontWeight: 700, mb: 2 }}>
+            <Typography variant="h5" sx={{ color: TEXT_WHITE, fontWeight: 700, mb: 2 }}>
             Ostatnio odwiedzane
           </Typography>
           {lastVisited.length === 0 ? (
@@ -176,7 +210,7 @@ export default function Home() {
                       navigate(`/user/${user.id}/profile`);
                     }
                   }}
-                  sx={{ borderRadius: 1, '&:hover': { bgcolor: '#333' } }}
+                  sx={{ borderRadius: 1, '&:hover': { bgcolor: HOVER_BG } }}
                 >
                   <ListItemAvatar sx={{ minWidth: AVATAR_SIZE + 10 }}>
                     <Avatar
@@ -186,17 +220,39 @@ export default function Home() {
                   </ListItemAvatar>
                   <ListItemText
                     primary={user.name || `User ${user.id}`}
-                    sx={{ '& .MuiListItemText-primary': { color: '#e0e0e0' } }}
+                    sx={{ '& .MuiListItemText-primary': { color: TEXT_PRIMARY } }}
                   />
                   <Tooltip title={user.pinned ? 'Odepnij' : 'Przypnij'} arrow>
                     <IconButton
                       edge="end" size="small"
-                      onClick={(e) => { e.stopPropagation(); togglePin(user); }}
-                      sx={{ color: user.pinned ? ACCENT : '#555' }}
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); togglePin(user); }}
+                      sx={{ color: user.pinned ? ACCENT : TEXT_FAINT }}
                     >
                       {user.pinned ? <BookmarkIcon /> : <BookmarkBorderIcon />}
                     </IconButton>
                   </Tooltip>
+                  {user.pinned && (
+                    <>
+                      <Tooltip title="W górę" arrow>
+                        <IconButton
+                          size="small"
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); movePinned(user, -1); }}
+                          sx={{ color: TEXT_FAINT, ml: 0.3, '&:hover': { color: ACCENT } }}
+                        >
+                          <ArrowUpwardIcon sx={{ fontSize: 18 }} />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="W dół" arrow>
+                        <IconButton
+                          size="small"
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); movePinned(user, 1); }}
+                          sx={{ color: TEXT_FAINT, '&:hover': { color: ACCENT } }}
+                        >
+                          <ArrowDownwardIcon sx={{ fontSize: 18 }} />
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                  )}
                 </ListItemButton>
               ))}
             </List>
@@ -204,7 +260,7 @@ export default function Home() {
         </Box>
 
         <Box sx={panelSx}>
-          <Typography variant="h5" sx={{ color: '#fff', fontWeight: 700, mb: 2 }}>
+            <Typography variant="h5" sx={{ color: TEXT_WHITE, fontWeight: 700, mb: 2 }}>
             Aktywność
           </Typography>
           {actError ? (
@@ -236,7 +292,7 @@ export default function Home() {
                         handleActivityClick(item);
                       }
                     }}
-                    sx={{ borderRadius: 1, '&:hover': { bgcolor: '#333' }, px: 1 }}
+                    sx={{ borderRadius: 1, '&:hover': { bgcolor: HOVER_BG }, px: 1 }}
                   >
                     <ListItemAvatar sx={{ minWidth: AVATAR_SIZE + 10 }}>
                       <Avatar
@@ -251,14 +307,14 @@ export default function Home() {
                         </Typography>
                       }
                       secondary={
-                        <Typography variant="caption" sx={{ color: '#bbb' }}>
+                        <Typography variant="caption" sx={{ color: TEXT_BRIGHT }}>
                           {item.subText}
                         </Typography>
                       }
                     />
 
                   </ListItemButton>
-                  {idx < activity.length - 1 && <Divider sx={{ borderColor: '#2a2a2a' }} />}
+                  {idx < activity.length - 1 && <Divider sx={{ borderColor: DIVIDER }} />}
                 </React.Fragment>
                 );
               })}

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  Box, Typography, Pagination, CircularProgress, Alert, Link, Tooltip, Fab,
+  Box, Typography, Pagination, CircularProgress, Alert, Link, Tooltip, Fab, Snackbar,
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { getUserCards, getUserProfile, getUsername } from '../api';
-import { ACCENT, BG_DARK, BG_CARD } from '../theme';
+import { ACCENT, BG_DARK, BG_CARD, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
 import UserNavBar from './UserNavBar';
 import ExpeditionsDialog from './ExpeditionsDialog';
 import FilterBar from './FilterBar';
@@ -18,9 +19,11 @@ const getPageSize = () => {
     const raw = localStorage.getItem('cardsPageSize');
     if (raw === 'all') return 99999;
     const v = parseInt(raw);
-    return (v >= 200 && v <= 5000) ? v : 200;
+    return (v >= 100 && v <= 4000) ? v : 200;
   } catch { return 200; }
 };
+
+const getHideStats = () => localStorage.getItem('hideCardStats') === 'true';
 
 const DEFAULT_FILTER = {
   orderBy: 'id', includeTags: [], excludeTags: [],
@@ -50,6 +53,8 @@ export default function UserCards() {
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [filter, setFilter] = useState(() => getSavedFilter(userId) || DEFAULT_FILTER);
+  const [snack, setSnack] = useState(false);
+  const hideStats = getHideStats();
 
   useEffect(() => {
     setPage(1); setCards([]); setProfile(null); setError(null); setUsername(null);
@@ -97,6 +102,13 @@ export default function UserCards() {
     });
   };
 
+  const copyWids = () => {
+    if (selectedIds.size > 0) {
+      navigator.clipboard.writeText([...selectedIds].join(' '));
+      setSnack(true);
+    }
+  };
+
   const handleFilter = (newFilter) => {
     setFilter(newFilter);
     setPage(1);
@@ -120,6 +132,17 @@ export default function UserCards() {
         persistKey={userId}
       />
 
+      {totalPages > 1 && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+          <Pagination
+            count={totalPages} page={page}
+            onChange={(_, v) => { setPage(v); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            color="primary"
+            sx={{ '& .MuiPaginationItem-root': { color: TEXT_BRIGHT } }}
+          />
+        </Box>
+      )}
+
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {loading && (
@@ -139,10 +162,12 @@ export default function UserCards() {
             {cards.map((card, idx) => (
               <Box key={card.id} sx={{
                 position: 'relative',
-                width: { xs: 'calc(50% - 6px)', sm: '170px', md: '176px', lg: '187px', xl: '198px' },
+                width: { xs: 'calc(50% - 6px)', sm: '179px', md: '185px', lg: '196px', xl: '208px' },
                 flexShrink: 0,
                 px: '4px',
                 overflow: 'visible',
+                transition: 'transform 0.15s ease',
+                ...(selectionMode && selectedIds.has(card.id) && { transform: 'scale(0.85)' }),
               }}>
               <LazyCard height={280}>
                 {card.whoWantsCount > 0 && (
@@ -151,11 +176,11 @@ export default function UserCards() {
                       position: 'absolute', top: -8, left: -8, zIndex: 5,
                       borderRadius: '50%', width: 30, height: 30,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      bgcolor: 'rgba(0,0,0,0.75)',
+                      bgcolor: OVERLAY_BG,
                       backdropFilter: 'blur(4px)',
                       WebkitBackdropFilter: 'blur(4px)',
                       border: `2px solid ${userColor}`,
-                      color: '#fff', fontWeight: 800, fontSize: 13,
+                      color: TEXT_WHITE, fontWeight: 800, fontSize: 13,
                     }}>
                       {card.whoWantsCount}
                     </Box>
@@ -181,7 +206,7 @@ export default function UserCards() {
                   >
                     <Box
                       component="img"
-                      src={card.imageUrl || ''}
+                      src={(hideStats ? (card.profileImageUrl || card.imageUrl) : card.imageUrl) || ''}
                       alt={card.name || ''}
                       loading="lazy"
                       sx={{
@@ -193,7 +218,7 @@ export default function UserCards() {
                     {selectionMode && (
                       <Box sx={{
                         position: 'absolute', inset: 0, borderRadius: 2,
-                        border: `2px solid ${selectedIds.has(card.id) ? userColor : 'rgba(255,255,255,0.12)'}`,
+                        border: `2px solid ${selectedIds.has(card.id) ? userColor : CARD_BORDER_UNSEL}`,
                         background: selectedIds.has(card.id) ? `${userColor}28` : 'transparent',
                         transition: 'all 0.15s', pointerEvents: 'none',
                       }} />
@@ -218,14 +243,14 @@ export default function UserCards() {
                     >
                       {card.name || '???'}
                     </Link>
-                    <Typography sx={{ color: '#aaa', fontSize: '0.74rem', fontWeight: 800 }}>
+                    <Typography sx={{ color: TEXT_SOFT, fontSize: '0.74rem', fontWeight: 800 }}>
                       {card.id}
                     </Typography>
                     <Box sx={{ my: 0.3, minHeight: 18 }}>
                       <CardIcons card={card} />
                     </Box>
                     <Typography variant="caption" sx={{
-                      color: '#666', fontSize: '0.7rem',
+                      color: TEXT_DIM, fontSize: '0.7rem',
                       wordBreak: 'break-word', lineHeight: 1.3,
                     }}>
                       {card.animeTitle || ''}
@@ -241,10 +266,10 @@ export default function UserCards() {
 
       {!loading && cards.length === 0 && !error && (
         <Box sx={{ textAlign: 'center', py: 8 }}>
-          <Typography sx={{ color: '#888', fontSize: '1.1rem' }}>
+          <Typography sx={{ color: TEXT_MUTED, fontSize: '1.1rem' }}>
             Brak kart do wyświetlenia.
           </Typography>
-          <Typography variant="body2" sx={{ color: '#555', mt: 1 }}>
+          <Typography variant="body2" sx={{ color: TEXT_FAINT, mt: 1 }}>
             Spróbuj zmienić filtry lub tagi.
           </Typography>
         </Box>
@@ -256,7 +281,7 @@ export default function UserCards() {
             count={totalPages} page={page}
             onChange={(_, v) => { setPage(v); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             color="primary"
-            sx={{ '& .MuiPaginationItem-root': { color: '#ccc' } }}
+            sx={{ '& .MuiPaginationItem-root': { color: TEXT_BRIGHT } }}
           />
         </Box>
       )}
@@ -292,6 +317,29 @@ export default function UserCards() {
           <KeyboardArrowUpIcon />
         </Fab>
       )}
+
+      {selectionMode && selectedIds.size > 0 && (
+        <Fab
+          onClick={copyWids}
+          size="small"
+          variant="extended"
+          sx={{
+            position: 'fixed', bottom: showScrollTop ? 72 : 24, right: 24, zIndex: 1200,
+            bgcolor: userColor, color: '#000',
+            '&:hover': { bgcolor: userColor, opacity: 0.85 },
+            fontWeight: 700, fontSize: '0.75rem', textTransform: 'none',
+            transition: 'bottom 0.2s ease',
+          }}
+        >
+          <ContentCopyIcon sx={{ mr: 0.5, fontSize: 18 }} />
+          Kopiuj ({selectedIds.size})
+        </Fab>
+      )}
+
+      <Snackbar open={snack} autoHideDuration={2500} onClose={() => setSnack(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert severity="success" onClose={() => setSnack(false)}>Skopiowano WID&apos;y kart.</Alert>
+      </Snackbar>
     </Box>
   );
 }

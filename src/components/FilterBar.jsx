@@ -15,7 +15,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { ACCENT, BG_DARK, BG_SURFACE, BG_CARD, BORDER } from '../theme';
+import { ACCENT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TEXT_BRIGHT, TEXT_MUTED, TEXT_DIM, TEXT_SOFT } from '../theme';
 
 const SORT_OPTIONS = [
   { label: 'Id', asc: 'id', desc: 'idDes' },
@@ -123,8 +123,8 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
     let searchStr = '';
 
     if (searchMode === 'wid') {
-      const num = parseInt(searchText.trim(), 10);
-      if (!isNaN(num)) cardIds = [String(num)];
+      cardIds = searchText.trim().split(/\s+/).map(s => parseInt(s, 10)).filter(n => !isNaN(n)).map(String);
+      cardIds = [...new Set(cardIds)];
     } else {
       const widRegex = /wid:\s*([0-9\s]+)/gi;
       const widMatch = searchText.match(widRegex);
@@ -232,7 +232,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
                   <MenuList autoFocusItem={openSort}>
                     {SORT_OPTIONS.map((opt, idx) => (
                       <MenuItem key={opt.label} onClick={() => handleSortClick(idx)}
-                        sx={{ fontSize: '0.9rem', color: sortIdx === idx ? color : '#c1c1c1', '&:hover': { bgcolor: `${color}15` } }}>
+                        sx={{ fontSize: '0.9rem', color: sortIdx === idx ? color : TEXT_BRIGHT, '&:hover': { bgcolor: `${color}15` } }}>
                         <Box sx={{ flexGrow: 1 }}>{opt.label}</Box>
                         {sortIdx === idx && (
                           sortDir === 'asc'
@@ -272,11 +272,11 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
                     <ClickAwayListener onClickAway={handleCloseTag}>
                       <MenuList>
                         <MenuItem sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}>
-                          <Typography variant="caption" sx={{ color: tagMethod === 0 ? color : '#888' }}>AND</Typography>
+                          <Typography variant="caption" sx={{ color: tagMethod === 0 ? color : TEXT_MUTED }}>AND</Typography>
                           <Switch size="small" checked={tagMethod === 1}
                             onChange={(e) => setTagMethod(e.target.checked ? 1 : 0)}
                             sx={{ mx: 1, '& .MuiSwitch-thumb': { bgcolor: color } }} />
-                          <Typography variant="caption" sx={{ color: tagMethod === 1 ? color : '#888' }}>OR</Typography>
+                          <Typography variant="caption" sx={{ color: tagMethod === 1 ? color : TEXT_MUTED }}>OR</Typography>
                         </MenuItem>
                         <MenuItem sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}
                           onClick={() => {
@@ -285,7 +285,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
                             if (persistKey) { try { localStorage.setItem(`tagAlphaSort_${persistKey}`, String(next)); } catch {} }
                           }}
                         >
-                          <Typography variant="caption" sx={{ color: tagAlphaSort ? color : '#888', fontWeight: tagAlphaSort ? 700 : 400 }}>
+                          <Typography variant="caption" sx={{ color: tagAlphaSort ? color : TEXT_MUTED, fontWeight: tagAlphaSort ? 700 : 400 }}>
                             A-Z {tagAlphaSort ? '✓' : ''}
                           </Typography>
                         </MenuItem>
@@ -297,13 +297,13 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
                             : 'include';
                           setTags((prev) => prev.map((t) => ({ ...t, state: next })));
                         }} sx={{ borderBottom: `1px solid ${BORDER}`, justifyContent: 'center' }}>
-                          <Typography variant="caption" sx={{ color: '#aaa' }}>Zaznacz wszystko</Typography>
+                          <Typography variant="caption" sx={{ color: TEXT_SOFT }}>Zaznacz wszystko</Typography>
                         </MenuItem>
                         {displayedTags.map((tag) => {
                           const emoji = getTagEmoji(tag.name);
                           return (
                             <MenuItem key={tag.id} onClick={() => handleTagClick(tag.id)}
-                              sx={{ fontSize: '0.9rem', color: '#c1c1c1', '&:hover': { bgcolor: `${color}15` } }}>
+                              sx={{ fontSize: '0.9rem', color: TEXT_BRIGHT, '&:hover': { bgcolor: `${color}15` } }}>
                               {emoji && <Typography component="span" sx={{ mr: 0.5 }}>{emoji}</Typography>}
                               <Box sx={{ flexGrow: 1 }}>{tag.name}</Box>
                               {tag.state === 'include' && <CheckIcon sx={{ fontSize: 16, color: '#4caf50' }} />}
@@ -330,11 +330,11 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: '#666', fontSize: 20 }} />
+                <SearchIcon sx={{ color: TEXT_DIM, fontSize: 20 }} />
               </InputAdornment>
             ),
             sx: {
-              bgcolor: BG_DARK, borderRadius: '16px', fontSize: '0.85rem', color: '#ddd',
+              bgcolor: BG_DARK, borderRadius: '16px', fontSize: '0.85rem', color: TEXT_BRIGHT,
               '& fieldset': { borderColor: BORDER, borderRadius: '16px' },
               '&:hover fieldset': { borderColor: `${color}66` },
               '&.Mui-focused fieldset': { borderColor: color },
@@ -354,7 +354,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
                 textTransform: 'none', fontWeight: 600, fontSize: '0.78rem',
                 borderRadius: 0, px: 1.5, py: 0.5, minWidth: 'auto',
                 bgcolor: searchMode === mode.value ? `${color}33` : 'transparent',
-                color: searchMode === mode.value ? color : '#666',
+                color: searchMode === mode.value ? color : TEXT_DIM,
                 '&:hover': { bgcolor: `${color}22`, color },
               }}
             >
@@ -373,7 +373,7 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
         </Button>
 
         <Tooltip title="Wyczyść filtry" arrow>
-          <IconButton onClick={handleClear} size="small" sx={{ color: '#888', '&:hover': { color: '#ccc' } }}>
+          <IconButton onClick={handleClear} size="small" sx={{ color: TEXT_MUTED, '&:hover': { color: TEXT_BRIGHT } }}>
             <DeleteOutlineIcon fontSize="small" />
           </IconButton>
         </Tooltip>
@@ -400,8 +400,8 @@ export default function FilterBar({ userColor, tagList, onApply, cards, selectio
 
         <Tooltip title={selectedIds?.size > 0 ? `Kopiuj ${selectedIds.size} WID-y` : "Kopiuj WID'y kart"} arrow>
           <IconButton onClick={copyWids} size="small" sx={{
-            color: selectedIds?.size > 0 ? color : '#888',
-            '&:hover': { color: '#ccc' },
+            color: selectedIds?.size > 0 ? color : TEXT_MUTED,
+            '&:hover': { color: TEXT_BRIGHT },
           }}>
             <ContentCopyIcon fontSize="small" />
           </IconButton>

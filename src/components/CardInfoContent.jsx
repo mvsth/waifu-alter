@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ACCENT } from '../theme';
+import { ACCENT, TEXT_FAINT, TEXT_DIM, TEXT_MUTED, TEXT_PRIMARY, TEXT_SOFT, TEXT_WHITE, DIVIDER, BG_SURFACE, BORDER } from '../theme';
 
 
 /* ── tag indicators (user-set tags from bot) ─────────────────── */
@@ -36,12 +36,12 @@ function Section({ label }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 2.2, mb: 0.6 }}>
       <Typography sx={{
-        fontSize: 'clamp(0.7rem, 0.65rem + 0.1vw, 0.78rem)', color: '#555', fontWeight: 700,
+        fontSize: 'clamp(0.7rem, 0.65rem + 0.1vw, 0.78rem)', color: TEXT_FAINT, fontWeight: 700,
         letterSpacing: '0.15em', textTransform: 'uppercase', whiteSpace: 'nowrap',
       }}>
         {label}
       </Typography>
-      <Box sx={{ flex: 1, height: '1px', bgcolor: '#2a2a2a' }} />
+      <Box sx={{ flex: 1, height: '1px', bgcolor: DIVIDER }} />
     </Box>
   );
 }
@@ -49,14 +49,14 @@ function Section({ label }) {
 function Stat({ label, value, hint, valueColor, isLast }) {
   if (value == null) return null;
   return (
-    <Box sx={{ borderBottom: isLast ? 'none' : '1px solid #1f1f1f', py: 0.25, display: 'flex', alignItems: 'baseline', gap: 0.1 }}>
-      <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6, color: '#888', flexShrink: 0, minWidth: '13ch' }}>
+    <Box sx={{ borderBottom: isLast ? 'none' : `1px solid ${DIVIDER}`, py: 0.25, display: 'flex', alignItems: 'baseline', gap: 0.1 }}>
+      <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6, color: TEXT_MUTED, flexShrink: 0, minWidth: '13ch' }}>
         {label}
       </Typography>
-      <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6, color: valueColor || '#e0e0e0', fontWeight: 700 }}>
+      <Typography sx={{ fontSize: 'clamp(0.92rem, 0.88rem + 0.15vw, 1.05rem)', lineHeight: 1.6, color: valueColor || TEXT_PRIMARY, fontWeight: 700 }}>
         {value}
         {hint && (
-          <span style={{ fontSize: '0.78em', color: '#555', fontWeight: 500, marginLeft: 6 }}>{hint}</span>
+          <span style={{ fontSize: '0.78em', color: TEXT_FAINT, fontWeight: 500, marginLeft: 6 }}>{hint}</span>
         )}
       </Typography>
     </Box>
@@ -87,19 +87,19 @@ export default function CardInfoContent({ card, showOwner }) {
           card.name || '???'
         )}
       </Typography>
-      <Typography sx={{ fontSize: 'clamp(0.85rem, 0.82rem + 0.1vw, 0.95rem)', color: '#666', mt: 0.3 }}>
-        <span style={{ color: '#555' }}>WID</span>{' '}
-        <span style={{ color: '#888', fontWeight: 600 }}>{card.id}</span>
+      <Typography sx={{ fontSize: 'clamp(0.85rem, 0.82rem + 0.1vw, 0.95rem)', color: TEXT_DIM, mt: 0.3 }}>
+        <span style={{ color: TEXT_FAINT }}>WID</span>{' '}
+        <span style={{ color: TEXT_MUTED, fontWeight: 600 }}>{card.id}</span>
         {card.animeTitle && (
           <>
-            <span style={{ margin: '0 6px', color: '#333' }}>·</span>
-            <span style={{ color: '#ffffff' }}>{card.animeTitle}</span>
+            <span style={{ margin: '0 6px', color: BORDER }}>·</span>
+            <span style={{ color: TEXT_WHITE }}>{card.animeTitle}</span>
           </>
         )}
       </Typography>
       {(card.username && card.username !== '????') && (
-        <Typography sx={{ fontSize: 'clamp(0.85rem, 0.82rem + 0.1vw, 0.95rem)', color: '#666', mt: 0.15 }}>
-          <span style={{ color: '#555' }}>Należy do</span>{' '}
+        <Typography sx={{ fontSize: 'clamp(0.85rem, 0.82rem + 0.1vw, 0.95rem)', color: TEXT_DIM, mt: 0.15 }}>
+          <span style={{ color: TEXT_FAINT }}>Należy do</span>{' '}
           {card.shindenId ? (
             <a
               href={`/user/${card.shindenId}`}
@@ -115,7 +115,7 @@ export default function CardInfoContent({ card, showOwner }) {
               {card.username}
             </a>
           ) : (
-            <span style={{ color: '#e0e0e0', fontWeight: 600 }}>{card.username}</span>
+            <span style={{ color: TEXT_PRIMARY, fontWeight: 600 }}>{card.username}</span>
           )}
         </Typography>
       )}
@@ -167,13 +167,13 @@ export function CardStatusPills({ card }) {
       {activeStatus.map((ind, i) => (
         <Box key={i} sx={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
-          bgcolor: '#1a1a20', border: '1px solid #2a2a30',
+          bgcolor: BG_SURFACE, border: `1px solid ${DIVIDER}`,
           borderRadius: 1.5, px: 1.55, pt: 0.5, pb: '7px', minWidth: 53,
         }}>
           <Typography sx={{ fontSize: '0.47rem', color: '#80808099', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             STATUS
           </Typography>
-          <Typography sx={{ fontSize: '0.86rem', color: '#aaa', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
+          <Typography sx={{ fontSize: '0.86rem', color: TEXT_SOFT, fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
             {ind.icon} {ind.label}
           </Typography>
         </Box>
@@ -192,13 +192,13 @@ export function CardTagPills({ card }) {
       {activeTags.map((ind, i) => (
         <Box key={i} sx={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
-          bgcolor: '#1a1a2a', border: '1px solid #2a2a3a',
+          bgcolor: BG_SURFACE, border: `1px solid ${DIVIDER}`,
           borderRadius: 1.5, px: 1.55, pt: 0.5, pb: '7px', minWidth: 53,
         }}>
           <Typography sx={{ fontSize: '0.47rem', color: '#7272e488', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             TAG
           </Typography>
-          <Typography sx={{ fontSize: '0.86rem', color: '#999', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
+          <Typography sx={{ fontSize: '0.86rem', color: TEXT_MUTED, fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
             {ind.icon} {ind.label}
           </Typography>
         </Box>
@@ -206,13 +206,13 @@ export function CardTagPills({ card }) {
       {extraTags.map((tag) => (
         <Box key={tag} sx={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
-          bgcolor: '#1a1a2a', border: '1px solid #2a2a3a',
+          bgcolor: BG_SURFACE, border: `1px solid ${DIVIDER}`,
           borderRadius: 1.5, px: 1.55, pt: 0.5, pb: '7px', minWidth: 53,
         }}>
           <Typography sx={{ fontSize: '0.47rem', color: '#7272e488', fontWeight: 700, letterSpacing: '0.1em', lineHeight: 1, mb: 0.25 }}>
             TAG
           </Typography>
-          <Typography sx={{ fontSize: '0.86rem', color: '#999', fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
+          <Typography sx={{ fontSize: '0.86rem', color: TEXT_MUTED, fontWeight: 700, lineHeight: 1, whiteSpace: 'nowrap' }}>
             {tag}
           </Typography>
         </Box>

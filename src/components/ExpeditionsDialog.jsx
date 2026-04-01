@@ -5,7 +5,7 @@ import {
   TableSortLabel, Snackbar, Alert,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { ACCENT, BG_SURFACE, BORDER } from '../theme';
+import { ACCENT, BG_SURFACE, BORDER, TEXT_WHITE, TEXT_DIM, TEXT_SOFT, TEXT_MUTED, DIVIDER } from '../theme';
 import CardDetail from './CardDetail';
 
 function timeDiff(startTime, maxTime, color) {
@@ -62,19 +62,19 @@ export default function ExpeditionsDialog({ open, onClose, expeditions, userColo
         slotProps={{ backdrop: { sx: { backdropFilter: 'blur(6px)', backgroundColor: 'rgba(0,0,0,0.8)' } } }}
         PaperProps={{ sx: { bgcolor: BG_SURFACE, backgroundImage: 'none', borderRadius: 2, border: `1px solid ${BORDER}`, boxShadow: '0 12px 32px rgba(0,0,0,0.5)' } }}>
         <DialogTitle sx={{ display: 'flex', alignItems: 'center', py: 1.2, px: 2, borderBottom: `1px solid ${BORDER}` }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#fff', flexGrow: 1 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: TEXT_WHITE, flexGrow: 1 }}>
             Wyprawy{' '}
-            <Typography component="span" sx={{ color: '#666', fontWeight: 500, fontSize: '0.82rem' }}>
+            <Typography component="span" sx={{ color: TEXT_DIM, fontWeight: 500, fontSize: '0.82rem' }}>
               {sorted.length}/10
             </Typography>
           </Typography>
-          <IconButton onClick={onClose} size="small" sx={{ color: '#666', '&:hover': { color: '#aaa' } }}>
+          <IconButton onClick={onClose} size="small" sx={{ color: TEXT_DIM, '&:hover': { color: TEXT_SOFT } }}>
             <CloseIcon fontSize="small" />
           </IconButton>
         </DialogTitle>
         <DialogContent sx={{ p: { xs: 1, sm: 1.5 } }}>
           {sorted.length === 0 ? (
-            <Typography sx={{ color: '#888', textAlign: 'center', py: 4 }}>
+            <Typography sx={{ color: TEXT_MUTED, textAlign: 'center', py: 4 }}>
               Brak aktywnych wypraw.
             </Typography>
           ) : (
@@ -90,7 +90,7 @@ export default function ExpeditionsDialog({ open, onClose, expeditions, userColo
                       { id: 'endTime', label: 'Koniec' },
                     ].map((col) => (
                       <TableCell key={col.id} align="center"
-                        sx={{ color: '#aaa', borderBottom: `1px solid ${BORDER}`, fontWeight: 600, py: 0.8, fontSize: '0.8rem' }}>
+                        sx={{ color: TEXT_SOFT, borderBottom: `1px solid ${BORDER}`, fontWeight: 600, py: 0.8, fontSize: '0.8rem' }}>
                         <TableSortLabel
                           active={orderBy === col.id}
                           direction={orderBy === col.id ? order : 'asc'}
@@ -109,23 +109,23 @@ export default function ExpeditionsDialog({ open, onClose, expeditions, userColo
                       '&:hover': { bgcolor: 'rgba(255,255,255,0.03)' },
                     }}>
                       <TableCell align="center"
-                        sx={{ color: '#888', cursor: 'copy', borderBottom: `1px solid #2a2a2a`, py: 0.8, fontSize: '0.82rem' }}
+                        sx={{ color: TEXT_MUTED, cursor: 'copy', borderBottom: `1px solid ${DIVIDER}`, py: 0.8, fontSize: '0.82rem' }}
                         onClick={() => copyCmd(exp.card.id)}>
                         {exp.card.id}
                       </TableCell>
-                      <TableCell align="center" sx={{ borderBottom: `1px solid #2a2a2a`, py: 0.8 }}>
+                      <TableCell align="center" sx={{ borderBottom: `1px solid ${DIVIDER}`, py: 0.8 }}>
                         <Typography component="span" onClick={() => setCardIdx(idx)}
                           sx={{ color, cursor: 'pointer', fontSize: '0.82rem', fontWeight: 500, '&:hover': { opacity: 0.8 } }}>
                           {exp.card.name}
                         </Typography>
                       </TableCell>
-                      <TableCell align="center" sx={{ color: '#999', borderBottom: `1px solid #2a2a2a`, py: 0.8, fontSize: '0.82rem' }}>
+                      <TableCell align="center" sx={{ color: TEXT_MUTED, borderBottom: `1px solid ${DIVIDER}`, py: 0.8, fontSize: '0.82rem' }}>
                         {exp.expedition}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: '#999', borderBottom: `1px solid #2a2a2a`, py: 0.8, fontSize: '0.82rem' }}>
+                      <TableCell align="center" sx={{ color: TEXT_MUTED, borderBottom: `1px solid ${DIVIDER}`, py: 0.8, fontSize: '0.82rem' }}>
                         {timeDiff(exp.startTime, exp.maxTime, color)}
                       </TableCell>
-                      <TableCell align="center" sx={{ color: '#999', borderBottom: `1px solid #2a2a2a`, py: 0.8, fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
+                      <TableCell align="center" sx={{ color: TEXT_MUTED, borderBottom: `1px solid ${DIVIDER}`, py: 0.8, fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
                         {expeditionEnd(exp.startTime, exp.maxTime)}
                       </TableCell>
                     </TableRow>

@@ -2,15 +2,19 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box, Typography, Pagination, CircularProgress, Alert, Link, Tooltip,
   TextField, InputAdornment, Button, MenuItem, MenuList,
-  Popper, Grow, Paper, ClickAwayListener, IconButton,
+  Popper, Grow, Paper, ClickAwayListener, IconButton, Fab, Snackbar,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { getTotalCards } from '../api';
-import { ACCENT, BG_DARK, BG_SURFACE, BG_CARD, BORDER } from '../theme';
+import { ACCENT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
 import CardDetail from './CardDetail';
 import CardIcons from './CardIcons';
 import LazyCard from './LazyCard';
@@ -20,9 +24,11 @@ const getPageSize = () => {
     const raw = localStorage.getItem('cardsPageSize');
     if (raw === 'all') return 99999;
     const v = parseInt(raw);
-    return (v >= 200 && v <= 5000) ? v : 200;
+    return (v >= 100 && v <= 4000) ? v : 200;
   } catch { return 200; }
 };
+
+const getHideStats = () => localStorage.getItem('hideCardStats') === 'true';
 
 const SORT_OPTIONS = [
   { label: 'Id', asc: 'id', desc: 'idDes' },
@@ -52,7 +58,12 @@ export default function GlobalSearchPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedIdx, setSelectedIdx] = useState(null);
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState(new Set());
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [snack, setSnack] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const hideStats = getHideStats();
   const [appliedSearch, setAppliedSearch] = useState('');
   const [searchMode, setSearchMode] = useState('text'); // 'text' | 'charId'
   const [appliedMode, setAppliedMode] = useState('text');
@@ -158,7 +169,30 @@ export default function GlobalSearchPage() {
     setSortDir('desc');
     try { localStorage.removeItem('globalSearchState'); } catch {}
   };
+  useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
+  useEffect(() => {
+    if (!selectionMode) setSelectedIds(new Set());
+  }, [selectionMode]);
+
+  const toggleSelect = (id) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const copyWids = () => {
+    if (selectedIds.size > 0) {
+      navigator.clipboard.writeText([...selectedIds].join(' '));
+      setSnack(true);
+    }
+  };
   const activeSort = sortIdx >= 0 ? SORT_OPTIONS[sortIdx] : null;
 
   return (
@@ -194,7 +228,7 @@ export default function GlobalSearchPage() {
                   <MenuList autoFocusItem={openSort}>
                     {SORT_OPTIONS.map((opt, idx) => (
                       <MenuItem key={opt.label} onClick={() => handleSortClick(idx)}
-                        sx={{ fontSize: '0.9rem', color: sortIdx === idx ? COLOR : '#c1c1c1', '&:hover': { bgcolor: `${COLOR}15` } }}>
+                        sx={{ fontSize: '0.9rem', color: sortIdx === idx ? COLOR : TEXT_BRIGHT, '&:hover': { bgcolor: `${COLOR}15` } }}>
                         <Box sx={{ flexGrow: 1 }}>{opt.label}</Box>
                         {sortIdx === idx && (
                           sortDir === 'asc'
@@ -220,11 +254,11 @@ export default function GlobalSearchPage() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: '#666', fontSize: 20 }} />
+                <SearchIcon sx={{ color: TEXT_DIM, fontSize: 20 }} />
               </InputAdornment>
             ),
             sx: {
-              bgcolor: BG_DARK, borderRadius: '16px', fontSize: '0.85rem', color: '#ddd',
+              bgcolor: BG_DARK, borderRadius: '16px', fontSize: '0.85rem', color: TEXT_BRIGHT,
               '& fieldset': { borderColor: BORDER, borderRadius: '16px' },
               '&:hover fieldset': { borderColor: `${COLOR}66` },
               '&.Mui-focused fieldset': { borderColor: COLOR },
@@ -244,7 +278,7 @@ export default function GlobalSearchPage() {
                 textTransform: 'none', fontWeight: 600, fontSize: '0.78rem',
                 borderRadius: 0, px: 1.5, py: 0.5, minWidth: 'auto',
                 bgcolor: searchMode === mode.value ? `${COLOR}33` : 'transparent',
-                color: searchMode === mode.value ? COLOR : '#666',
+                color: searchMode === mode.value ? COLOR : TEXT_DIM,
                 '&:hover': { bgcolor: `${COLOR}22`, color: COLOR },
               }}
             >
@@ -264,24 +298,53 @@ export default function GlobalSearchPage() {
         </Button>
 
         <Tooltip title="Wyczyść" arrow>
-          <IconButton onClick={handleClear} size="small" sx={{ color: '#888', '&:hover': { color: '#ccc' } }}>
+          <IconButton onClick={handleClear} size="small" sx={{ color: TEXT_MUTED, '&:hover': { color: TEXT_BRIGHT } }}>
             <DeleteOutlineIcon fontSize="small" />
           </IconButton>
+        </Tooltip>
+
+        <Tooltip title={selectionMode ? 'Wyłącz zaznaczanie' : 'Zaznacz karty do skopiowania'} arrow>
+          <Button
+            startIcon={selectionMode ? <CheckBoxIcon sx={{ fontSize: 18 }} /> : <CheckBoxOutlineBlankIcon sx={{ fontSize: 18 }} />}
+            onClick={() => setSelectionMode((p) => !p)}
+            size="small"
+            sx={{
+              textTransform: 'none', fontWeight: 600, borderRadius: '16px',
+              bgcolor: selectionMode ? `${COLOR}33` : `${COLOR}22`,
+              color: COLOR, fontSize: '0.82rem',
+              border: `1px solid ${selectionMode ? `${COLOR}66` : 'transparent'}`,
+              minWidth: 90,
+              '&:hover': { bgcolor: `${COLOR}44` },
+            }}
+          >
+            Zaznacz{selectionMode && selectedIds.size > 0 ? ` (${selectedIds.size})` : ''}
+          </Button>
         </Tooltip>
       </Box>
 
       {activeSort && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
-          <Typography sx={{ fontSize: '0.78rem', color: '#777' }}>
+          <Typography sx={{ fontSize: '0.78rem', color: TEXT_DIM }}>
             Sortowanie: {activeSort.label} {sortDir === 'asc' ? '↑' : '↓'}
           </Typography>
         </Box>
       )}
 
       {totalCards > 0 && (
-        <Typography sx={{ textAlign: 'center', color: '#666', fontSize: '0.82rem', mb: 1 }}>
+        <Typography sx={{ textAlign: 'center', color: TEXT_DIM, fontSize: '0.82rem', mb: 1 }}>
           Znaleziono: {totalCards} kart
         </Typography>
+      )}
+
+      {totalPages > 1 && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+          <Pagination
+            count={totalPages} page={page}
+            onChange={(_, v) => { setPage(v); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            color="primary"
+            sx={{ '& .MuiPaginationItem-root': { color: TEXT_BRIGHT } }}
+          />
+        </Box>
       )}
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
@@ -294,7 +357,7 @@ export default function GlobalSearchPage() {
 
       {!loading && !appliedSearch && (
         <Box sx={{ textAlign: 'center', py: 8 }}>
-          <Typography sx={{ color: '#888', fontSize: '1.1rem' }}>
+          <Typography sx={{ color: TEXT_MUTED, fontSize: '1.1rem' }}>
             Wpisz nazwę postaci lub tytuł anime, aby wyszukać karty, albo przełącz tryb na <strong>ID postaci</strong>.
           </Typography>
         </Box>
@@ -311,10 +374,12 @@ export default function GlobalSearchPage() {
             {cards.map((card, idx) => (
               <Box key={card.id} sx={{
                 position: 'relative',
-                width: { xs: 'calc(50% - 6px)', sm: '170px', md: '176px', lg: '187px', xl: '198px' },
+                width: { xs: 'calc(50% - 6px)', sm: '179px', md: '185px', lg: '196px', xl: '208px' },
                 flexShrink: 0,
                 px: '4px',
                 overflow: 'visible',
+                transition: 'transform 0.15s ease',
+                ...(selectionMode && selectedIds.has(card.id) && { transform: 'scale(0.85)' }),
               }}>
               <LazyCard height={280}>
                 {card.whoWantsCount > 0 && (
@@ -323,11 +388,11 @@ export default function GlobalSearchPage() {
                       position: 'absolute', top: -8, left: -8, zIndex: 5,
                       borderRadius: '50%', width: 30, height: 30,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      bgcolor: 'rgba(0,0,0,0.75)',
+                      bgcolor: OVERLAY_BG,
                       backdropFilter: 'blur(4px)',
                       WebkitBackdropFilter: 'blur(4px)',
                       border: `2px solid ${COLOR}`,
-                      color: '#fff', fontWeight: 800, fontSize: 13,
+                      color: TEXT_WHITE, fontWeight: 800, fontSize: 13,
                     }}>
                       {card.whoWantsCount}
                     </Box>
@@ -346,18 +411,27 @@ export default function GlobalSearchPage() {
                     onClick={(e) => {
                       if (e.ctrlKey || e.metaKey || e.shiftKey) return;
                       e.preventDefault();
-                      setSelectedIdx(idx);
+                      if (selectionMode) toggleSelect(card.id);
+                      else setSelectedIdx(idx);
                     }}
-                    sx={{ cursor: 'pointer', display: 'block' }}
+                    sx={{ cursor: 'pointer', position: 'relative', display: 'block' }}
                   >
                     <Box
                       component="img"
-                      src={card.imageUrl || ''}
+                      src={(hideStats ? (card.profileImageUrl || card.imageUrl) : card.imageUrl) || ''}
                       alt={card.name || ''}
                       loading="lazy"
                       sx={{ width: '100%', display: 'block', height: 'auto' }}
                       onError={(e) => { e.target.style.opacity = '0'; }}
                     />
+                    {selectionMode && (
+                      <Box sx={{
+                        position: 'absolute', inset: 0, borderRadius: 2,
+                        border: `2px solid ${selectedIds.has(card.id) ? COLOR : CARD_BORDER_UNSEL}`,
+                        background: selectedIds.has(card.id) ? `${COLOR}28` : 'transparent',
+                        transition: 'all 0.15s', pointerEvents: 'none',
+                      }} />
+                    )}
                   </Box>
 
                   <Box sx={{
@@ -378,14 +452,14 @@ export default function GlobalSearchPage() {
                     >
                       {card.name || '???'}
                     </Link>
-                    <Typography sx={{ color: '#aaa', fontSize: '0.74rem', fontWeight: 800 }}>
+                    <Typography sx={{ color: TEXT_SOFT, fontSize: '0.74rem', fontWeight: 800 }}>
                       {card.id}
                     </Typography>
                     <Box sx={{ my: 0.3, minHeight: 18 }}>
                       <CardIcons card={card} />
                     </Box>
                     <Typography variant="caption" sx={{
-                      color: '#666', fontSize: '0.7rem',
+                      color: TEXT_DIM, fontSize: '0.7rem',
                       wordBreak: 'break-word', lineHeight: 1.3,
                     }}>
                       {card.animeTitle || ''}
@@ -401,10 +475,10 @@ export default function GlobalSearchPage() {
 
       {!loading && appliedSearch && cards.length === 0 && !error && (
         <Box sx={{ textAlign: 'center', py: 8 }}>
-          <Typography sx={{ color: '#888', fontSize: '1.1rem' }}>
+          <Typography sx={{ color: TEXT_MUTED, fontSize: '1.1rem' }}>
             Brak kart do wyświetlenia.
           </Typography>
-          <Typography variant="body2" sx={{ color: '#555', mt: 1 }}>
+          <Typography variant="body2" sx={{ color: TEXT_FAINT, mt: 1 }}>
             Spróbuj inną frazę.
           </Typography>
         </Box>
@@ -416,7 +490,7 @@ export default function GlobalSearchPage() {
             count={totalPages} page={page}
             onChange={(_, v) => { setPage(v); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             color="primary"
-            sx={{ '& .MuiPaginationItem-root': { color: '#ccc' } }}
+            sx={{ '& .MuiPaginationItem-root': { color: TEXT_BRIGHT } }}
           />
         </Box>
       )}
@@ -431,6 +505,43 @@ export default function GlobalSearchPage() {
           showOwner
         />
       )}
+
+      {showScrollTop && (
+        <Fab
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          size="small"
+          sx={{
+            position: 'fixed', bottom: 24, right: 24, zIndex: 1200,
+            bgcolor: COLOR, color: '#000',
+            '&:hover': { bgcolor: COLOR, opacity: 0.85 },
+          }}
+        >
+          <KeyboardArrowUpIcon />
+        </Fab>
+      )}
+
+      {selectionMode && selectedIds.size > 0 && (
+        <Fab
+          onClick={copyWids}
+          size="small"
+          variant="extended"
+          sx={{
+            position: 'fixed', bottom: showScrollTop ? 72 : 24, right: 24, zIndex: 1200,
+            bgcolor: COLOR, color: '#000',
+            '&:hover': { bgcolor: COLOR, opacity: 0.85 },
+            fontWeight: 700, fontSize: '0.75rem', textTransform: 'none',
+            transition: 'bottom 0.2s ease',
+          }}
+        >
+          <ContentCopyIcon sx={{ mr: 0.5, fontSize: 18 }} />
+          Kopiuj ({selectedIds.size})
+        </Fab>
+      )}
+
+      <Snackbar open={snack} autoHideDuration={2500} onClose={() => setSnack(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert severity="success" onClose={() => setSnack(false)}>Skopiowano WID&apos;y kart.</Alert>
+      </Snackbar>
     </Box>
   );
 }

@@ -5,7 +5,8 @@ import {
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import { getUserProfile, getUsername } from '../api';
-import { ACCENT, ACCENT_LIGHT, BG_DARK, BG_SURFACE, BG_CARD, BORDER } from '../theme';
+import { ACCENT, ACCENT_LIGHT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TEXT_BRIGHT, TEXT_PRIMARY, TEXT_FAINT, TEXT_WHITE, TEXT_MUTED, TEXT_DIM, STAT_BOX_1, STAT_BOX_2, STAT_BOX_3, PANEL_DARK, PANEL_BORDER } from '../theme';
+import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 import UserNavBar from './UserNavBar';
 import ExpeditionsDialog from './ExpeditionsDialog';
 import CardDetail from './CardDetail';
@@ -45,8 +46,8 @@ const MD_COMPONENTS = (userColor) => ({
   ul: ({ children }) => <ul style={{ textAlign: 'left', paddingLeft: 18, margin: '3px 0' }}>{children}</ul>,
   ol: ({ children }) => <ol style={{ textAlign: 'left', paddingLeft: 18, margin: '3px 0' }}>{children}</ol>,
   li: ({ children }) => <li style={{ margin: '1px 0' }}>{children}</li>,
-  strong: ({ children }) => <strong style={{ color: '#fff' }}>{children}</strong>,
-  em: ({ children }) => <em style={{ color: '#ddd' }}>{children}</em>,
+  strong: ({ children }) => <strong style={{ color: TEXT_WHITE }}>{children}</strong>,
+  em: ({ children }) => <em style={{ color: TEXT_BRIGHT }}>{children}</em>,
   img: ({ src, alt }) => (
     <img src={src} alt={alt}
       style={{ maxWidth: '100%', borderRadius: 4, margin: '4px auto', display: 'block' }} />
@@ -132,12 +133,26 @@ export default function Profile() {
       <Grid container spacing={3} sx={{ mb: 3 }}>
         <Grid item xs={12} md={3.5}>
           <Box sx={{ p: 2.5, height: '100%' }}>
+            {profile.waifu && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <Box sx={{
+                  display: 'inline-flex', alignItems: 'center', gap: 0.8,
+                  py: 0.7, px: 1.5, borderRadius: '20px',
+                  bgcolor: '#141416', border: `1.5px solid ${userColor}44`,
+                }}>
+                  <FavoriteIcon sx={{ fontSize: 16, color: userColor }} />
+                  <Typography noWrap sx={{ color: '#e0d8f0', fontSize: '0.88rem', fontWeight: 600 }}>
+                    {profile.waifu.name}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
             <Typography variant="subtitle2" sx={{ color: userColor, mb: 1.5, fontWeight: 700, textAlign: 'center', fontSize: '0.9rem', letterSpacing: '0.08em' }}>
               ZASADY WYMIANY
             </Typography>
             {profile.exchangeConditions ? (
               <Box sx={{
-                color: '#c1c1c1', fontSize: '1rem',
+                color: TEXT_BRIGHT, fontSize: '1rem',
                 textAlign: 'center',
                 '& ul, & ol': { textAlign: 'left' },
               }}>
@@ -146,7 +161,7 @@ export default function Profile() {
                 </ReactMarkdown>
               </Box>
             ) : (
-              <Typography variant="body2" sx={{ color: '#555', fontStyle: 'italic' }}>
+              <Typography variant="body2" sx={{ color: TEXT_FAINT, fontStyle: 'italic' }}>
                 Brak zasad wymiany
               </Typography>
             )}
@@ -176,7 +191,7 @@ export default function Profile() {
             })()
           ) : (
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 6 }}>
-              <Typography sx={{ color: '#555' }}>Brak waifu</Typography>
+              <Typography sx={{ color: TEXT_FAINT }}>Brak waifu</Typography>
             </Box>
           )}
         </Grid>
@@ -184,15 +199,15 @@ export default function Profile() {
         <Grid item xs={12} md={3.5}>
           <Box sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ display: 'flex', gap: 0.7, mb: 1.2 }}>
-              <Box sx={{ flex: 1, bgcolor: '#1e1e22', borderRadius: 1, py: 0.9, textAlign: 'center' }}>
-                <Typography sx={{ color: '#777', fontSize: '0.72rem', display: 'block', lineHeight: 1.2 }}>Posiadane</Typography>
-                <Typography sx={{ color: '#e0e0e0', fontWeight: 800, fontSize: '1.4rem', lineHeight: 1.1 }}>
+              <Box sx={{ flex: 1, bgcolor: STAT_BOX_1, borderRadius: 1, py: 0.9, textAlign: 'center' }}>
+                <Typography sx={{ color: TEXT_DIM, fontSize: '0.72rem', display: 'block', lineHeight: 1.2 }}>Posiadane</Typography>
+                <Typography sx={{ color: TEXT_PRIMARY, fontWeight: 800, fontSize: '1.4rem', lineHeight: 1.1 }}>
                   {cc.total || 0}
                 </Typography>
               </Box>
-              <Box sx={{ flex: 1, bgcolor: '#19191d', borderRadius: 1, py: 0.9, textAlign: 'center' }}>
-                <Typography sx={{ color: '#555', fontSize: '0.72rem', display: 'block', lineHeight: 1.2 }}>Limit</Typography>
-                <Typography sx={{ color: '#4a4a4a', fontWeight: 800, fontSize: '1.4rem', lineHeight: 1.1 }}>
+              <Box sx={{ flex: 1, bgcolor: STAT_BOX_2, borderRadius: 1, py: 0.9, textAlign: 'center' }}>
+                <Typography sx={{ color: TEXT_FAINT, fontSize: '0.72rem', display: 'block', lineHeight: 1.2 }}>Limit</Typography>
+                <Typography sx={{ color: TEXT_DIM, fontWeight: 800, fontSize: '1.4rem', lineHeight: 1.1 }}>
                   {cc.max || 0}
                 </Typography>
               </Box>
@@ -230,8 +245,8 @@ export default function Profile() {
             {cc.ultimate > 0 && (
               <>
                 <Box sx={{
-                  bgcolor: '#0e0e12',
-                  border: '1px solid #3a3a3a',
+                  bgcolor: PANEL_DARK,
+                  border: `1px solid ${PANEL_BORDER}`,
                   borderRadius: 1.5,
                   p: 1.2,
                   mb: 1.2,
@@ -243,7 +258,7 @@ export default function Profile() {
                     textAlign: 'center',
                     mb: 0.9,
                   }}>
-                    <Typography sx={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.35em', color: '#fff' }}>
+                    <Typography sx={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.35em', color: TEXT_WHITE }}>
                       U L T I M A T E
                     </Typography>
                   </Box>
@@ -300,7 +315,7 @@ export default function Profile() {
                     }}>
                       <Typography sx={{ fontWeight: 900, fontSize: '0.78rem', color: '#000', lineHeight: 1 }}>{r}</Typography>
                     </Box>
-                    <Typography sx={{ fontWeight: 800, fontSize: '1.05rem', lineHeight: 1, color: '#e0e0e0' }}>
+                    <Typography sx={{ fontWeight: 800, fontSize: '1.05rem', lineHeight: 1, color: TEXT_PRIMARY }}>
                       {cc[r] || 0}
                     </Typography>
                   </Box>
@@ -312,24 +327,24 @@ export default function Profile() {
               <Box sx={{ pt: 0.8, borderTop: `3px solid ${BORDER}` }}>
                 <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0.5 }}>
 
-                  <Box sx={{ bgcolor: '#1a1a1e', borderRadius: 1, px: 0.5, py: 0.65, textAlign: 'center' }}>
+                  <Box sx={{ bgcolor: STAT_BOX_3, borderRadius: 1, px: 0.5, py: 0.65, textAlign: 'center' }}>
                     <Typography sx={{ color: userColor, fontWeight: 800, fontSize: '0.7rem', lineHeight: 1.2, letterSpacing: '0.03em' }}>Karma</Typography>
-                    <Typography sx={{ color: '#ccc', fontWeight: 600, fontSize: '0.9rem', lineHeight: 1.2 }}>
+                    <Typography sx={{ color: TEXT_BRIGHT, fontWeight: 600, fontSize: '0.9rem', lineHeight: 1.2 }}>
                       {(profile.karma ?? 0).toLocaleString('pl-PL', { maximumFractionDigits: 0 })}
                     </Typography>
                   </Box>
                   {['TC', 'AC'].map((k) => (
-                    <Box key={k} sx={{ bgcolor: '#1a1a1e', borderRadius: 1, px: 0.5, py: 0.65, textAlign: 'center' }}>
+                    <Box key={k} sx={{ bgcolor: STAT_BOX_3, borderRadius: 1, px: 0.5, py: 0.65, textAlign: 'center' }}>
                       <Typography sx={{ color: userColor, fontWeight: 800, fontSize: '0.7rem', lineHeight: 1.2, letterSpacing: '0.03em' }}>{k}</Typography>
-                      <Typography sx={{ color: '#ccc', fontWeight: 600, fontSize: '0.9rem', lineHeight: 1.2 }}>
+                      <Typography sx={{ color: TEXT_BRIGHT, fontWeight: 600, fontSize: '0.9rem', lineHeight: 1.2 }}>
                         {(profile.wallet[k] ?? 0).toLocaleString('pl-PL')}
                       </Typography>
                     </Box>
                   ))}
                   {['CT', 'PC', 'SC'].map((k) => (
-                    <Box key={k} sx={{ bgcolor: '#1a1a1e', borderRadius: 1, px: 0.5, py: 0.65, textAlign: 'center', mt: 0.6 }}>
+                    <Box key={k} sx={{ bgcolor: STAT_BOX_3, borderRadius: 1, px: 0.5, py: 0.65, textAlign: 'center', mt: 0.6 }}>
                       <Typography sx={{ color: userColor, fontWeight: 800, fontSize: '0.7rem', lineHeight: 1.2, letterSpacing: '0.03em' }}>{k}</Typography>
-                      <Typography sx={{ color: '#ccc', fontWeight: 600, fontSize: '0.9rem', lineHeight: 1.2 }}>
+                      <Typography sx={{ color: TEXT_BRIGHT, fontWeight: 600, fontSize: '0.9rem', lineHeight: 1.2 }}>
                         {(profile.wallet[k] ?? 0).toLocaleString('pl-PL')}
                       </Typography>
                     </Box>

@@ -8,7 +8,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { getCardDetail } from '../api';
-import { ACCENT, BG_CARD, BORDER } from '../theme';
+import { ACCENT, BG_CARD, BORDER, TEXT_SOFT, TEXT_WHITE } from '../theme';
 import CardInfoContent, { CardStatusPills, CardTagPills } from './CardInfoContent';
 import CardBadges from './CardBadges';
 
@@ -18,7 +18,7 @@ export default function CardPage() {
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [showStats, setShowStats] = useState(true);
+  const [showStats, setShowStats] = useState(() => localStorage.getItem('hideCardStats') !== 'true');
 
   useEffect(() => {
     setLoading(true);
@@ -38,7 +38,7 @@ export default function CardPage() {
   return (
     <Box sx={{ maxWidth: 960, mx: 'auto' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <IconButton onClick={() => navigate('/')} size="small" sx={{ color: '#aaa', '&:hover': { color: '#fff' } }}>
+        <IconButton onClick={() => navigate('/')} size="small" sx={{ color: TEXT_SOFT, '&:hover': { color: TEXT_WHITE } }}>
           <ArrowBackIcon />
         </IconButton>
         <Box sx={{ flexGrow: 1 }} />
@@ -49,7 +49,7 @@ export default function CardPage() {
           variant="outlined"
           sx={{
             borderColor: BORDER,
-            color: '#aaa',
+            color: TEXT_SOFT,
             textTransform: 'none', fontSize: '0.8rem',
             '&:hover': { borderColor: ACCENT, color: ACCENT },
           }}
@@ -63,7 +63,7 @@ export default function CardPage() {
           variant="outlined"
           sx={{
             borderColor: copied ? '#4caf50' : BORDER,
-            color: copied ? '#81c784' : '#aaa',
+            color: copied ? '#81c784' : TEXT_SOFT,
             textTransform: 'none', fontSize: '0.8rem',
             '&:hover': { borderColor: ACCENT, color: ACCENT },
           }}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { BG_SURFACE, BORDER, TEXT_MUTED, TEXT_BRIGHT } from '../theme';
 
 const SSS_GRADIENT = 'linear-gradient(135deg, #ffb3cc 0%, #d4aaff 25%, #a8d8ff 50%, #aaffd8 75%, #fff0a8 100%)';
 const ULTIMATE_GRADIENT = 'linear-gradient(135deg, #c850c0 0%, #8b5cf6 50%, #f59e0b 100%)';
@@ -26,16 +27,16 @@ function Badge({ label, value, bg, color, border }) {
   return (
     <Box sx={{
       display: 'flex', flexDirection: 'column', alignItems: 'center',
-      background: bg || '#1f1f2e', border: `1px solid ${border || '#333'}`,
+      background: bg || BG_SURFACE, border: `1px solid ${border || BORDER}`,
       borderRadius: 1.5, px: 1.55, py: 0.5, minWidth: 53,
     }}>
       <Typography sx={{
-        fontSize: '0.55rem', color: `${color || '#888'}88`,
+        fontSize: '0.55rem', color: `${color || TEXT_MUTED}88`,
         lineHeight: 1, mb: 0.25, fontWeight: 700, letterSpacing: '0.1em',
       }}>
         {label}
       </Typography>
-      <Typography sx={{ fontSize: '1.01rem', color: color || '#ccc', fontWeight: 700, lineHeight: 1 }}>
+      <Typography sx={{ fontSize: '1.01rem', color: color || TEXT_BRIGHT, fontWeight: 700, lineHeight: 1 }}>
         {value}
       </Typography>
     </Box>
@@ -69,10 +70,10 @@ export default function CardBadges({ card, sx: sxOverride }) {
         />
       )}
       {card.dere && (
-        <Badge label="DERE" value={card.dere.charAt(0).toUpperCase() + card.dere.slice(1).toLowerCase()} bg="#1a1a2a" border="#7b4fc433" color="#b08adf" />
+        <Badge label="DERE" value={card.dere.charAt(0).toUpperCase() + card.dere.slice(1).toLowerCase()} bg={BG_SURFACE} border="#7b4fc433" color="#b08adf" />
       )}
       {card.affection && (
-        <Badge label="RELACJA" value={card.affection} bg="#1e1520" border="#ff6b6b22" color="#d4918a" />
+        <Badge label="RELACJA" value={card.affection} bg={BG_SURFACE} border="#ff6b6b22" color="#d4918a" />
       )}
     </Box>
   );

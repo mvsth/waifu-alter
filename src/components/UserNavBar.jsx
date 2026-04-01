@@ -6,7 +6,7 @@ import StyleIcon from '@mui/icons-material/Style';
 import ExploreIcon from '@mui/icons-material/Explore';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 import bgDefault from './g4g44gg.png';
-import { ACCENT, BG_DARK, BG_SURFACE, BORDER } from '../theme';
+import { ACCENT, BG_DARK, BG_SURFACE, BORDER, TEXT_WHITE, NAV_OVERLAY, NAV_BORDER } from '../theme';
 
 export default function UserNavBar({ userId, profile, username, onExpeditions }) {
   const navigate = useNavigate();
@@ -36,7 +36,16 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
   ];
 
   return (
-    <Box sx={{ mb: 3, borderRadius: '12px', overflow: 'hidden', position: 'relative', isolation: 'isolate' }}>
+    <Box sx={{
+      mb: 3,
+      borderRadius: 0,
+      overflow: 'hidden',
+      position: 'relative',
+      isolation: 'isolate',
+      mx: { xs: -1, sm: -2, md: -3 },
+      mt: '-64px',
+      pt: '64px',
+    }}>
       <Box sx={{
         position: 'absolute', inset: 0,
         backgroundImage: bgImg ? `url(${bgImg})` : `url(${bgDefault})`,
@@ -57,23 +66,23 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
         background: 'linear-gradient(transparent, rgba(0,0,0,0.5))',
         pointerEvents: 'none',
       }} />
-      <Box sx={{ height: 195, position: 'relative' }} />
+      <Box sx={{ height: 225, position: 'relative' }} />
 
       <Box sx={{
         position: 'relative', zIndex: 2,
-        bgcolor: 'rgba(8,8,8,0.65)',
+        bgcolor: NAV_OVERLAY,
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
-        borderRadius: '0 0 12px 12px',
-        px: { xs: 1.5, sm: 2.5 }, py: 1.5,
+        borderTop: `1px solid ${NAV_BORDER}`,
+        borderRadius: 0,
+        px: { xs: 1.5, sm: 2.5 }, py: 1.0,
         display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 }, flexWrap: 'wrap',
       }}>
         <Avatar
           src={userId == 1 ? 'https://sanakan.pl/sanakan.jpg'
             : `https://cdn.shinden.eu/cdn1/avatars/225x350/${userId}.jpg`}
           sx={{
-            width: 110, height: 110, mt: { xs: 0, sm: -5.5 },
+            width: 120, height: 120, mt: { xs: 0, sm: -9.5 },
             border: `4px solid ${userColor}`, bgcolor: BG_DARK,
             boxShadow: `0 4px 16px ${userColor}33`,
           }}
@@ -88,12 +97,6 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
           {profile?.userTitle && (
             <Typography variant="body2" noWrap sx={{ color: userColor, opacity: 0.85, display: 'block', fontSize: '0.98rem' }}>
               {profile.userTitle}
-            </Typography>
-          )}
-          {profile?.waifu && (
-            <Typography noWrap sx={{ color: '#c8b8e8', display: 'flex', alignItems: 'center', gap: 0.5, fontSize: '0.88rem', mt: 0.4, fontWeight: 500 }}>
-              <FavoriteIcon sx={{ fontSize: 14, color: '#e088bb' }} />
-              {profile.waifu.name}
             </Typography>
           )}
         </Box>
@@ -125,7 +128,7 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
                   textTransform: 'none', fontWeight: 600, fontSize: '0.93rem',
                   bgcolor: isActive ? userColor : 'transparent',
                   color: isActive ? '#000' : '#d0d0d0',
-                  borderColor: isActive ? userColor : 'rgba(255,255,255,0.2)',
+                  borderColor: isActive ? userColor : NAV_BORDER,
                   borderWidth: '2px',
                   minWidth: 'auto',
                   '&:hover': {

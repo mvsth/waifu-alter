@@ -45,6 +45,7 @@ export function getUserProfile(userId) {
 }
 
 export function getUsername(shindenId) {
+  if (String(shindenId) === '1') return Promise.resolve('Sanakan');
   return cachedGet(`${API}/user/shinden/${shindenId}/username`, cache.TTL.USERNAME, true);
 }
 

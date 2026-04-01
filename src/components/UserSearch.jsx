@@ -6,7 +6,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import { searchUsers } from '../api';
-import { ACCENT, BG_DARK, BG_SURFACE, BORDER } from '../theme';
+import { ACCENT, BG_DARK, BG_SURFACE, BORDER, TEXT_MUTED, LIST_HOVER } from '../theme';
 
 function saveVisit(user) {
   const MAX = 12;
@@ -78,7 +78,7 @@ export default function UserSearch({ width = 300 }) {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon fontSize="small" sx={{ color: '#888' }} />
+                <SearchIcon fontSize="small" sx={{ color: TEXT_MUTED }} />
               </InputAdornment>
             ),
           }}
@@ -118,7 +118,7 @@ export default function UserSearch({ width = 300 }) {
                       setQuery('');
                     }
                   }}
-                  sx={{ '&:hover': { bgcolor: '#353535' } }}
+                  sx={{ '&:hover': { bgcolor: LIST_HOVER } }}
                 >
                   {user.avatarUrl && (
                     <ListItemAvatar sx={{ minWidth: 40 }}>
@@ -137,7 +137,7 @@ export default function UserSearch({ width = 300 }) {
         {loading && (
           <Typography
             variant="caption"
-            sx={{ position: 'absolute', top: '100%', left: 8, mt: 0.5, color: '#888' }}
+            sx={{ position: 'absolute', top: '100%', left: 8, mt: 0.5, color: TEXT_MUTED }}
           >
             Szukam...
           </Typography>

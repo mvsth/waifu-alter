@@ -11,7 +11,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LinkIcon from '@mui/icons-material/Link';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { ACCENT, BG_SURFACE, BORDER } from '../theme';
+import { ACCENT, BG_SURFACE, BORDER, TEXT_SOFT, TEXT_WHITE, TEXT_BRIGHT, TEXT_DIM } from '../theme';
 import CardInfoContent, { CardStatusPills, CardTagPills } from './CardInfoContent';
 import CardBadges from './CardBadges';
 
@@ -19,7 +19,7 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
   const [card, setCard] = useState(initialCard || null);
   const [loading, setLoading] = useState(!initialCard);
   const [snackMsg, setSnackMsg] = useState('');
-  const [showStats, setShowStats] = useState(true);
+  const [showStats, setShowStats] = useState(() => localStorage.getItem('hideCardStats') !== 'true');
 
   useEffect(() => {
     if (!cardId) return;
@@ -147,7 +147,7 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
       <DialogActions sx={sx.actions}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <Tooltip title={showStats ? 'Ukryj statystyki' : 'Pokaż statystyki'} arrow>
-            <IconButton onClick={() => setShowStats((p) => !p)} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+            <IconButton onClick={() => setShowStats((p) => !p)} size="small" sx={{ color: TEXT_SOFT, '&:hover': { color: ACCENT } }}>
               {showStats ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
             </IconButton>
           </Tooltip>
@@ -169,16 +169,16 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
         <Box sx={{ flex: 1 }} />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Tooltip title="Kopiuj WID" arrow>
-            <IconButton onClick={copyWid} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+            <IconButton onClick={copyWid} size="small" sx={{ color: TEXT_SOFT, '&:hover': { color: ACCENT } }}>
               <ContentCopyIcon fontSize="small" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Kopiuj link do karty" arrow>
-            <IconButton onClick={copyLink} size="small" sx={{ color: '#aaa', '&:hover': { color: ACCENT } }}>
+            <IconButton onClick={copyLink} size="small" sx={{ color: TEXT_SOFT, '&:hover': { color: ACCENT } }}>
               <LinkIcon fontSize="small" />
             </IconButton>
           </Tooltip>
-          <IconButton onClick={onClose} size="small" sx={{ color: '#aaa', '&:hover': { color: '#fff' } }}>
+          <IconButton onClick={onClose} size="small" sx={{ color: TEXT_SOFT, '&:hover': { color: TEXT_WHITE } }}>
             <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
@@ -194,7 +194,7 @@ export default function CardDetail({ cardId, initialCard, onClose, showOwner = f
 
 const sx = {
   content: {
-    bgcolor: BG_SURFACE, color: '#c1c1c1', overflowX: 'hidden', overflowY: 'auto',
+    bgcolor: BG_SURFACE, color: TEXT_BRIGHT, overflowX: 'hidden', overflowY: 'auto',
     p: { xs: 1.2, sm: 2, md: 2.5 },
   },
   details: {
@@ -208,8 +208,8 @@ const sx = {
     justifyContent: 'space-between', gap: 1, py: 1, px: 2.5,
   },
   navBtn: {
-    color: '#fff', minWidth: 48,
-    '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
-    '&.Mui-disabled': { color: '#444' },
+    color: TEXT_WHITE, minWidth: 48,
+    '&:hover': { bgcolor: 'rgba(128,128,128,0.1)' },
+    '&.Mui-disabled': { color: TEXT_DIM },
   },
 };
