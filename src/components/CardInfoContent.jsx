@@ -150,7 +150,7 @@ export default function CardInfoContent({ card, showOwner }) {
       />
       <Stat
         label="Skalpel"
-        value={card.scalpelAt && new Date(card.scalpelAt).getFullYear() > 2000
+        value={card.hasCustomImage && card.scalpelAt && new Date(card.scalpelAt).getFullYear() > 2000
           ? new Date(card.scalpelAt).toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' })
           : null}
       />
