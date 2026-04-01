@@ -216,7 +216,7 @@ export default function RankingPage() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch('/ranking.json')
+    fetch(`/ranking.json?t=${Date.now()}`, { cache: 'no-store' })
       .then((r) => r.json())
       .then(setData)
       .catch(() => setError(true))
