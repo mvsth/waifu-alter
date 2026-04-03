@@ -41,9 +41,14 @@ export default function ExpeditionsDialog({ open, onClose, expeditions, userColo
     const asc = orderBy === prop && order === 'asc';
     setOrder(asc ? 'desc' : 'asc');
     setOrderBy(prop);
+    const getValue = (exp) => {
+      if (prop === 'name' || prop === 'id') return exp.card[prop];
+      if (prop === 'endTime') return new Date(exp.startTime).getTime() + exp.maxTime * 60 * 1000;
+      return exp[prop];
+    };
     const s = [...(expeditions || [])].sort((a, b) => {
-      const va = prop === 'name' || prop === 'id' ? a.card[prop] : a[prop];
-      const vb = prop === 'name' || prop === 'id' ? b.card[prop] : b[prop];
+      const va = getValue(a);
+      const vb = getValue(b);
       return asc ? (va < vb ? 1 : -1) : (va > vb ? 1 : -1);
     });
     setSorted(s);

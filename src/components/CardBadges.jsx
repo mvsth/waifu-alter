@@ -9,7 +9,6 @@ const RARITY_BG = {
   sss: SSS_GRADIENT, ss: '#ff658e', s: '#ffe149', a: '#f49244',
   b: '#a556d8', c: '#0069ab', d: '#3e7315', e: '#848484',
 };
-const RARITY_DARK_TEXT = new Set(['sss', 'ss', 's', 'a']);
 
 const QUALITY_NAME = {
   broken: 'Broken', alpha: 'Alpha', beta: 'Beta', gamma: 'Gamma',
@@ -33,10 +32,11 @@ function Badge({ label, value, bg, color, border }) {
       <Typography sx={{
         fontSize: '0.55rem', color: `${color || TEXT_MUTED}88`,
         lineHeight: 1, mb: 0.25, fontWeight: 700, letterSpacing: '0.1em',
+        textShadow: '0 1px 4px rgba(0,0,0,0.85), 0 0 8px rgba(0,0,0,0.6)',
       }}>
         {label}
       </Typography>
-      <Typography sx={{ fontSize: '1.01rem', color: color || TEXT_BRIGHT, fontWeight: 700, lineHeight: 1 }}>
+      <Typography sx={{ fontSize: '1.01rem', color: color || TEXT_BRIGHT, fontWeight: 700, lineHeight: 1, textShadow: '0 1px 4px rgba(0,0,0,0.85), 0 0 8px rgba(0,0,0,0.6)' }}>
         {value}
       </Typography>
     </Box>
@@ -65,8 +65,7 @@ export default function CardBadges({ card, sx: sxOverride }) {
           label="RANGA"
           value={(card.rarity || '?').toUpperCase()}
           bg={RARITY_BG[rarityKey] || '#555'}
-          border={RARITY_DARK_TEXT.has(rarityKey) ? '#1a1a1a' : undefined}
-          color={RARITY_DARK_TEXT.has(rarityKey) ? '#1a1a1a' : '#fff'}
+          color="#fff"
         />
       )}
       {card.dere && (

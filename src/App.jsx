@@ -9,6 +9,7 @@ import CardPage from './components/CardPage';
 import GlobalCardsPage from './components/GlobalCardsPage';
 import GlobalSearchPage from './components/GlobalSearchPage';
 import RankingPage from './components/RankingPage';
+import Workshop from './components/Workshop';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/cards/search" element={<GlobalSearchPage />} />
         <Route path="/user/:userId/profile" element={<Profile />} />
         <Route path="/user/:userId/cards" element={<UserCards />} />
+        <Route path="/user/:userId/workshop" element={<Workshop />} />
         <Route path="/user/:userId/wishlist" element={<Wishlist />} />
         <Route path="/user/:userId" element={<Profile />} />
         <Route path="/card/:cardId" element={<CardPage />} />

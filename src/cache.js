@@ -5,8 +5,8 @@ export const TTL = {
   SEARCH:      2 * 60 * 1000,        // 2 min  — wyniki wyszukiwania
   PROFILE:    10 * 60 * 1000,        // 10 min — profil użytkownika
   USERNAME:   10 * 60 * 60 * 1000,   // 10 h   — nick
-  CARDS:       1 * 60 * 1000,        // 1 min  — lista kart (paginacja)
-  CARD_DETAIL: 1 * 60 * 1000,        // 1 min  — szczegóły karty
+  CARDS:      10 * 1000,              // 10 s   — lista kart (paginacja)
+  CARD_DETAIL:10 * 1000,              // 10 s   — szczegóły karty
   ACTIVITY:   10 * 60 * 1000,        // 10 min — aktywność
   WISHLIST:    3 * 60 * 1000,        // 3 min  — lista życzeń
 };

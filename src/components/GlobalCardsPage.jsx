@@ -177,14 +177,15 @@ export default function GlobalCardsPage({ type }) {
                 {card.whoWantsCount > 0 && (
                   <Tooltip title="Liczba KC" arrow>
                     <Box sx={{
-                      position: 'absolute', top: -8, left: -8, zIndex: 5,
+                      position: 'absolute', top: 2, left: 7, zIndex: 5,
                       borderRadius: '50%', width: 30, height: 30,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      bgcolor: OVERLAY_BG,
-                      backdropFilter: 'blur(4px)',
-                      WebkitBackdropFilter: 'blur(4px)',
-                      border: `2px solid ${cfg.color}`,
-                      color: TEXT_WHITE, fontWeight: 800, fontSize: 13,
+                      bgcolor: cfg.color,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.6)',
+                      color: '#fff',
+                      fontWeight: 800,
+                      fontSize: card.whoWantsCount >= 10 ? 12 : 15,
+                      textShadow: '0 1px 4px rgba(0,0,0,0.85), 0 0 8px rgba(0,0,0,0.6)',
                     }}>
                       {card.whoWantsCount}
                     </Box>

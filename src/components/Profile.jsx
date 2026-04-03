@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  Box, Typography, Grid, Tooltip, CircularProgress, Divider,
+  Box, Typography, Grid, Tooltip, CircularProgress, Divider, Fab,
 } from '@mui/material';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ReactMarkdown from 'react-markdown';
 import { getUserProfile, getUsername } from '../api';
+import { setDiagnostic, clearDiagnostic } from '../profileDiagnostic';
 import { ACCENT, ACCENT_LIGHT, BG_DARK, BG_SURFACE, BG_CARD, BORDER, TEXT_BRIGHT, TEXT_PRIMARY, TEXT_FAINT, TEXT_WHITE, TEXT_MUTED, TEXT_DIM, STAT_BOX_1, STAT_BOX_2, STAT_BOX_3, PANEL_DARK, PANEL_BORDER, NAV_OVERLAY } from '../theme';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 import UserNavBar from './UserNavBar';
@@ -65,14 +67,25 @@ export default function Profile() {
   const [error, setError] = useState(false);
   const [galleryIdx, setGalleryIdx] = useState(null);
   const [expOpen, setExpOpen] = useState(false);
-
-  useEffect(() => { setProfile(null); setNick(null); setError(false); }, [userId]);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => { setProfile(null); setNick(null); setError(false); clearDiagnostic(); }, [userId]);
+  useEffect(() => () => clearDiagnostic(), []);
+
+  useEffect(() => {
+    const t0 = performance.now();
     getUserProfile(userId)
       .then((data) => {
+        const clientMs = Math.round(performance.now() - t0);
         if (data.gallery && data.galleryOrder) data.gallery = sortGallery(data.gallery, data.galleryOrder);
         setProfile(data);
+        setDiagnostic(data.diagnosticMs ?? null, clientMs);
       })
       .catch(() => setError(true));
   }, [userId]);
@@ -281,7 +294,7 @@ export default function Profile() {
                       borderRadius: 0.75, py: 0.65, mb: 0.4,
                       background: isSss ? SSS_GRADIENT : RARITY_SOLID[r],
                     }}>
-                      <Typography sx={{ fontWeight: 900, fontSize: '0.78rem', color: '#000', lineHeight: 1 }}>{r}</Typography>
+                      <Typography sx={{ fontWeight: 900, fontSize: '0.78rem', color: '#fff', lineHeight: 1, textShadow: '0 1px 4px rgba(0,0,0,0.85), 0 0 8px rgba(0,0,0,0.6)' }}>{r}</Typography>
                     </Box>
                     <Typography sx={{ fontWeight: 800, fontSize: '1.05rem', lineHeight: 1, color: TEXT_PRIMARY }}>
                       {cc[r] || 0}
@@ -391,6 +404,21 @@ export default function Profile() {
         open={expOpen} onClose={() => setExpOpen(false)}
         expeditions={profile.expeditions || []} userColor={userColor}
       />
+
+      {showScrollTop && (
+        <Fab
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          size="small"
+          sx={{
+            position: 'fixed', bottom: 24, right: 24, zIndex: 1200,
+            bgcolor: userColor, color: '#000',
+            '&:hover': { bgcolor: userColor, opacity: 0.85 },
+          }}
+        >
+          <KeyboardArrowUpIcon />
+        </Fab>
+      )}
+
     </Box>
   );
 }

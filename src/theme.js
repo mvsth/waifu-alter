@@ -42,6 +42,7 @@ export const HOVER_BG       = pick('#222222', '#313131', '#48484c');
 export const LIST_HOVER     = pick('#242424', '#333333', '#4a4a4d');
 export const NAV_OVERLAY    = pick('rgba(0,0,0,0.76)', 'rgba(6,6,6,0.65)', 'rgba(29,29,32,0.72)');
 export const NAV_BORDER     = pick('rgba(255,255,255,0.04)', 'rgba(255,255,255,0.07)', 'rgba(255,255,255,0.09)');
+export const BADGE_BG       = pick('rgba(0,0,0,0.96)', 'rgba(0,0,0,0.87)', 'rgba(0,0,0,0.88)');
 export const CARD_BORDER_UNSEL = pick('rgba(255,255,255,0.08)', 'rgba(255,255,255,0.12)', 'rgba(255,255,255,0.14)');
 export const OVERLAY_BG     = pick('rgba(0,0,0,0.85)', 'rgba(0,0,0,0.75)', 'rgba(0,0,0,0.70)');
 export const STAT_BOX_1     = pick('#0e0e12', '#1c1c20', '#323238');
@@ -52,6 +53,9 @@ export const PANEL_BORDER   = pick('#242424', '#383838', '#54545c');
 
 // Card tile bg — always one step darker than theme bg
 export const CARD_TILE_BG   = pick('#0e0e0e', '#151515', '#1c1c1c');
+// Alternate row bgs — symmetric ±10% around BG_CARD
+export const ROW_ALT_LIGHT  = pick('#0e0e0e', '#1e1e1e', '#36363a');
+export const ROW_ALT_DARK   = pick('#0b0b0b', '#191919', '#2d2d31');
 
 const theme = createTheme({
   palette: {

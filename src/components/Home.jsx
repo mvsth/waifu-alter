@@ -128,7 +128,7 @@ export default function Home() {
             },
           }}
         >
-          Ranking WRP
+          Ranking
         </Button>
       </Box>
 

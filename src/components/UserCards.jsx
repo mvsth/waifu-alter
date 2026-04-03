@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Pagination, CircularProgress, Alert, Link, Tooltip, Fab, Snackbar,
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import BuildIcon from '@mui/icons-material/Build';
 import { getUserCards, getUserProfile, getUsername } from '../api';
 import { ACCENT, BG_DARK, BG_CARD, CARD_TILE_BG, TEXT_BRIGHT, TEXT_SOFT, TEXT_DIM, TEXT_MUTED, TEXT_FAINT, TEXT_WHITE, OVERLAY_BG, CARD_BORDER_UNSEL } from '../theme';
 import UserNavBar from './UserNavBar';
@@ -13,6 +14,7 @@ import FilterBar from './FilterBar';
 import CardDetail from './CardDetail';
 import CardIcons from './CardIcons';
 import LazyCard from './LazyCard';
+import { setWorkshopCards } from '../workshop';
 
 const getPageSize = () => {
   try {
@@ -39,6 +41,7 @@ const getSavedFilter = (userId) => {
 
 export default function UserCards() {
   const { userId } = useParams();
+  const navigate = useNavigate();
   const [cards, setCards] = useState([]);
   const [profile, setProfile] = useState(null);
   const [username, setUsername] = useState(null);
@@ -109,6 +112,14 @@ export default function UserCards() {
     }
   };
 
+  const sendToWorkshop = () => {
+    const selected = cards.filter((c) => selectedIds.has(c.id));
+    if (selected.length === 0) return;
+    setWorkshopCards(userId, selected);
+    setSelectionMode(false);
+    navigate(`/user/${userId}/workshop`);
+  };
+
   const handleFilter = (newFilter) => {
     setFilter(newFilter);
     setPage(1);
@@ -137,8 +148,10 @@ export default function UserCards() {
           <Pagination
             count={totalPages} page={page}
             onChange={(_, v) => { setPage(v); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            color="primary"
-            sx={{ '& .MuiPaginationItem-root': { color: TEXT_BRIGHT } }}
+            sx={{
+              '& .MuiPaginationItem-root': { color: TEXT_BRIGHT },
+              '& .MuiPaginationItem-root.Mui-selected': { bgcolor: userColor, color: '#000', '&:hover': { bgcolor: userColor, opacity: 0.85 } },
+            }}
           />
         </Box>
       )}
@@ -173,14 +186,15 @@ export default function UserCards() {
                 {card.whoWantsCount > 0 && (
                   <Tooltip title="Liczba KC" arrow>
                     <Box sx={{
-                      position: 'absolute', top: -8, left: -8, zIndex: 5,
+                      position: 'absolute', top: 2, left: 7, zIndex: 5,
                       borderRadius: '50%', width: 30, height: 30,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      bgcolor: OVERLAY_BG,
-                      backdropFilter: 'blur(4px)',
-                      WebkitBackdropFilter: 'blur(4px)',
-                      border: `2px solid ${userColor}`,
-                      color: TEXT_WHITE, fontWeight: 800, fontSize: 13,
+                      bgcolor: userColor,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.6)',
+                      color: '#fff',
+                      fontWeight: 800,
+                      fontSize: card.whoWantsCount >= 10 ? 12 : 15,
+                      textShadow: '0 1px 4px rgba(0,0,0,0.85), 0 0 8px rgba(0,0,0,0.6)',
                     }}>
                       {card.whoWantsCount}
                     </Box>
@@ -280,8 +294,10 @@ export default function UserCards() {
           <Pagination
             count={totalPages} page={page}
             onChange={(_, v) => { setPage(v); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            color="primary"
-            sx={{ '& .MuiPaginationItem-root': { color: TEXT_BRIGHT } }}
+            sx={{
+              '& .MuiPaginationItem-root': { color: TEXT_BRIGHT },
+              '& .MuiPaginationItem-root.Mui-selected': { bgcolor: userColor, color: '#000', '&:hover': { bgcolor: userColor, opacity: 0.85 } },
+            }}
           />
         </Box>
       )}
@@ -319,21 +335,38 @@ export default function UserCards() {
       )}
 
       {selectionMode && selectedIds.size > 0 && (
-        <Fab
-          onClick={copyWids}
-          size="small"
-          variant="extended"
-          sx={{
-            position: 'fixed', bottom: showScrollTop ? 72 : 24, right: 24, zIndex: 1200,
-            bgcolor: userColor, color: '#000',
-            '&:hover': { bgcolor: userColor, opacity: 0.85 },
-            fontWeight: 700, fontSize: '0.75rem', textTransform: 'none',
-            transition: 'bottom 0.2s ease',
-          }}
-        >
-          <ContentCopyIcon sx={{ mr: 0.5, fontSize: 18 }} />
-          Kopiuj ({selectedIds.size})
-        </Fab>
+        <>
+          <Fab
+            onClick={sendToWorkshop}
+            size="small"
+            variant="extended"
+            sx={{
+              position: 'fixed', bottom: showScrollTop ? 120 : 72, right: 24, zIndex: 1200,
+              bgcolor: '#7b1fa2', color: '#fff',
+              '&:hover': { bgcolor: '#6a1b9a' },
+              fontWeight: 700, fontSize: '0.75rem', textTransform: 'none',
+              transition: 'bottom 0.2s ease',
+            }}
+          >
+            <BuildIcon sx={{ mr: 0.5, fontSize: 18 }} />
+            Do warsztatu ({selectedIds.size})
+          </Fab>
+          <Fab
+            onClick={copyWids}
+            size="small"
+            variant="extended"
+            sx={{
+              position: 'fixed', bottom: showScrollTop ? 72 : 24, right: 24, zIndex: 1200,
+              bgcolor: userColor, color: '#000',
+              '&:hover': { bgcolor: userColor, opacity: 0.85 },
+              fontWeight: 700, fontSize: '0.75rem', textTransform: 'none',
+              transition: 'bottom 0.2s ease',
+            }}
+          >
+            <ContentCopyIcon sx={{ mr: 0.5, fontSize: 18 }} />
+            Kopiuj ({selectedIds.size})
+          </Fab>
+        </>
       )}
 
       <Snackbar open={snack} autoHideDuration={2500} onClose={() => setSnack(false)}

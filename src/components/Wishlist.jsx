@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, CircularProgress, Chip, TextField, InputAdornment } from '@mui/material';
+import { Box, Typography, CircularProgress, Chip, TextField, InputAdornment, Snackbar, ToggleButtonGroup, ToggleButton, Fab } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MovieIcon from '@mui/icons-material/Movie';
 import StyleIcon from '@mui/icons-material/Style';
 import SearchIcon from '@mui/icons-material/Search';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CheckIcon from '@mui/icons-material/Check';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { getUserProfile, getUsername, getUserWishlist } from '../api';
-import { ACCENT, BG_SURFACE, BG_CARD, BG_DARK, BORDER, TEXT_MUTED, TEXT_DIM, TEXT_BRIGHT, TEXT_PRIMARY, TEXT_FAINT, ROW_ALT } from '../theme';
+import { ACCENT, BG_SURFACE, BG_CARD, BG_DARK, BORDER, TEXT_MUTED, TEXT_DIM, TEXT_BRIGHT, TEXT_PRIMARY, TEXT_FAINT, ROW_ALT_LIGHT, ROW_ALT_DARK } from '../theme';
 import UserNavBar from './UserNavBar';
 import ExpeditionsDialog from './ExpeditionsDialog';
 
@@ -28,6 +31,27 @@ export default function Wishlist() {
   const [error, setError] = useState(null);
   const [expOpen, setExpOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  const [copiedId, setCopiedId] = useState(null);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [cmdMode, setCmdMode] = useState('remove');
+  const [sortAlpha, setSortAlpha] = useState(false);
+
+  function copyCommand(wish) {
+    const action = cmdMode === 'add' ? 'wadd' : 'wremove';
+    const typeChar = wish.type === 'title' ? 't' : 'p';
+    const cmd = `s.${action} ${typeChar} ${wish.objectId}`;
+    navigator.clipboard.writeText(cmd).catch(() => {});
+    setCopiedId(wish.id);
+    setSnackOpen(true);
+    setTimeout(() => setCopiedId(null), 1500);
+  }
 
   useEffect(() => {
     setProfile(null); setUsername(null); setWishes(null); setError(null); setLoading(true);
@@ -76,6 +100,43 @@ export default function Wishlist() {
             <Chip label={wishes.length} size="small"
               sx={{ bgcolor: `${userColor}22`, color: userColor, fontWeight: 700 }} />
             <Box sx={{ flex: 1 }} />
+            <ToggleButtonGroup
+              value={sortAlpha ? 'az' : ''}
+              exclusive
+              onChange={(_, v) => setSortAlpha(v === 'az')}
+              size="small"
+              sx={{
+                height: 36,
+                '& .MuiToggleButton-root': {
+                  px: 1.5, py: 0, fontSize: '0.78rem', fontWeight: 700, letterSpacing: 0.5,
+                  border: `1px solid ${BORDER}`, color: TEXT_MUTED, textTransform: 'none',
+                  bgcolor: BG_DARK,
+                  '&.Mui-selected': { bgcolor: `${userColor}22`, color: userColor, borderColor: `${userColor}66` },
+                  '&:hover': { bgcolor: `${userColor}12` },
+                },
+              }}
+            >
+              <ToggleButton value="az">A–Z</ToggleButton>
+            </ToggleButtonGroup>
+            <ToggleButtonGroup
+              value={cmdMode}
+              exclusive
+              onChange={(_, v) => { if (v) setCmdMode(v); }}
+              size="small"
+              sx={{
+                height: 36,
+                '& .MuiToggleButton-root': {
+                  px: 1.5, py: 0, fontSize: '0.78rem', fontWeight: 700, letterSpacing: 0.5,
+                  border: `1px solid ${BORDER}`, color: TEXT_MUTED, textTransform: 'none',
+                  bgcolor: BG_DARK,
+                  '&.Mui-selected': { bgcolor: `${userColor}22`, color: userColor, borderColor: `${userColor}66` },
+                  '&:hover': { bgcolor: `${userColor}12` },
+                },
+              }}
+            >
+              <ToggleButton value="add">ADD</ToggleButton>
+              <ToggleButton value="remove">REMOVE</ToggleButton>
+            </ToggleButtonGroup>
             <TextField
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
@@ -113,9 +174,12 @@ export default function Wishlist() {
                 items: wishes.filter((w) => {
                   if (!query) return w.type === type;
                   return w.type === type && (w.objectName || '').toLowerCase().includes(query);
-                }),
+                }).slice().sort((a, b) => sortAlpha
+                  ? (a.objectName || '').localeCompare(b.objectName || '', 'pl')
+                  : 0),
               })).filter((g) => g.items.length > 0);
 
+              let globalIdx = 0;
               return groups.map((group) => (
                 <Box key={group.type} sx={{ mb: 3 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.2 }}>
@@ -133,54 +197,74 @@ export default function Wishlist() {
                   <Box sx={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                    gap: 1.5,
+                    gap: 2,
                   }}>
-                    {group.items.map((wish, wIdx) => (
-                      <Box key={wish.id} sx={{
-                        bgcolor: wIdx % 2 === 1 ? ROW_ALT : BG_CARD, borderRadius: 2, p: 2,
-                        display: 'flex', alignItems: 'center', gap: 1.5,
-                        transition: 'background 0.15s',
-                        '&:hover': { bgcolor: BG_SURFACE },
-                      }}>
-                        <Box sx={{
-                          width: 36, height: 36, borderRadius: '50%', display: 'flex',
-                          alignItems: 'center', justifyContent: 'center',
-                          bgcolor: `${userColor}18`, color: userColor, flexShrink: 0,
+                    {group.items.map((wish) => {
+                      const isDark = globalIdx % 2 === 1;
+                      globalIdx++;
+                      const isCopied = copiedId === wish.id;
+                      return (
+                        <Box key={wish.id} sx={{
+                          bgcolor: ROW_ALT_LIGHT, borderRadius: 2, p: 2.5,
+                          display: 'flex', alignItems: 'center', gap: 1.5,
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.45), 0 1px 3px rgba(0,0,0,0.35)',
                         }}>
-                          <FavoriteIcon sx={{ fontSize: 20 }} />
-                        </Box>
-                        <Box sx={{ minWidth: 0, flex: 1 }}>
-                          {getShindenUrl(wish) ? (
-                            <Typography
-                              component="a"
-                              href={getShindenUrl(wish)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              variant="body2"
-                              noWrap
-                              sx={{
-                                color: TEXT_PRIMARY, fontWeight: 600, display: 'block',
-                                textDecoration: 'none',
-                                '&:hover': { color: userColor, textDecoration: 'underline' },
-                              }}
-                            >
-                              {wish.objectName || `#${wish.objectId}`}
+                          <Box sx={{
+                            width: 36, height: 36, borderRadius: '50%', display: 'flex',
+                            alignItems: 'center', justifyContent: 'center',
+                            bgcolor: `${userColor}18`, color: userColor, flexShrink: 0,
+                          }}>
+                            <FavoriteIcon sx={{ fontSize: 20 }} />
+                          </Box>
+                          <Box sx={{ minWidth: 0, flex: 1 }}>
+                            {getShindenUrl(wish) ? (
+                              <Typography
+                                component="a"
+                                href={getShindenUrl(wish)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                variant="body2"
+                                noWrap
+                                sx={{
+                                  color: TEXT_PRIMARY, fontWeight: 600, display: 'block',
+                                  textDecoration: 'none',
+                                  '&:hover': { color: userColor, textDecoration: 'underline' },
+                                }}
+                              >
+                                {wish.objectName || `#${wish.objectId}`}
+                              </Typography>
+                            ) : (
+                              <Typography variant="body2" noWrap sx={{ color: TEXT_PRIMARY, fontWeight: 600 }}>
+                                {wish.objectName || `#${wish.objectId}`}
+                              </Typography>
+                            )}
+                            {wish.entry === 1 && (
+                              <Chip label="Stałe" size="small"
+                                sx={{ height: 20, fontSize: '0.7rem', bgcolor: '#4caf5022', color: '#81c784', mt: 0.3 }} />
+                            )}
+                          </Box>
+                          <Box
+                            onClick={() => copyCommand(wish)}
+                            sx={{
+                              display: 'flex', alignItems: 'center', gap: 0.4, flexShrink: 0,
+                              cursor: 'pointer', px: 0.8, py: 0.4, borderRadius: 1,
+                              color: isCopied ? '#81c784' : TEXT_FAINT,
+                              bgcolor: isCopied ? '#4caf5018' : 'transparent',
+                              transition: 'color 0.15s, background 0.15s',
+                              '&:hover': { color: userColor, bgcolor: `${userColor}18` },
+                            }}
+                          >
+                            {isCopied
+                              ? <CheckIcon sx={{ fontSize: 13 }} />
+                              : <ContentCopyIcon sx={{ fontSize: 13 }} />
+                            }
+                            <Typography variant="caption" sx={{ color: 'inherit', fontWeight: 600 }}>
+                              #{wish.objectId}
                             </Typography>
-                          ) : (
-                            <Typography variant="body2" noWrap sx={{ color: TEXT_PRIMARY, fontWeight: 600 }}>
-                              {wish.objectName || `#${wish.objectId}`}
-                            </Typography>
-                          )}
-                          {wish.entry === 1 && (
-                            <Chip label="Stałe" size="small"
-                              sx={{ height: 20, fontSize: '0.7rem', bgcolor: '#4caf5022', color: '#81c784', mt: 0.3 }} />
-                          )}
+                          </Box>
                         </Box>
-                        <Typography variant="caption" sx={{ color: TEXT_FAINT, flexShrink: 0 }}>
-                          #{wish.objectId}
-                        </Typography>
-                      </Box>
-                    ))}
+                      );
+                    })}
                   </Box>
                 </Box>
               ));
@@ -194,6 +278,28 @@ export default function Wishlist() {
           open={expOpen} onClose={() => setExpOpen(false)}
           expeditions={profile.expeditions} userColor={userColor}
         />
+      )}
+
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={1500}
+        onClose={() => setSnackOpen(false)}
+        message="Skopiowano komendę!"
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      />
+
+      {showScrollTop && (
+        <Fab
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          size="small"
+          sx={{
+            position: 'fixed', bottom: 24, right: 24, zIndex: 1200,
+            bgcolor: userColor, color: '#000',
+            '&:hover': { bgcolor: userColor, opacity: 0.85 },
+          }}
+        >
+          <KeyboardArrowUpIcon />
+        </Fab>
       )}
     </Box>
   );

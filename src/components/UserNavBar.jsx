@@ -1,25 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { keyframes } from '@mui/system';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Avatar, Typography, Button } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import StyleIcon from '@mui/icons-material/Style';
 import ExploreIcon from '@mui/icons-material/Explore';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
+import BuildIcon from '@mui/icons-material/Build';
 import bgDefault from './g4g44gg.png';
-import { ACCENT, BG_DARK, BG_SURFACE, BORDER, TEXT_WHITE, NAV_OVERLAY, NAV_BORDER } from '../theme';
+import { ACCENT, BG_DARK, BG_SURFACE, BORDER, TEXT_WHITE, NAV_OVERLAY, NAV_BORDER, BADGE_BG } from '../theme';
+import { hasWorkshop } from '../workshop';
+
+const shimmer = keyframes`
+  0%   { transform: translateX(-220%) skewX(-12deg); }
+  30%  { transform: translateX(-220%) skewX(-12deg); }
+  70%  { transform: translateX(320%)  skewX(-12deg); }
+  100% { transform: translateX(320%)  skewX(-12deg); }
+`;
 
 export default function UserNavBar({ userId, profile, username, onExpeditions }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [wrpData, setWrpData] = useState(null);
+
+  useEffect(() => {
+    fetch('/ranking.json')
+      .then((r) => r.json())
+      .then((json) => {
+        const uid = parseInt(userId, 10);
+        const player = json.players?.find((p) => p.userId === uid);
+        if (player) setWrpData({ rank: player.rank, wrp: player.wrp });
+        else setWrpData(null);
+      })
+      .catch(() => {});
+  }, [userId]);
 
   const userColor = profile?.foregroundColor || ACCENT;
   const bgImg = profile?.backgroundImageUrl || null;
   const bgPos = profile?.backgroundPosition || 35;
 
   const path = location.pathname;
-  const activeTab = path.includes('/cards') ? 'cards'
+  const activeTab = path.includes('/workshop') ? 'workshop'
+    : path.includes('/cards') ? 'cards'
     : path.includes('/wishlist') ? 'wishlist'
     : 'profile';
+
+  const workshopActive = hasWorkshop(userId);
 
   const tabs = [
     { id: 'profile', label: 'Profil', icon: <PersonIcon sx={{ fontSize: 20 }} />,
@@ -28,6 +54,9 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
     { id: 'cards', label: 'Karty', icon: <StyleIcon sx={{ fontSize: 20 }} />,
       href: `/user/${userId}/cards`,
       action: () => navigate(`/user/${userId}/cards`) },
+    ...(workshopActive ? [{ id: 'workshop', label: 'Warsztat', icon: <BuildIcon sx={{ fontSize: 20 }} />,
+      href: `/user/${userId}/workshop`,
+      action: () => navigate(`/user/${userId}/workshop`) }] : []),
     { id: 'expeditions', label: 'Wyprawy', icon: <ExploreIcon sx={{ fontSize: 20 }} />,
       action: onExpeditions, badge: profile?.expeditions?.length || 0 },
     { id: 'wishlist', label: 'Lista życzeń', icon: <FavoriteIcon sx={{ fontSize: 20 }} />,
@@ -87,21 +116,77 @@ export default function UserNavBar({ userId, profile, username, onExpeditions })
             boxShadow: `0 4px 16px ${userColor}33`,
           }}
         />
-        <Box sx={{ minWidth: 0, flex: '0 1 auto', mr: 'auto' }}>
-          <Typography variant="h6" noWrap sx={{
-            color: '#fff', fontWeight: 700, lineHeight: 1.2,
-            fontSize: { xs: '1.27rem', sm: '1.61rem' },
-          }}>
-            {username || `Użytkownik ${userId}`}
-          </Typography>
-          {(userId === '1' || profile?.userTitle) && (
-            <Typography variant="body2" noWrap sx={{ color: userColor, opacity: 0.85, display: 'block', fontSize: '0.98rem' }}>
-              {userId === '1' ? 'Safeguard' : profile.userTitle}
+        <Box sx={{ minWidth: 0, flex: '0 1 auto', mr: 'auto', display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Box sx={{ minWidth: 0, ml: { xs: 1, sm: 2 } }}>
+            <Typography variant="h6" noWrap sx={{
+              color: '#fff', fontWeight: 700, lineHeight: 1.2,
+              fontSize: { xs: '1.27rem', sm: '1.61rem' },
+            }}>
+              {username || `Użytkownik ${userId}`}
             </Typography>
-          )}
+            {(userId === '1' || profile?.userTitle) && (
+              <Typography variant="body2" noWrap sx={{ color: userColor, opacity: 0.85, display: 'block', fontSize: '0.98rem' }}>
+                {userId === '1' ? 'Safeguard' : profile.userTitle}
+              </Typography>
+            )}
+          </Box>
+          {wrpData && (() => {
+            const isPodium = wrpData.rank <= 3;
+
+            return (
+              <Box
+                component="a"
+                href="/ranking"
+                onClick={(e) => { if (!e.ctrlKey && !e.metaKey && !e.shiftKey) { e.preventDefault(); navigate('/ranking'); } }}
+                sx={{
+                  position: 'relative', overflow: 'hidden', flexShrink: 0,
+                  display: 'inline-flex', alignItems: 'center', gap: 0.7,
+                  px: 1.5, py: 0.9, borderRadius: '20px',
+                  bgcolor: BADGE_BG,
+                  border: `2px solid ${userColor}55`,
+                  textDecoration: 'none', cursor: 'pointer',
+                  transition: 'background-color 0.15s, border-color 0.15s',
+                  '&:hover': { borderColor: userColor },
+                }}
+              >
+                <Box sx={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: '55%', height: '100%',
+                  background: `linear-gradient(75deg,
+                    transparent 0%,
+                    rgba(255,255,255,0.00) 30%,
+                    rgba(255,255,255,0.07) 38%,
+                    rgba(255,255,255,0.16) 44%,
+                    rgba(255,255,255,0.26) 50%,
+                    rgba(255,255,255,0.16) 56%,
+                    rgba(255,255,255,0.07) 62%,
+                    rgba(255,255,255,0.00) 70%,
+                    transparent 100%)`,
+                  animation: `${shimmer} 4s ease-in-out infinite`,
+                  pointerEvents: 'none',
+                }} />
+                {isPodium && (
+                  <Typography sx={{ fontSize: '1.4rem', lineHeight: 1, flexShrink: 0 }}>
+                    {wrpData.rank === 1 ? '🥇' : wrpData.rank === 2 ? '🥈' : '🥉'}
+                  </Typography>
+                )}
+                {!isPodium && (
+                  <Typography sx={{ fontSize: '0.93rem', fontWeight: 800, lineHeight: 1 }}>
+                    <span style={{ color: userColor }}>#</span><span style={{ color: '#fff' }}>{wrpData.rank}</span>
+                  </Typography>
+                )}
+                <Typography sx={{ fontSize: '0.93rem', fontWeight: 800, color: userColor, lineHeight: 1 }}>
+                  WRP
+                </Typography>
+                <Typography sx={{ fontSize: '0.93rem', fontWeight: 800, color: '#fff', lineHeight: 1 }}>
+                  {wrpData.wrp.toLocaleString('pl-PL')}
+                </Typography>
+              </Box>
+            );
+          })()}
         </Box>
 
-        <Box sx={{ display: 'flex', gap: 0.8, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 0.8, flexWrap: 'wrap', alignItems: 'center' }}>
           {tabs.map((tab) => {
             const isActive = tab.id === activeTab;
             const isPopup = tab.id === 'expeditions';

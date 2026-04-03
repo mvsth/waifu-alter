@@ -10,9 +10,11 @@ import UserSearch from './UserSearch';
 import Prank from './Prank';
 import { ACCENT, BG_DARK, BG_HEADER, BG_SURFACE, BORDER, TEXT_SOFT, TEXT_MUTED, TEXT_SECONDARY, TEXT_BRIGHT, TEXT_WHITE, TEXT_DIM, TEXT_PRIMARY, TEXT_FAINT, DIVIDER, SLIDER_RAIL, APPBAR_BG, APPBAR_BORDER, THEME_MODE } from '../theme';
 import { subscribe, getCount } from '../apiCounter';
+import { subscribe as subscribeDiag, getDiagnostic } from '../profileDiagnostic';
 
 export default function Layout({ children }) {
   const [reqCount, setReqCount] = useState(getCount());
+  const [diagnostic, setDiagnostic] = useState(getDiagnostic());
   const [cardDialogOpen, setCardDialogOpen] = useState(false);
   const [widInput, setWidInput] = useState('');
   const [settingsAnchor, setSettingsAnchor] = useState(null);
@@ -26,6 +28,7 @@ export default function Layout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => subscribe(setReqCount), []);
+  useEffect(() => subscribeDiag(setDiagnostic), []);
 
   const isUserPage = /^\/user\//.test(location.pathname);
 
@@ -249,6 +252,20 @@ export default function Layout({ children }) {
         <Typography component="span" sx={{ fontSize: '0.82rem', color: TEXT_FAINT }}>
           Propozycje lub błędy zgłaszaj do:  <Box component="span" sx={{ color: TEXT_SOFT, fontWeight: 600 }}>@mvysther</Box>
         </Typography>
+        {diagnostic != null && (
+          <>
+            <Typography component="span" sx={{ fontSize: '0.72rem', color: TEXT_FAINT }}>•</Typography>
+            <Typography component="span" sx={{ fontSize: '0.76rem', color: TEXT_FAINT }}>
+              profil wczytany w{' '}
+              <Box component="span" sx={{ color: TEXT_SOFT, fontWeight: 600 }}>{diagnostic.clientMs} ms</Box>
+              {diagnostic.serverMs != null && (
+                <Box component="span" sx={{ color: TEXT_FAINT }}>
+                  {' '}(serwer: {diagnostic.serverMs} ms)
+                </Box>
+              )}
+            </Typography>
+          </>
+        )}
       </Box>
 
       <Dialog open={cardDialogOpen} onClose={closeCardDialog} maxWidth="xs" fullWidth

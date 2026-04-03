@@ -2,8 +2,8 @@ name: Update Ranking
 
 on:
   schedule:
-    - cron: '0 22 * * 3'   # every Wednesday 22:00 UTC = Thursday 00:00 CEST
-  workflow_dispatch:        # manual trigger
+    - cron: '0 22 * * *'   # codziennie o 22:00 UTC, faktyczny update co 7 dni (wg nextUpdate)
+  workflow_dispatch:        # manual trigger – zawsze uruchamia update
 
 permissions:
   contents: write
@@ -15,7 +15,44 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      due: ${{ steps.check.outputs.due }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check if ranking update is due
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual trigger – running unconditionally."
+            echo "due=true" >> $GITHUB_OUTPUT
+          elif [ -f public/ranking.json ]; then
+            NEXT=$(jq -r '.nextUpdate // ""' public/ranking.json)
+            if [ -z "$NEXT" ]; then
+              echo "No nextUpdate in ranking.json – running."
+              echo "due=true" >> $GITHUB_OUTPUT
+            else
+              NOW=$(date -u +%s)
+              NEXT_TS=$(date -d "$NEXT" +%s 2>/dev/null || echo 0)
+              if [ "$NOW" -ge "$NEXT_TS" ]; then
+                echo "Due! ($NEXT has passed) – running."
+                echo "due=true" >> $GITHUB_OUTPUT
+              else
+                REMAINING=$(( (NEXT_TS - NOW) / 3600 ))
+                echo "Not due yet. Next update at $NEXT (~${REMAINING}h remaining) – skipping."
+                echo "due=false" >> $GITHUB_OUTPUT
+              fi
+            fi
+          else
+            echo "ranking.json not found – running."
+            echo "due=true" >> $GITHUB_OUTPUT
+          fi
+
   update-ranking:
+    needs: check
+    if: needs.check.outputs.due == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
