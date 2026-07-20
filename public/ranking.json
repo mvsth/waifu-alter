@@ -1,7 +1,7 @@
 {
   "status": "ready",
-  "lastUpdated": "2026-07-12T22:21:20.211Z",
-  "nextUpdate": "2026-07-19T22:21:20.211Z",
+  "lastUpdated": "2026-07-20T22:24:30.662Z",
+  "nextUpdate": "2026-07-27T22:24:30.662Z",
   "totalParticipants": 54,
   "players": [
     {
@@ -9,15 +9,15 @@
       "userId": 475347,
       "username": "Medi124",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/475347.jpg",
-      "wrp": 3371,
+      "wrp": 3367,
       "stats": {
         "ultimateCount": 27,
         "bestQuality": "Zeta",
-        "karma": -7772,
-        "scalpels": 443,
-        "sssCards": 624,
+        "karma": -6655,
+        "scalpels": 444,
+        "sssCards": 625,
         "restarts": 409,
-        "unleashed": 394,
+        "unleashed": 397,
         "lottery": 3311,
         "topCardRestarts": 100,
         "topCard": {
@@ -42,14 +42,14 @@
         },
         "breakdown": {
           "qualityScore": 1813,
-          "karmaScore": 71,
-          "scalpelScore": 560,
+          "karmaScore": 61,
+          "scalpelScore": 562,
           "sssScore": 458,
-          "unleashedScore": 260,
+          "unleashedScore": 262,
           "lotteryScore": 801,
           "topCardScore": 40,
           "cardPowerScore": 379,
-          "total": 4382
+          "total": 4376
         }
       }
     },
@@ -62,7 +62,7 @@
       "stats": {
         "ultimateCount": 35,
         "bestQuality": "Lambda",
-        "karma": -29099,
+        "karma": -29100,
         "scalpels": 299,
         "sssCards": 179,
         "restarts": 190,
@@ -109,15 +109,15 @@
       "userId": 320808,
       "username": "Kozma",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/320808.jpg",
-      "wrp": 2474,
+      "wrp": 2476,
       "stats": {
         "ultimateCount": 12,
         "bestQuality": "Theta",
-        "karma": 6449,
+        "karma": 6566,
         "scalpels": 470,
         "sssCards": 1186,
         "restarts": 422,
-        "unleashed": 494,
+        "unleashed": 496,
         "lottery": 1622,
         "topCardRestarts": 200,
         "topCard": {
@@ -127,11 +127,11 @@
           "ultimateQuality": "delta",
           "ultimateOverflow": 0
         },
-        "cardPower": 769.3209999999999,
+        "cardPower": 772.3809999999999,
         "mostPowerfulCard": {
           "name": "Kurumi Tokisaki",
           "rarity": "sss",
-          "cardPower": 769.3209999999999,
+          "cardPower": 772.3809999999999,
           "isUltimate": true,
           "ultimateQuality": "delta",
           "ultimateOverflow": 1
@@ -145,14 +145,14 @@
         },
         "breakdown": {
           "qualityScore": 966,
-          "karmaScore": 59,
+          "karmaScore": 60,
           "scalpelScore": 595,
           "sssScore": 458,
-          "unleashedScore": 326,
+          "unleashedScore": 327,
           "lotteryScore": 393,
           "topCardScore": 79,
-          "cardPowerScore": 339,
-          "total": 3215
+          "cardPowerScore": 340,
+          "total": 3218
         }
       }
     },
@@ -161,16 +161,16 @@
       "userId": 504916,
       "username": "tomoro02",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/504916.jpg",
-      "wrp": 2462,
+      "wrp": 2476,
       "stats": {
         "ultimateCount": 20,
         "bestQuality": "Omega",
-        "karma": -6031,
+        "karma": -7408,
         "scalpels": 36,
         "sssCards": 59,
         "restarts": 231,
         "unleashed": 56,
-        "lottery": 3475,
+        "lottery": 3491,
         "topCardRestarts": 100,
         "topCard": {
           "name": "Louise Françoise Le Blanc de La Vallière",
@@ -179,11 +179,11 @@
           "ultimateQuality": "omega",
           "ultimateOverflow": 0
         },
-        "cardPower": 906.5549999999998,
+        "cardPower": 908.625,
         "mostPowerfulCard": {
           "name": "Louise Françoise Le Blanc de La Vallière",
           "rarity": "sss",
-          "cardPower": 906.5549999999998,
+          "cardPower": 908.625,
           "isUltimate": true,
           "ultimateQuality": "omega",
           "ultimateOverflow": 0
@@ -196,14 +196,14 @@
         },
         "breakdown": {
           "qualityScore": 1737,
-          "karmaScore": 55,
+          "karmaScore": 68,
           "scalpelScore": 46,
           "sssScore": 45,
           "unleashedScore": 37,
-          "lotteryScore": 841,
+          "lotteryScore": 845,
           "topCardScore": 40,
-          "cardPowerScore": 399,
-          "total": 3200
+          "cardPowerScore": 400,
+          "total": 3218
         }
       }
     },
@@ -212,11 +212,11 @@
       "userId": 85110,
       "username": "warrest",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/85110.jpg",
-      "wrp": 1654,
+      "wrp": 1646,
       "stats": {
         "ultimateCount": 11,
         "bestQuality": "Zeta",
-        "karma": 3849,
+        "karma": 2678,
         "scalpels": 167,
         "sssCards": 555,
         "restarts": 537,
@@ -249,31 +249,82 @@
         },
         "breakdown": {
           "qualityScore": 635,
-          "karmaScore": 35,
+          "karmaScore": 25,
           "scalpelScore": 211,
           "sssScore": 424,
           "unleashedScore": 158,
           "lotteryScore": 324,
           "topCardScore": 40,
           "cardPowerScore": 322,
-          "total": 2149
+          "total": 2139
         }
       }
     },
     {
       "rank": 6,
+      "userId": 149230,
+      "username": "Artix",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/149230.jpg",
+      "wrp": 1538,
+      "stats": {
+        "ultimateCount": 7,
+        "bestQuality": "Jota",
+        "karma": 4485,
+        "scalpels": 53,
+        "sssCards": 91,
+        "restarts": 1338,
+        "unleashed": 209,
+        "lottery": 2153,
+        "topCardRestarts": 1111,
+        "topCard": {
+          "name": "Hwaryun ",
+          "rarity": "sss",
+          "isUltimate": false,
+          "ultimateQuality": "broken",
+          "ultimateOverflow": 0
+        },
+        "cardPower": 372.08799999999997,
+        "mostPowerfulCard": {
+          "name": "Mylene Rapha Holfort",
+          "rarity": "sss",
+          "cardPower": 372.08799999999997,
+          "isUltimate": true,
+          "ultimateQuality": "delta",
+          "ultimateOverflow": 0
+        },
+        "ultDistribution": {
+          "beta": 2,
+          "delta": 2,
+          "alpha": 2,
+          "jota": 1
+        },
+        "breakdown": {
+          "qualityScore": 563,
+          "karmaScore": 41,
+          "scalpelScore": 67,
+          "sssScore": 69,
+          "unleashedScore": 138,
+          "lotteryScore": 521,
+          "topCardScore": 436,
+          "cardPowerScore": 164,
+          "total": 1999
+        }
+      }
+    },
+    {
+      "rank": 7,
       "userId": 224256,
       "username": "Maysther",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/224256.jpg",
-      "wrp": 1518,
+      "wrp": 1519,
       "stats": {
         "ultimateCount": 11,
         "bestQuality": "Lambda",
-        "karma": -6938,
+        "karma": -6832,
         "scalpels": 21,
         "sssCards": 148,
         "restarts": 57,
-        "unleashed": 125,
+        "unleashed": 127,
         "lottery": 319,
         "topCardRestarts": 21,
         "topCard": {
@@ -307,16 +358,16 @@
           "karmaScore": 63,
           "scalpelScore": 27,
           "sssScore": 113,
-          "unleashedScore": 83,
+          "unleashedScore": 84,
           "lotteryScore": 77,
           "topCardScore": 8,
           "cardPowerScore": 176,
-          "total": 1973
+          "total": 1974
         }
       }
     },
     {
-      "rank": 7,
+      "rank": 8,
       "userId": 534798,
       "username": "ShadoWBoy",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/534798.jpg",
@@ -324,7 +375,7 @@
       "stats": {
         "ultimateCount": 7,
         "bestQuality": "Jota",
-        "karma": -8996,
+        "karma": -8966,
         "scalpels": 35,
         "sssCards": 44,
         "restarts": 101,
@@ -368,20 +419,20 @@
       }
     },
     {
-      "rank": 8,
+      "rank": 9,
       "userId": 433521,
       "username": "KyudoSenpai",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/433521.jpg",
-      "wrp": 1315,
+      "wrp": 1314,
       "stats": {
         "ultimateCount": 15,
         "bestQuality": "Delta",
-        "karma": -5585,
-        "scalpels": 52,
-        "sssCards": 328,
-        "restarts": 227,
-        "unleashed": 451,
-        "lottery": 871,
+        "karma": -6542,
+        "scalpels": 39,
+        "sssCards": 330,
+        "restarts": 228,
+        "unleashed": 455,
+        "lottery": 885,
         "topCardRestarts": 10,
         "topCard": {
           "name": "Yor Forger",
@@ -407,64 +458,14 @@
         },
         "breakdown": {
           "qualityScore": 565,
-          "karmaScore": 51,
-          "scalpelScore": 66,
-          "sssScore": 250,
-          "unleashedScore": 298,
-          "lotteryScore": 211,
+          "karmaScore": 60,
+          "scalpelScore": 49,
+          "sssScore": 252,
+          "unleashedScore": 300,
+          "lotteryScore": 214,
           "topCardScore": 4,
           "cardPowerScore": 264,
-          "total": 1709
-        }
-      }
-    },
-    {
-      "rank": 9,
-      "userId": 149230,
-      "username": "Artix",
-      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/149230.jpg",
-      "wrp": 1285,
-      "stats": {
-        "ultimateCount": 6,
-        "bestQuality": "Delta",
-        "karma": 2657,
-        "scalpels": 53,
-        "sssCards": 91,
-        "restarts": 1338,
-        "unleashed": 207,
-        "lottery": 2153,
-        "topCardRestarts": 1111,
-        "topCard": {
-          "name": "Hwaryun ",
-          "rarity": "sss",
-          "isUltimate": false,
-          "ultimateQuality": "broken",
-          "ultimateOverflow": 0
-        },
-        "cardPower": 372.08799999999997,
-        "mostPowerfulCard": {
-          "name": "Mylene Rapha Holfort",
-          "rarity": "sss",
-          "cardPower": 372.08799999999997,
-          "isUltimate": true,
-          "ultimateQuality": "delta",
-          "ultimateOverflow": 0
-        },
-        "ultDistribution": {
-          "beta": 2,
-          "delta": 2,
-          "alpha": 2
-        },
-        "breakdown": {
-          "qualityScore": 252,
-          "karmaScore": 24,
-          "scalpelScore": 67,
-          "sssScore": 69,
-          "unleashedScore": 137,
-          "lotteryScore": 521,
-          "topCardScore": 436,
-          "cardPowerScore": 164,
-          "total": 1670
+          "total": 1708
         }
       }
     },
@@ -473,15 +474,15 @@
       "userId": 8836,
       "username": "Zetsubou",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/8836.jpg",
-      "wrp": 1273,
+      "wrp": 1271,
       "stats": {
         "ultimateCount": 6,
         "bestQuality": "Eta",
-        "karma": 9511,
+        "karma": 8685,
         "scalpels": 179,
-        "sssCards": 99,
+        "sssCards": 100,
         "restarts": 575,
-        "unleashed": 193,
+        "unleashed": 195,
         "lottery": 1721,
         "topCardRestarts": 100,
         "topCard": {
@@ -491,11 +492,11 @@
           "ultimateQuality": "eta",
           "ultimateOverflow": 0
         },
-        "cardPower": 814.098,
+        "cardPower": 823.3019999999999,
         "mostPowerfulCard": {
           "name": "Zangyaku ",
           "rarity": "sss",
-          "cardPower": 814.098,
+          "cardPower": 823.3019999999999,
           "isUltimate": true,
           "ultimateQuality": "eta",
           "ultimateOverflow": 0
@@ -507,14 +508,14 @@
         },
         "breakdown": {
           "qualityScore": 324,
-          "karmaScore": 87,
+          "karmaScore": 79,
           "scalpelScore": 226,
           "sssScore": 76,
-          "unleashedScore": 127,
+          "unleashedScore": 129,
           "lotteryScore": 416,
           "topCardScore": 40,
-          "cardPowerScore": 358,
-          "total": 1654
+          "cardPowerScore": 362,
+          "total": 1652
         }
       }
     },
@@ -523,16 +524,16 @@
       "userId": 181512,
       "username": "MikrusPL255",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/181512.jpg",
-      "wrp": 1177,
+      "wrp": 1203,
       "stats": {
-        "ultimateCount": 9,
+        "ultimateCount": 10,
         "bestQuality": "Delta",
-        "karma": 5036,
-        "scalpels": 317,
-        "sssCards": 438,
+        "karma": 4762,
+        "scalpels": 318,
+        "sssCards": 446,
         "restarts": 171,
-        "unleashed": 386,
-        "lottery": 171,
+        "unleashed": 387,
+        "lottery": 179,
         "topCardRestarts": 50,
         "topCard": {
           "name": "Roxana Agrece",
@@ -553,18 +554,18 @@
         "ultDistribution": {
           "beta": 2,
           "delta": 1,
-          "alpha": 6
+          "alpha": 7
         },
         "breakdown": {
-          "qualityScore": 291,
-          "karmaScore": 46,
-          "scalpelScore": 401,
-          "sssScore": 334,
+          "qualityScore": 317,
+          "karmaScore": 44,
+          "scalpelScore": 402,
+          "sssScore": 340,
           "unleashedScore": 255,
-          "lotteryScore": 41,
+          "lotteryScore": 43,
           "topCardScore": 20,
           "cardPowerScore": 142,
-          "total": 1530
+          "total": 1563
         }
       }
     },
@@ -622,13 +623,13 @@
       "userId": 116613,
       "username": "Grave_Of_Maria",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/116613.jpg",
-      "wrp": 1087,
+      "wrp": 1090,
       "stats": {
         "ultimateCount": 6,
         "bestQuality": "Theta",
-        "karma": 5650,
+        "karma": 5466,
         "scalpels": 100,
-        "sssCards": 228,
+        "sssCards": 235,
         "restarts": 226,
         "unleashed": 244,
         "lottery": 836,
@@ -656,14 +657,14 @@
         },
         "breakdown": {
           "qualityScore": 368,
-          "karmaScore": 52,
+          "karmaScore": 50,
           "scalpelScore": 127,
-          "sssScore": 174,
+          "sssScore": 179,
           "unleashedScore": 161,
           "lotteryScore": 202,
           "topCardScore": 44,
           "cardPowerScore": 285,
-          "total": 1413
+          "total": 1416
         }
       }
     },
@@ -672,11 +673,11 @@
       "userId": 246209,
       "username": "xKatsu",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/246209.jpg",
-      "wrp": 1044,
+      "wrp": 1047,
       "stats": {
         "ultimateCount": 4,
         "bestQuality": "Theta",
-        "karma": -6158,
+        "karma": -6467,
         "scalpels": 84,
         "sssCards": 217,
         "restarts": 250,
@@ -707,14 +708,14 @@
         },
         "breakdown": {
           "qualityScore": 338,
-          "karmaScore": 56,
+          "karmaScore": 59,
           "scalpelScore": 106,
           "sssScore": 166,
           "unleashedScore": 215,
           "lotteryScore": 226,
           "topCardScore": 40,
           "cardPowerScore": 210,
-          "total": 1357
+          "total": 1360
         }
       }
     },
@@ -922,15 +923,15 @@
       "userId": 335858,
       "username": "Weeb_DXD",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/335858.jpg",
-      "wrp": 930,
+      "wrp": 907,
       "stats": {
         "ultimateCount": 6,
         "bestQuality": "Delta",
-        "karma": 14884,
+        "karma": 11453,
         "scalpels": 69,
-        "sssCards": 158,
+        "sssCards": 154,
         "restarts": 295,
-        "unleashed": 310,
+        "unleashed": 317,
         "lottery": 465,
         "topCardRestarts": 120,
         "topCard": {
@@ -940,11 +941,11 @@
           "ultimateQuality": "broken",
           "ultimateOverflow": 0
         },
-        "cardPower": 490.5519999999999,
+        "cardPower": 490.71399999999994,
         "mostPowerfulCard": {
           "name": "Scientist ",
           "rarity": "sss",
-          "cardPower": 490.5519999999999,
+          "cardPower": 490.71399999999994,
           "isUltimate": true,
           "ultimateQuality": "delta",
           "ultimateOverflow": 0
@@ -956,14 +957,14 @@
         },
         "breakdown": {
           "qualityScore": 282,
-          "karmaScore": 136,
+          "karmaScore": 105,
           "scalpelScore": 87,
-          "sssScore": 121,
-          "unleashedScore": 205,
+          "sssScore": 118,
+          "unleashedScore": 209,
           "lotteryScore": 113,
           "topCardScore": 48,
           "cardPowerScore": 216,
-          "total": 1208
+          "total": 1178
         }
       }
     },
@@ -1069,6 +1070,57 @@
     },
     {
       "rank": 22,
+      "userId": 630219,
+      "username": "JarMar",
+      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/630219.jpg",
+      "wrp": 751,
+      "stats": {
+        "ultimateCount": 5,
+        "bestQuality": "Delta",
+        "karma": -6055,
+        "scalpels": 34,
+        "sssCards": 158,
+        "restarts": 217,
+        "unleashed": 172,
+        "lottery": 287,
+        "topCardRestarts": 100,
+        "topCard": {
+          "name": "Yuuichi Katagiri",
+          "rarity": "sss",
+          "isUltimate": true,
+          "ultimateQuality": "gamma",
+          "ultimateOverflow": 0
+        },
+        "cardPower": 670.789,
+        "mostPowerfulCard": {
+          "name": "Yuuichi Katagiri",
+          "rarity": "sss",
+          "cardPower": 670.789,
+          "isUltimate": true,
+          "ultimateQuality": "gamma",
+          "ultimateOverflow": 0
+        },
+        "ultDistribution": {
+          "gamma": 1,
+          "alpha": 1,
+          "delta": 2,
+          "beta": 1
+        },
+        "breakdown": {
+          "qualityScore": 239,
+          "karmaScore": 55,
+          "scalpelScore": 43,
+          "sssScore": 121,
+          "unleashedScore": 114,
+          "lotteryScore": 69,
+          "topCardScore": 40,
+          "cardPowerScore": 295,
+          "total": 976
+        }
+      }
+    },
+    {
+      "rank": 23,
       "userId": 492522,
       "username": "Paweleq0404",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/492522.jpg",
@@ -1116,57 +1168,6 @@
       }
     },
     {
-      "rank": 23,
-      "userId": 630219,
-      "username": "JarMar",
-      "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/630219.jpg",
-      "wrp": 697,
-      "stats": {
-        "ultimateCount": 4,
-        "bestQuality": "Delta",
-        "karma": -5495,
-        "scalpels": 33,
-        "sssCards": 165,
-        "restarts": 217,
-        "unleashed": 171,
-        "lottery": 270,
-        "topCardRestarts": 100,
-        "topCard": {
-          "name": "Yuuichi Katagiri",
-          "rarity": "sss",
-          "isUltimate": true,
-          "ultimateQuality": "gamma",
-          "ultimateOverflow": 0
-        },
-        "cardPower": 670.789,
-        "mostPowerfulCard": {
-          "name": "Yuuichi Katagiri",
-          "rarity": "sss",
-          "cardPower": 670.789,
-          "isUltimate": true,
-          "ultimateQuality": "gamma",
-          "ultimateOverflow": 0
-        },
-        "ultDistribution": {
-          "gamma": 1,
-          "alpha": 1,
-          "delta": 1,
-          "beta": 1
-        },
-        "breakdown": {
-          "qualityScore": 174,
-          "karmaScore": 50,
-          "scalpelScore": 42,
-          "sssScore": 126,
-          "unleashedScore": 113,
-          "lotteryScore": 65,
-          "topCardScore": 40,
-          "cardPowerScore": 295,
-          "total": 905
-        }
-      }
-    },
-    {
       "rank": 24,
       "userId": 533821,
       "username": "nike666",
@@ -1175,9 +1176,9 @@
       "stats": {
         "ultimateCount": 3,
         "bestQuality": "Delta",
-        "karma": -4082,
+        "karma": -4198,
         "scalpels": 25,
-        "sssCards": 108,
+        "sssCards": 107,
         "restarts": 0,
         "unleashed": 218,
         "lottery": 991,
@@ -1204,14 +1205,14 @@
         },
         "breakdown": {
           "qualityScore": 165,
-          "karmaScore": 37,
+          "karmaScore": 38,
           "scalpelScore": 32,
           "sssScore": 82,
           "unleashedScore": 144,
           "lotteryScore": 240,
           "topCardScore": 0,
           "cardPowerScore": 140,
-          "total": 840
+          "total": 841
         }
       }
     },
@@ -1220,11 +1221,11 @@
       "userId": 93841,
       "username": "apok",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/93841.jpg",
-      "wrp": 600,
+      "wrp": 607,
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Delta",
-        "karma": -9802,
+        "karma": -10710,
         "scalpels": 67,
         "sssCards": 248,
         "restarts": 540,
@@ -1252,14 +1253,14 @@
         },
         "breakdown": {
           "qualityScore": 65,
-          "karmaScore": 90,
+          "karmaScore": 98,
           "scalpelScore": 85,
           "sssScore": 189,
           "unleashedScore": 38,
           "lotteryScore": 32,
           "topCardScore": 93,
           "cardPowerScore": 188,
-          "total": 780
+          "total": 788
         }
       }
     },
@@ -1317,16 +1318,16 @@
       "userId": 333868,
       "username": "Tankomir",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/333868.jpg",
-      "wrp": 562,
+      "wrp": 554,
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Beta",
-        "karma": 7802,
+        "karma": 6483,
         "scalpels": 46,
-        "sssCards": 327,
+        "sssCards": 326,
         "restarts": 54,
-        "unleashed": 86,
-        "lottery": 416,
+        "unleashed": 87,
+        "lottery": 431,
         "topCardRestarts": 49,
         "topCard": {
           "name": "Albedo ",
@@ -1349,14 +1350,14 @@
         },
         "breakdown": {
           "qualityScore": 35,
-          "karmaScore": 71,
+          "karmaScore": 59,
           "scalpelScore": 58,
-          "sssScore": 250,
+          "sssScore": 249,
           "unleashedScore": 57,
-          "lotteryScore": 101,
+          "lotteryScore": 104,
           "topCardScore": 19,
           "cardPowerScore": 139,
-          "total": 730
+          "total": 720
         }
       }
     },
@@ -1365,11 +1366,11 @@
       "userId": 151796,
       "username": "Kaizumiru",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/151796.jpg",
-      "wrp": 544,
+      "wrp": 545,
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Zeta",
-        "karma": -12977,
+        "karma": -13062,
         "scalpels": 88,
         "sssCards": 88,
         "restarts": 100,
@@ -1397,14 +1398,14 @@
         },
         "breakdown": {
           "qualityScore": 123,
-          "karmaScore": 119,
+          "karmaScore": 120,
           "scalpelScore": 111,
           "sssScore": 67,
           "unleashedScore": 88,
           "lotteryScore": 0,
           "topCardScore": 40,
           "cardPowerScore": 159,
-          "total": 707
+          "total": 708
         }
       }
     },
@@ -1413,15 +1414,15 @@
       "userId": 299158,
       "username": "Korpol",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/299158.jpg",
-      "wrp": 510,
+      "wrp": 509,
       "stats": {
         "ultimateCount": 9,
         "bestQuality": "Beta",
-        "karma": -8475,
+        "karma": -8262,
         "scalpels": 26,
         "sssCards": 52,
         "restarts": 101,
-        "unleashed": 97,
+        "unleashed": 98,
         "lottery": 41,
         "topCardRestarts": 101,
         "topCard": {
@@ -1446,14 +1447,14 @@
         },
         "breakdown": {
           "qualityScore": 243,
-          "karmaScore": 78,
+          "karmaScore": 76,
           "scalpelScore": 33,
           "sssScore": 40,
-          "unleashedScore": 64,
+          "unleashedScore": 65,
           "lotteryScore": 10,
           "topCardScore": 40,
           "cardPowerScore": 154,
-          "total": 662
+          "total": 661
         }
       }
     },
@@ -1512,11 +1513,11 @@
       "userId": 336834,
       "username": "Vaciak",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/336834.jpg",
-      "wrp": 423,
+      "wrp": 424,
       "stats": {
         "ultimateCount": 2,
         "bestQuality": "Alpha",
-        "karma": -8248,
+        "karma": -8322,
         "scalpels": 14,
         "sssCards": 59,
         "restarts": 180,
@@ -1544,14 +1545,14 @@
         },
         "breakdown": {
           "qualityScore": 52,
-          "karmaScore": 75,
+          "karmaScore": 76,
           "scalpelScore": 18,
           "sssScore": 45,
           "unleashedScore": 24,
           "lotteryScore": 88,
           "topCardScore": 40,
           "cardPowerScore": 207,
-          "total": 549
+          "total": 550
         }
       }
     },
@@ -1578,11 +1579,11 @@
           "ultimateQuality": "theta",
           "ultimateOverflow": 0
         },
-        "cardPower": 331.90099999999995,
+        "cardPower": 331.9549999999999,
         "mostPowerfulCard": {
           "name": "Schierke ",
           "rarity": "sss",
-          "cardPower": 331.90099999999995,
+          "cardPower": 331.9549999999999,
           "isUltimate": true,
           "ultimateQuality": "theta",
           "ultimateOverflow": 0
@@ -1612,9 +1613,9 @@
       "stats": {
         "ultimateCount": 3,
         "bestQuality": "Beta",
-        "karma": 5369,
+        "karma": 5176,
         "scalpels": 29,
-        "sssCards": 101,
+        "sssCards": 102,
         "restarts": 247,
         "unleashed": 47,
         "lottery": 164,
@@ -1641,14 +1642,14 @@
         },
         "breakdown": {
           "qualityScore": 96,
-          "karmaScore": 49,
+          "karmaScore": 47,
           "scalpelScore": 37,
-          "sssScore": 77,
+          "sssScore": 78,
           "unleashedScore": 31,
           "lotteryScore": 40,
           "topCardScore": 54,
           "cardPowerScore": 145,
-          "total": 529
+          "total": 528
         }
       }
     },
@@ -1705,11 +1706,11 @@
       "userId": 315345,
       "username": "Stachu99",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/315345.jpg",
-      "wrp": 374,
+      "wrp": 375,
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Alpha",
-        "karma": -9767,
+        "karma": -9848,
         "scalpels": 21,
         "sssCards": 56,
         "restarts": 128,
@@ -1737,14 +1738,14 @@
         },
         "breakdown": {
           "qualityScore": 26,
-          "karmaScore": 89,
+          "karmaScore": 90,
           "scalpelScore": 27,
           "sssScore": 43,
           "unleashedScore": 37,
           "lotteryScore": 71,
           "topCardScore": 45,
           "cardPowerScore": 148,
-          "total": 486
+          "total": 487
         }
       }
     },
@@ -1753,14 +1754,14 @@
       "userId": 638113,
       "username": "insidetheeye",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/638113.jpg",
-      "wrp": 373,
+      "wrp": 370,
       "stats": {
         "ultimateCount": 3,
         "bestQuality": "Delta",
-        "karma": 5491,
+        "karma": 5174,
         "scalpels": 12,
         "sssCards": 88,
-        "restarts": 112,
+        "restarts": 117,
         "unleashed": 39,
         "lottery": 36,
         "topCardRestarts": 100,
@@ -1787,14 +1788,14 @@
         },
         "breakdown": {
           "qualityScore": 126,
-          "karmaScore": 50,
+          "karmaScore": 47,
           "scalpelScore": 15,
           "sssScore": 67,
           "unleashedScore": 26,
           "lotteryScore": 9,
           "topCardScore": 40,
           "cardPowerScore": 151,
-          "total": 484
+          "total": 481
         }
       }
     },
@@ -1803,11 +1804,11 @@
       "userId": 451867,
       "username": "kanopus",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/451867.jpg",
-      "wrp": 356,
+      "wrp": 355,
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Beta",
-        "karma": -6239,
+        "karma": -6158,
         "scalpels": 24,
         "sssCards": 122,
         "restarts": 260,
@@ -1835,14 +1836,14 @@
         },
         "breakdown": {
           "qualityScore": 35,
-          "karmaScore": 57,
+          "karmaScore": 56,
           "scalpelScore": 30,
           "sssScore": 93,
           "unleashedScore": 55,
           "lotteryScore": 1,
           "topCardScore": 40,
           "cardPowerScore": 151,
-          "total": 462
+          "total": 461
         }
       }
     },
@@ -1899,13 +1900,13 @@
       "userId": 104329,
       "username": "dragon8",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/104329.jpg",
-      "wrp": 319,
+      "wrp": 326,
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Delta",
-        "karma": -3292,
+        "karma": -3852,
         "scalpels": 16,
-        "sssCards": 29,
+        "sssCards": 34,
         "restarts": 67,
         "unleashed": 82,
         "lottery": 268,
@@ -1931,14 +1932,14 @@
         },
         "breakdown": {
           "qualityScore": 65,
-          "karmaScore": 30,
+          "karmaScore": 35,
           "scalpelScore": 20,
-          "sssScore": 22,
+          "sssScore": 26,
           "unleashedScore": 54,
           "lotteryScore": 65,
           "topCardScore": 25,
           "cardPowerScore": 133,
-          "total": 414
+          "total": 423
         }
       }
     },
@@ -1947,15 +1948,15 @@
       "userId": 105284,
       "username": "Naadir",
       "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/105284.jpg",
-      "wrp": 306,
+      "wrp": 307,
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Beta",
-        "karma": -4689,
+        "karma": -4681,
         "scalpels": 15,
         "sssCards": 24,
         "restarts": 174,
-        "unleashed": 139,
+        "unleashed": 143,
         "lottery": 0,
         "topCardRestarts": 101,
         "topCard": {
@@ -1982,11 +1983,11 @@
           "karmaScore": 43,
           "scalpelScore": 19,
           "sssScore": 18,
-          "unleashedScore": 92,
+          "unleashedScore": 94,
           "lotteryScore": 0,
           "topCardScore": 40,
           "cardPowerScore": 150,
-          "total": 397
+          "total": 399
         }
       }
     },
@@ -2434,7 +2435,7 @@
         "bestQuality": "Alpha",
         "karma": -5313,
         "scalpels": 13,
-        "sssCards": 9,
+        "sssCards": 10,
         "restarts": 50,
         "unleashed": 9,
         "lottery": 0,
@@ -2462,12 +2463,12 @@
           "qualityScore": 26,
           "karmaScore": 49,
           "scalpelScore": 16,
-          "sssScore": 7,
+          "sssScore": 8,
           "unleashedScore": 6,
           "lotteryScore": 0,
           "topCardScore": 20,
           "cardPowerScore": 127,
-          "total": 251
+          "total": 252
         }
       }
     },
@@ -2480,18 +2481,18 @@
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Alpha",
-        "karma": -2294,
+        "karma": -1911,
         "scalpels": 2,
-        "sssCards": 74,
-        "restarts": 0,
+        "sssCards": 78,
+        "restarts": 1,
         "unleashed": 1,
         "lottery": 0,
-        "topCardRestarts": 0,
+        "topCardRestarts": 1,
         "topCard": {
-          "name": null,
-          "rarity": null,
+          "name": "Gigi Murin",
+          "rarity": "e",
           "isUltimate": false,
-          "ultimateQuality": null,
+          "ultimateQuality": "broken",
           "ultimateOverflow": 0
         },
         "cardPower": 310.075,
@@ -2508,9 +2509,9 @@
         },
         "breakdown": {
           "qualityScore": 26,
-          "karmaScore": 21,
+          "karmaScore": 17,
           "scalpelScore": 3,
-          "sssScore": 56,
+          "sssScore": 60,
           "unleashedScore": 1,
           "lotteryScore": 0,
           "topCardScore": 0,
@@ -2542,11 +2543,11 @@
           "ultimateQuality": "broken",
           "ultimateOverflow": 0
         },
-        "cardPower": 324.143,
+        "cardPower": 324.179,
         "mostPowerfulCard": {
           "name": "Bell Cranel",
           "rarity": "sss",
-          "cardPower": 324.143,
+          "cardPower": 324.179,
           "isUltimate": true,
           "ultimateQuality": "alpha",
           "ultimateOverflow": 0
@@ -2576,7 +2577,7 @@
       "stats": {
         "ultimateCount": 1,
         "bestQuality": "Alpha",
-        "karma": 221,
+        "karma": 203,
         "scalpels": 1,
         "sssCards": 61,
         "restarts": 0,
@@ -2778,6 +2779,19 @@
       },
       {
         "rank": 9,
+        "userId": 149230,
+        "username": "Artix",
+        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/149230.jpg",
+        "value": 563,
+        "dist": {
+          "beta": 2,
+          "delta": 2,
+          "alpha": 2,
+          "jota": 1
+        }
+      },
+      {
+        "rank": 10,
         "userId": 534798,
         "username": "ShadoWBoy",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/534798.jpg",
@@ -2788,19 +2802,6 @@
           "alpha": 3,
           "beta": 1,
           "jota": 1
-        }
-      },
-      {
-        "rank": 10,
-        "userId": 600900,
-        "username": "Ladislaus_III",
-        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/600900.jpg",
-        "value": 430,
-        "dist": {
-          "alpha": 7,
-          "delta": 2,
-          "beta": 2,
-          "gamma": 1
         }
       }
     ],
@@ -2952,7 +2953,7 @@
         "userId": 504916,
         "username": "tomoro02",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/504916.jpg",
-        "value": 3475
+        "value": 3491
       },
       {
         "rank": 2,
@@ -3015,7 +3016,7 @@
         "userId": 433521,
         "username": "KyudoSenpai",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/433521.jpg",
-        "value": 871
+        "value": 885
       }
     ],
     "karma": [
@@ -3024,8 +3025,8 @@
         "userId": 85,
         "username": "Sniku",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/85.jpg",
-        "value": 29099,
-        "rawKarma": -29099
+        "value": 29100,
+        "rawKarma": -29100
       },
       {
         "rank": 2,
@@ -3037,14 +3038,6 @@
       },
       {
         "rank": 3,
-        "userId": 335858,
-        "username": "Weeb_DXD",
-        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/335858.jpg",
-        "value": 14884,
-        "rawKarma": 14884
-      },
-      {
-        "rank": 4,
         "userId": 315746,
         "username": "kacper204100",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/315746.jpg",
@@ -3052,15 +3045,31 @@
         "rawKarma": -13713
       },
       {
-        "rank": 5,
+        "rank": 4,
         "userId": 151796,
         "username": "Kaizumiru",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/151796.jpg",
-        "value": 12977,
-        "rawKarma": -12977
+        "value": 13062,
+        "rawKarma": -13062
+      },
+      {
+        "rank": 5,
+        "userId": 335858,
+        "username": "Weeb_DXD",
+        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/335858.jpg",
+        "value": 11453,
+        "rawKarma": 11453
       },
       {
         "rank": 6,
+        "userId": 93841,
+        "username": "apok",
+        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/93841.jpg",
+        "value": 10710,
+        "rawKarma": -10710
+      },
+      {
+        "rank": 7,
         "userId": 64487,
         "username": "Krysana",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/64487.jpg",
@@ -3068,7 +3077,7 @@
         "rawKarma": 10568
       },
       {
-        "rank": 7,
+        "rank": 8,
         "userId": 221411,
         "username": "Ayaya",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/221411.jpg",
@@ -3076,28 +3085,20 @@
         "rawKarma": -10531
       },
       {
-        "rank": 8,
-        "userId": 93841,
-        "username": "apok",
-        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/93841.jpg",
-        "value": 9802,
-        "rawKarma": -9802
-      },
-      {
         "rank": 9,
         "userId": 315345,
         "username": "Stachu99",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/315345.jpg",
-        "value": 9767,
-        "rawKarma": -9767
+        "value": 9848,
+        "rawKarma": -9848
       },
       {
         "rank": 10,
-        "userId": 8836,
-        "username": "Zetsubou",
-        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/8836.jpg",
-        "value": 9511,
-        "rawKarma": 9511
+        "userId": 202027,
+        "username": "Rutrax",
+        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/202027.jpg",
+        "value": 9377,
+        "rawKarma": -9377
       }
     ],
     "scalpels": [
@@ -3113,14 +3114,14 @@
         "userId": 475347,
         "username": "Medi124",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/475347.jpg",
-        "value": 443
+        "value": 444
       },
       {
         "rank": 3,
         "userId": 181512,
         "username": "MikrusPL255",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/181512.jpg",
-        "value": 317
+        "value": 318
       },
       {
         "rank": 4,
@@ -3178,11 +3179,11 @@
         "userId": 504916,
         "username": "tomoro02",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/504916.jpg",
-        "value": 906.5549999999998,
+        "value": 908.625,
         "card": {
           "name": "Louise Françoise Le Blanc de La Vallière",
           "rarity": "sss",
-          "cardPower": 906.5549999999998,
+          "cardPower": 908.625,
           "isUltimate": true,
           "ultimateQuality": "omega",
           "ultimateOverflow": 0
@@ -3208,11 +3209,11 @@
         "userId": 8836,
         "username": "Zetsubou",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/8836.jpg",
-        "value": 814.098,
+        "value": 823.3019999999999,
         "card": {
           "name": "Zangyaku ",
           "rarity": "sss",
-          "cardPower": 814.098,
+          "cardPower": 823.3019999999999,
           "isUltimate": true,
           "ultimateQuality": "eta",
           "ultimateOverflow": 0
@@ -3238,11 +3239,11 @@
         "userId": 320808,
         "username": "Kozma",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/320808.jpg",
-        "value": 769.3209999999999,
+        "value": 772.3809999999999,
         "card": {
           "name": "Kurumi Tokisaki",
           "rarity": "sss",
-          "cardPower": 769.3209999999999,
+          "cardPower": 772.3809999999999,
           "isUltimate": true,
           "ultimateQuality": "delta",
           "ultimateOverflow": 1
@@ -3337,7 +3338,7 @@
         "userId": 475347,
         "username": "Medi124",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/475347.jpg",
-        "value": 624
+        "value": 625
       },
       {
         "rank": 3,
@@ -3355,17 +3356,17 @@
       },
       {
         "rank": 5,
+        "userId": 181512,
+        "username": "MikrusPL255",
+        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/181512.jpg",
+        "value": 446
+      },
+      {
+        "rank": 6,
         "userId": 457041,
         "username": "Redri",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/457041.jpg",
         "value": 443
-      },
-      {
-        "rank": 6,
-        "userId": 181512,
-        "username": "MikrusPL255",
-        "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/181512.jpg",
-        "value": 438
       },
       {
         "rank": 7,
@@ -3379,14 +3380,14 @@
         "userId": 433521,
         "username": "KyudoSenpai",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/433521.jpg",
-        "value": 328
+        "value": 330
       },
       {
         "rank": 9,
         "userId": 333868,
         "username": "Tankomir",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/333868.jpg",
-        "value": 327
+        "value": 326
       },
       {
         "rank": 10,
@@ -3402,28 +3403,28 @@
         "userId": 320808,
         "username": "Kozma",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/320808.jpg",
-        "value": 494
+        "value": 496
       },
       {
         "rank": 2,
         "userId": 433521,
         "username": "KyudoSenpai",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/433521.jpg",
-        "value": 451
+        "value": 455
       },
       {
         "rank": 3,
         "userId": 475347,
         "username": "Medi124",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/475347.jpg",
-        "value": 394
+        "value": 397
       },
       {
         "rank": 4,
         "userId": 181512,
         "username": "MikrusPL255",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/181512.jpg",
-        "value": 386
+        "value": 387
       },
       {
         "rank": 5,
@@ -3458,7 +3459,7 @@
         "userId": 335858,
         "username": "Weeb_DXD",
         "avatarUrl": "https://cdn.shinden.eu/cdn1/avatars/225x350/335858.jpg",
-        "value": 310
+        "value": 317
       },
       {
         "rank": 10,
